@@ -1,0 +1,6 @@
+﻿23:30:09.833  watchdog start
+23:30:09.902  stash AccessVBOM had=True old=1
+23:30:10.252  test exit=1
+23:30:10.254  AccessVBOM restored (had=True old=1)
+23:30:10.263  excel processes now: 1
+23:30:10.265  watchdog done

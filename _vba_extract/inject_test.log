@@ -1,0 +1,34 @@
+﻿23:59:50.752  start
+23:59:50.874  dialog watcher started (pid 16572)
+23:59:50.884  copied v7.8 -> v7.9
+23:59:51.960  excel 16.0 started
+23:59:52.505  workbook opened
+23:59:53.032  imported modGraphify lines=228
+23:59:53.070  imported modEngine lines=2004
+23:59:53.093  imported Module1 lines=299
+23:59:53.155  Sheet9 code replaced lines=273
+23:59:53.173  modEngine CDJ_COL_DEBIT present: True
+23:59:53.175  modEngine EXPENSE_END=19: True
+23:59:53.180  modEngine T-write count: 16 (expect >=4)
+23:59:53.182  Sheet9 delegates: True
+23:59:53.276  SyncPJToCDJ compiled + safe-exit OK
+23:59:53.280  SyncPJNonVatToCDJ compiled + safe-exit OK
+23:59:53.282  CreateCDJFromPurchase wrapper compiled OK
+23:59:53.291  probe sheet deleted
+23:59:53.465  CDJ T15 = 2678.57142857143 (ref Y=PJ-00001 Z=)
+23:59:53.487  CDJ T16 = 1500 (ref Y= Z=PNV-00002)
+23:59:53.488  CDJ Debit backfill filled=2 rows
+23:59:53.530  PJ Graphify run #1 (create, auto-pick) OK
+23:59:55.328  PJ lastNonEmptyI=82 points=1 type=51 title='Graphify - Column C'
+23:59:55.497  PJ series v(first)= I8=2678.57142857143
+23:59:55.730  PJ Graphify run #2 (reuse) OK charts=1 points=1
+23:59:55.840  GJ Graphify run (auto-pick) OK points=1 title='Graphify - Column F'
+23:59:55.913  PJ Graphify run #3 (selection I10:I20) OK points=1 (expect 11)
+23:59:55.921  test charts removed
+23:59:55.922  CDJ rows 15-16 after fixes:
+23:59:55.934    r15: F=-3000 G=321.428571428572 H=0 N=2678.57142857143 T=2678.57 U= Y=PJ-00001 Z=
+23:59:55.943    r16: F=-1500 G=0 H=0 N=1500 T=1500 U= Y= Z=PNV-00002
+23:59:56.457  saved
+23:59:56.596  closed
+23:59:56.657  excel released; ok=True
+23:59:57.691  killing leftover EXCEL pid=15584
