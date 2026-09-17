@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Graphify VBA Macro (v7.8) – Code Visual</title>
+
+<!-- highlight.js CSS & JS for syntax highlighting -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/vba.min.js"></script>
+
+<style>
+  body {font-family: Arial, sans-serif; margin: 2rem; background:#f5f7fa; color:#333;}
+  h1 {color:#2c3e50; text-align:center; margin-bottom:1rem;}
+  .code-wrapper {background:#fff; border:1px solid #ddd; border-radius:6px; padding:1rem; overflow-x:auto; line-height:1.4;}
+  .code-wrapper pre {font-family: Consolas, "Courier New", monospace; font-size:0.92rem; margin:0;}
+</style>
+</head>
+<body>
+
+<h1>Graphify – Excel VBA Macro (v7.8)</h1>
+
+<div class="code-wrapper">
+<pre><code class="vba">Option Explicit
+
+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+' Graphify (optimized) – creates a column chart from column A data
+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sub Graphify()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim dataArr() As Variant
+    Dim cht As Chart
+    Dim chtName As String
+
+    Set ws = ActiveSheet
+
+    '--- turn off screen updating for speed ---
+    Application.ScreenUpdating = False
+
+    '--- find last non‑empty row in column A ---
+    lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+    If lastRow < 2 Then
+        MsgBox "No data in column A (starting at row 2).", vbExclamation, "Graphify"
+        GoTo Bye
+    End If
+
+    '--- read the whole column into a Variant array (single operation) ---
+    dataArr = ws.Range(ws.Cells(2, "A"), ws.Cells(lastRow, "A")).Value
+
+    '--- decide what to name the chart (reuse or create new) ---
+    chtName = "GraphifyChart"
+    On Error Resume Next
+    Set cht = ws.Charts(chtName)
+    On Error GoTo 0
+
+    If cht Is Nothing Then
+        'create a new chart sheet embedded in the workbook
+        Set cht = ws.Charts.Add
+        cht.Name = chtName
+    Else
+        'move it to the back, keep it embedded
+        cht.Move After:=ws.Worksheets(ws.Worksheets.Count)
+    End If
+
+    With cht
+        .SetSourceData Source:=ws.Range(ws.Cells(2, "A"), ws.Cells(lastRow, "A")), _
+                     PlotBy:=xlColumns
+        .ChartType = xlColumnClustered          'change if you prefer xlLine, xlPie, etc.
+        .HasTitle = True
+        .ChartTitle.Text = "Graphify – Column A"
+        .Axes(xlValue).HasTitle = True
+        .Axes(xlValue).AxisTitle.Caption = "Values"
+        .Axes(xlCategory).HasTitle = True
+        .Axes(xlCategory).AxisTitle.Caption = "Row"
+        .Legend.Visible = False
+    End With
+
+    '--- optional: dock the chart at E2 (delete these lines if you don't need fixed placement) ---
+    With ws.Shapes(chtName & ".chart.8")   'the chart object inside the worksheet
+        .Left = ws.Range("E2").Left
+        .Top = ws.Range("E2").Top
+    End With
+
+Bye:
+    Application.ScreenUpdating = True
+    Set cht = Nothing
+    Set ws = Nothing
+</code></pre>
+</div>
+
+<script>
+  hljs.highlightAll();
+</script>
+
+</body>
+</html>

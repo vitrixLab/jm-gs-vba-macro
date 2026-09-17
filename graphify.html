@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Graphify – Column Chart</title>
+
+<!-- Chart.js CDN (v4) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  body {font-family: Arial, sans-serif; margin: 2rem; background:#f5f7fa;}
+  h1 {color:#2c3e50; text-align:center;}
+  #chart {width:100%; max-width:800px; margin:0 auto; background:#fff; padding:2rem; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+</style>
+</head>
+<body>
+
+<h1>Graphify – Column Chart (v7.8)</h1>
+
+<div id="chart"><canvas id="myChart"></canvas></div>
+
+<script>
+/* ── Sample data (replace or extend as you like) ───────────────────── */
+const sampleValues = [23, 45, 12, 78, 34, 56, 29, 80, 15, 62];
+
+/* ── Build the chart ──────────────────────────────────────────────── */
+const ctx = document.getElementById('myChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',                     // column chart
+  data: {
+    labels: sampleValues.map((_, i) => `R${i + 1}`), // Row 1 … Row N
+    datasets: [{
+      label: 'Values',
+      data: sampleValues,
+      backgroundColor: 'rgba(54, 162, 235, 0.6)',
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Graphify – Column Chart'
+      },
+      legend: { display: false }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Value' }
+      },
+      x: {
+        title: { display: true, text: 'Row' }
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
