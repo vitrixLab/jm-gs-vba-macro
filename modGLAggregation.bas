@@ -268,11 +268,21 @@ End Function
 
 Public Sub RefreshGL(Optional ByVal yearNumber As Long = 0)
     If yearNumber = 0 Then yearNumber = Year(Date)
+
+    ' Fail closed: workbook structure must pass before any accounting validation
+    ' or future GL write phase can proceed.
+    If Not ValidateWorkbookMapping(True) Then
+        MsgBox "GL refresh stopped: workbook mapping gate is HOLD. Review GL_AUDIT.", vbExclamation
+        Exit Sub
+    End If
+
     If Not ValidateGLConsistency(yearNumber) Then
         MsgBox "GL refresh stopped: validation did not pass. Review GL_AUDIT.", vbExclamation
         Exit Sub
     End If
-    ' v7.9.3 intentionally stops before overwriting GL until the mapping gate is proven.
+
+    ' v7.9.3 intentionally stops before overwriting GL until the 46x12
+    ' workbook integration and reconciliation gate is proven.
     MsgBox "GL validation passed. Workbook GL write phase is ready for the next controlled gate.", vbInformation
 End Sub
 
