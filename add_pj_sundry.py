@@ -14,7 +14,7 @@ with open(pj_sheet_path, encoding='utf-8', errors='replace') as f:
 
 # PJ2 dimension: A1:AC1021
 # Column G (7) is PJ_COL_COA = Chart of Accounts
-# I need to add sundry descriptions to column G in the data rows
+# I need to add sundry descriptions to column G in the data rows up to row 609
 
 # First, let me find column G cells
 CELL_RE = re.compile(r'<c r="([A-Z]+)(\d+)"[^>]*?>', re.S)
@@ -30,22 +30,14 @@ for m in all_cells:
 
 print(f"Found {len(g_cells)} G column cells in PJ2")
 
-# Look at rows 6-26 (where COA data exists based on earlier analysis)
-# The descriptions should be added to column G for sundry accounts
+# Sundry account descriptions to add - cycle through these for rows 6-609
+# Row 6: Miscellaneous, Row 7: Clinician Fees, Row 8: Professional Services, Row 9: Consulting, then repeat
+descriptions = ["Miscellaneous", "Clinician Fees", "Professional Services", "Consulting"]
 
-# Sundry account descriptions to add
-# These are the sample descriptions the user mentioned: "Miscellaneous" and "Clinician fees"
-descriptions_to_add = [
-    (6, "Miscellaneous"),      # Row 6 - first data row after headers
-    (8, "Clinician Fees"),     # Row 8 - typical sundry account
-    (9, "Professional Services"),
-    (10, "Consulting"),
-]
-
-# Check existing G cell content at these rows
-print("\nExisting G column content at target rows:")
+# Check existing G cell content at target rows
+print("\nExisting G column content at target rows (6-609):")
 for row, start, end, full in g_cells:
-    if 6 <= row <= 12:
+    if 6 <= row <= 609:
         # Extract the value
         v_match = re.search(r'<v>(.*?)</v>', full, re.S)
         text = v_match.group(1).strip() if v_match else "no <v>"
@@ -53,39 +45,30 @@ for row, start, end, full in g_cells:
 
 # Now add the descriptions - I'll modify the G column cells
 # The format needs to be proper XML with <v> element
-
+# Process all G column cells from row 6 to row 609
 modifications = 0
-for row, desc in descriptions_to_add:
-    # Find the G cell at this row
-    target_cell = None
-    for g_row, g_start, g_end, g_full in g_cells:
-        if g_row == row:
-            target_cell = (g_start, g_end, g_full)
-            break
-    
-    if target_cell:
-        g_start, g_end, g_full = target_cell
-        # Check if cell already has value
-        if '<v>' in g_full:
-            # Replace the value
-            old_v = re.search(r'<v>.*?</v>', g_full)
-            if old_v:
-                # Replace with description
-                xml = xml[:old_v.start()] + f'<v>{desc}</v>' + xml[old_v.end():]
-                modifications += 1
-                print(f'Modified PJ2 row {row}: {desc}')
+for row, start, end, full in g_cells:
+    if 6 <= row <= 609:
+        # Find the matching description for this row (round-robin)
+        desc_idx = (row - 6) % 4
+        desc = descriptions[desc_idx]
+
+        # Skip cells that already have a <v> element or use shared strings (t="s")
+        if '<v>' in full:
+            # Cell already has a value - leave it unchanged
+            pass
+        elif 't="s"' in full or "t='s'" in full:
+            # Cell uses shared strings - leave it unchanged
+            pass
         else:
-            # Add <v> element
-            # Need to convert from self-closing to have <v>Content</v>
-            # Format: <c r="G6" s="..."/> -> <c r="G6" s="..."><v>Description</v></c>
-            # Find the cell pattern
+            # Add <v> element to empty cell
+            # Cell format: <c r="G6" s="..."/> -> <c r="G6" s="..."><v>Description</v></c>
+            # Or <c r="G6" s="..." t="str"/> -> add <v> element
             cell_pattern = r'(<c r="G' + str(row) + r'\"[^>]*s="[^"]*"[^>]*/>)'
             replacement = '<c r="G' + str(row) + r'" s="206" t="str"><v>' + desc + '</v></c>'
             xml = re.sub(cell_pattern, replacement, xml, count=1)
             modifications += 1
-            print(f'Modified PJ2 row {row}: {desc} (added t="str")')
-    else:
-        print(f'No G cell found at row {row} in PJ2')
+            print(f'Modified PJ2 row {row}: {desc}')
 
 # Write the modified XML back
 with open(pj_sheet_path, 'w', encoding='utf-8') as f:
