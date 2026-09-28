@@ -41,61 +41,118 @@ if has_calculatetotals and has_findblockstart:
     exit(0)
 
 # Step 4: Add the missing subroutines
-# We need to insert CalculateTotals and FindBlockStart into Sheet9's module
-# The Sheet9 module starts with "Attribute VB_Name = \"Sheet9\""
+# Find the Sheet9 module and add CalculateTotals + FindBlockStart
 
-# Find the Sheet9 module block
-# VBA modules are separated by the Attribute VB_Name lines
-modules = []
-current_module = []
-in_sheet9 = False
-
-for line in vba_text.split("\n"):
+# Split VBA into modules by Attribute VB_Name markers
+module_starts = []
+for i, line in enumerate(vba_text.split("\n")):
     if "Attribute VB_Name" in line:
-        # Extract the module name
-        if "Sheet9" in line:
-            in_sheet9 = True
-        else:
-            in_sheet9 = False
-        # Save previous module if any
-        if current_module and not in_sheet9:
-            modules.append("\n".join(current_module))
-        current_module = [line]
-    elif in_sheet9:
-        current_module.append(line)
-    else:
-        # Non-Sheet9 module, collect outside
-        pass
+        module_starts.append(i)
 
-# Don't forget the last module
-if current_module:
-    modules.append("\n".join(current_module))
+if len(module_starts) < 2:
+    print("ERROR: Could not parse VBA modules properly")
+    exit(1)
 
-print(f" Found {len(modules)} VBA modules")
+# Get Sheet9 module (should be between first and second VB_Name markers, or after first)
+# Actually, let's find Sheet9 specifically
+sheet9_start = None
+sheet9_end = None
 
-# Find Sheet9 module
-sheet9_module = None
-for mod in modules:
-    if "Attribute VB_Name = \"Sheet9\"" in mod or "Attribute VB_Name = 'Sheet9'" in mod:
-        sheet9_module = mod
+for i, line in enumerate(vba_text.split("\n")):
+    if "Sheet9" in line and "Attribute VB_Name" in line:
+        sheet9_start = i
+        # Find the next Attribute VB_Name after this one
+        for j in range(i+1, len(vba_text.split("\n"))):
+            if "Attribute VB_Name" in vba_text.split("\n")[j]:
+                sheet9_end = j
+                break
         break
 
-if sheet9_module is None:
+if sheet9_start is None:
     print("ERROR: Could not find Sheet9 module!")
     exit(1)
 
-print(f" Sheet9 module found: {len(sheet9_module)} bytes")
+# Actually let me just get lines from sheet9_start to the end or next module
 
-# Add the CalculateTotals and FindBlockStart at the end of Sheet9 module
-# (before the next module or end of file)
-calculatetotals_sub = '''\nPrivate Sub CalculateTotals(rowNum As Long)\n\n    Dim startRow As Long, endRow As Long, debitSum As Double, creditSum As Double\n\n    startRow = FindBlockStart(rowNum): endRow = rowNum - 1\n\n    If endRow < startRow Then Exit Sub\n\n    debitSum = 0#: creditSum = 0#\n\n    Dim r As Long\n\n    For r = startRow To endRow\n\n        If IsNumeric(Me.Cells(r, COL_DEBIT).Value) Then debitSum = debitSum + Me.Cells(r, COL_DEBIT).Value\n\n        If IsNumeric(Me.Cells(r, COL_DEBIT_MIRROR).Value) Then creditSum = creditSum + Me.Cells(r, COL_DEBIT_MIRROR).Value\n\n    Next r\n\n    Me.Cells(rowNum, COL_DEBIT).Value = debitSum\n\n    Me.Cells(rowNum, COL_DEBIT_MIRROR).Value = debitSum\n\n    Me.Cells(rowNum, 13).Value = creditSum\n\n    Me.Cells(rowNum, 12).Value = creditSum\n\nEnd Sub\n\nPrivate Function FindBlockStart(rowNum As Long) As Long\n\n    Dim i As Long\n\n    For i = rowNum - 1 To START_ROW Step -1\n\n        If Me.Cells(i, COL_COA).Value <> "" Then\n\n            FindBlockStart = i + 1\n\n            Exit Function\n\n        End If\n\n    Next i\n\n    FindBlockStart = START_ROW\n\nEnd Function'''
+all_lines = vba_text.split("\n")
+if sheet9_end:
+    sheet9_lines = all_lines[sheet9_start:sheet9_end]
+else:
+    sheet9_lines = all_lines[sheet9_start:]
 
-# Insert the subroutines before the next Attribute VB_Name or end
-if "CalculateTotals" not in sheet9_module:
-    # Insert before the end of module
-    sheet9_module_updated = sheet9_module.rstrip() + calculatetotals_sub
-    # Replace in the full VBA text
-    vba_text = vba_text.replace(sheet9_module, sheet9_module_updated)
+sheet9_code = "\n".join(sheet9_lines)
+print(f" Sheet9 module: {len(sheet9_lines)} lines, {len(sheet9_code)} chars")
+
+# Check if CalculateTotals already in Sheet9
+if "CalculateTotals" in sheet9_code:
+    print(" CalculateTotals already in Sheet9")
+else:
+    # Add CalculateTotals and FindBlockStart at the end of Sheet9 module
+    new_subs = '''
+Private Sub CalculateTotals(rowNum As Long)
+
+    Dim startRow As Long, endRow As Long, debitSum As Double, creditSum As Double
+
+    startRow = FindBlockStart(rowNum): endRow = rowNum - 1
+
+    If endRow < startRow Then Exit Sub
+
+    debitSum = 0#: creditSum = 0#
+
+    Dim r As Long
+
+    For r = startRow To endRow
+
+        If IsNumeric(Me.Cells(r, COL_DEBIT).Value) Then debitSum = debitSum + Me.Cells(r, COL_DEBIT).Value
+
+        If IsNumeric(Me.Cells(r, COL_DEBIT_MIRROR).Value) Then creditSum = creditSum + Me.Cells(r, COL_DEBIT_MIRROR).Value
+
+    Next r
+
+    Me.Cells(rowNum, COL_DEBIT).Value = debitSum
+
+    Me.Cells(rowNum, COL_DEBIT_MIRROR).Value = debitSum
+
+    Me.Cells(rowNum, 13).Value = creditSum
+
+    Me.Cells(rowNum, 12).Value = creditSum
+
+End Sub
+
+Private Function FindBlockStart(rowNum As Long) As Long
+
+    Dim i As Long
+
+    For i = rowNum - 1 To START_ROW Step -1
+
+        If Me.Cells(i, COL_COA).Value <> "" Then
+
+            FindBlockStart = i + 1
+
+            Exit Function
+
+        End If
+
+    Next i
+
+    FindBlockStart = START_ROW
+
+End Function'''
+
+    # Insert before the last line if it's Attribute VB_Name, or at end
+    if sheet9_lines and "Attribute VB_Name" in sheet9_lines[-1]:
+        # Insert before the VB_Name attribute of the next module
+        sheet9_code_with_subs = "\n".join(sheet9_lines[:-1]) + new_subs + "\n" + sheet9_lines[-1]
+    else:
+        sheet9_code_with_subs = sheet9_code + new_subs
+
+    # Replace in full vba_text
+    # Find the exact position and replace
+    before = "\n".join(all_lines[:sheet9_start])
+    after = "\n".join(all_lines[sheet9_end if sheet9_end else len(all_lines):])
+    new_vba_text = before + sheet9_code_with_subs + "\n" + after
+
+    vba_text = new_vba_text
     print(" Added CalculateTotals and FindBlockStart to Sheet9")
 
 # Step 5: Repack the .xlsm
@@ -115,4 +172,3 @@ with zipfile.ZipFile(PATCHED_PATH, 'r') as zver:
     verify_has_fbs = "FindBlockStart" in verify_vba
     print(f" Verification - CalculateTotals: {verify_has_ct}")
     print(f" Verification - FindBlockStart: {verify_has_fbs}")
-"
