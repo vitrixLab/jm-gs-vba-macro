@@ -1,0 +1,9 @@
+/* assets/graphify.css — B-Step 1 extract: shared styles verbatim from
+   graphify.html + graphify_vba.html. No visual change intended. */
+body { font-family: Arial, sans-serif; margin: 2rem; background: #f5f7fa; }
+body.code-page { color: #333; }
+h1 { color: #2c3e50; text-align: center; }
+h1.code-title { margin-bottom: 1rem; }
+#chart { width: 100%; max-width: 800px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+.code-wrapper { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 1rem; overflow-x: auto; line-height: 1.4; }
+.code-wrapper pre { font-family: Consolas, "Courier New", monospace; font-size: 0.92rem; margin: 0; }

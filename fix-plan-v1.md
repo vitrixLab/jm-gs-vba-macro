@@ -301,3 +301,115 @@ The v8.0 fix is complete only when:
 - Do not silently map unresolved accounts to a convenient existing account.
 - Do not overwrite the production `GL` sheet while validation is HOLD.
 - Do not treat a balanced journal population as proof of complete COA coverage.
+
+---
+
+# Part B — Graphify Per-Webpage Modularization + Fault-Finding Observation + Analytics Log
+
+> Scope: `graphify.html`, `graphify_vba.html`, `Graphify.bas` in THIS repo (`globalsmile`,
+> branch `main` @ `1da1534`, remote `vitrixLab/jm-gs-vba-macro`).
+> Part A (above) stays authoritative for the v8.0 VBA surgical fix. This Part B only
+> modularizes the Graphify presentation/demo layer. It must not alter accounting
+> behavior (`modGLGate` / `modGLAggregation` / `modGLWorkbookMap` untouched, G7 holds:
+> Graphify stays downstream of accounting).
+
+## B0. What was reviewed (evidence)
+
+- `Graphify.bas` (229 lines, `modGraphify`): `Sub Graphify()` + 3 helpers
+  (`PickNumericColumn`, `FirstNumericRow`, `ColumnLetter`) + `Fail:` handler that only
+  `MsgBox`es. Resolution order: (1) multi-cell selection wins, (2) `CHART_COLUMN = "I"`
+  (>= 2 numerics), (3) auto busiest-numeric-column, (4) `MsgBox "No numeric data found"`.
+  Chart `GraphifyChart` reused (series rebuilt), docked at `E2`, categories `R1..Rn`,
+  live-bound (`srs.Values = dataRng`, blanks stay gaps). No logging/analytics.
+- `graphify.html` (63 lines): single static Chart.js v4 page, hardcoded
+  `sampleValues = [23,45,12,78,34,56,29,80,15,62]`, labels `R1..Rn`. No header-nav,
+  side-nav, error/empty state, fault log, or analytics.
+- `graphify_vba.html` (97 lines): static highlight.js visual of the OLD broken v7.8
+  listing (`ws.Charts.Add`, `Shapes("GraphifyChart.chart.8")`, missing `End Sub`).
+  Documents the bug; is NOT the fixed `Graphify.bas`. No nav, no analytics.
+- Context: `PLAN v1.md` mandates Graphify stays downstream
+  (`modGLAggregation -> modGraphify -> GL Charts`). `status_v2.md` keeps G7 UNVERIFIED;
+  Part A regression requires "Graphify execution does not alter accounting calculations".
+
+## B1. Target: per-webpage component split
+
+Keep two static pages. Split each into small includes (header-nav, side-nav, chart,
+code-visual, observability = one file each):
+
+```
+graphify.html                      # shell only (~40 lines): head + includes + boot
+partials/
+  header-nav.html                  # NEW: brand, links (Demo / VBA Code / GL Charts), version badge v7.9-fixed
+  side-nav.html                    # NEW: Chart Demo / VBA Source / Mapping (PLAN v1) / Gates (status_v2)
+  chart-panel.html                 # EXTRACT from graphify.html: card + <canvas> + dataset switcher
+  footer.html                      # NEW: G7 notice (chart only) + workbook hash slot
+assets/
+  graphify-config.js               # NEW: datasets (sample + 46x12-shape demo + presets I/F/G)
+  graphify-chart.js                # NEW: render/reuse mirroring Graphify.bas (selection->col I->auto->empty)
+  graphify-analytics.js            # NEW: fault + analytics log (see B3)
+  graphify.css                     # EXTRACT inline <style> from both pages
+graphify_vba.html                  # shell only: header-nav + side-nav + code-visual + fault log
+partials/
+  code-visual.html                 # EXTRACT <pre><code>; tabs: v7.8-broken vs v7.9-fixed (Graphify.bas)
+  fault-log.html                   # NEW: visible fault-finding panel (mirrors MsgBox paths)
+```
+
+Rules: no accounting math in `assets/*.js` (charting only); `CHART_COLUMN="I"` default
+kept; categories stay `R1..Rn`; chart reused by id; both pages share nav/footer/CSS.
+
+## B2. Fault-finding observation system (per webpage)
+
+Mirror every `Graphify.bas` failure path as a visible, logged fault (today MsgBox-only):
+
+| VBA path (`Graphify.bas`) | Web fault code | Panel behavior |
+|---|---|---|
+| Not a worksheet (`TypeOf ActiveSheet`) | `NOT_WORKSHEET` | fault-log row + empty chart + guidance |
+| No numeric data (all 3 resolutions fail) | `NO_NUMERIC_DATA` | empty state ("Select a column and run again") |
+| No numeric block (`firstDataRow = 0`) | `NO_NUMERIC_BLOCK` | empty state with resolved source (`srcDesc`) |
+| Unexpected (`Fail:` Err.Number/Description) | `RENDER_FAILED` | error state with code + Retry button |
+| Success | `RENDER_OK` | chart + source caption (column I / selection / auto) |
+
+`partials/fault-log.html` = table (time, page, code, detail, source) fed by a
+ring buffer (cap 200, `localStorage` persist). `?debug=1` expands detail rows.
+Excel-side parity (optional `GraphifyAudit` sheet writer) needs Part A gate approval
+first — do NOT touch any workbook binary in this Part B.
+
+## B3. Log-every-analytics contract (static-site sized)
+
+`assets/graphify-analytics.js` (vanilla, no dependency, <150 lines):
+
+```js
+logPageView(page)                             // on load, per page
+logChartRender({page, source, nPts, code})    // RENDER_OK + srcDesc + point count
+logFault({page, code, detail})                // every fault above; 100% sampled
+logAction(action, meta)                       // dataset switch, tab switch, debug toggle
+// transport: in-memory ring + localStorage + console;
+// optional POST to /api/analytics/event when hosted
+// payload: {t, page, code, source, detail} — counts only, no workbook values
+```
+
+Verify: load each page with `?debug=1`, force each fault (empty dataset, bad column,
+render throw) → each appears in fault-log with page/code within 60s and survives reload.
+
+## B4. Execution (3 small steps, no workbook touch)
+
+- [ ] **B-Step 1 — extract, no behavior change:** create `partials/` + `assets/graphify.css`,
+  move inline style/code blocks verbatim; both pages render byte-equivalent.
+- [ ] **B-Step 2 — components:** add `header-nav`/`side-nav`/`footer` includes,
+  `graphify-config.js` + `graphify-chart.js` (dataset switcher incl. 552-shape demo),
+  `code-visual` tabs (v7.8-broken vs v7.9-fixed from `Graphify.bas`).
+- [ ] **B-Step 3 — observability:** add `fault-log.html` + `graphify-analytics.js`
+  (ring 200, localStorage, `?debug=1`); map all 5 fault codes; verify matrix below.
+- Exit: each page a <60-line shell; shared nav identical; all faults log + persist;
+  **no `.xlsm` modified** (`git status` shows only html/partials/assets); Part A gates OK.
+
+## B5. Regression matrix (adds to Part A table)
+
+| Case | Expected |
+|---|---|
+| Empty/non-numeric dataset | `NO_NUMERIC_DATA` in fault-log + empty state, no throw |
+| Single numeric cell (< MIN_NUMERIC=2) | `NO_NUMERIC_DATA` + guidance |
+| Render throw (bad ctx) | `RENDER_FAILED` with code + Retry, prior chart kept |
+| Dataset switch | `logAction` + `RENDER_OK` with new source caption |
+| Reload with `?debug=1` | fault history restored from localStorage |
+| GL sheets / `.xlsm` | untouched; Part A accounting evidence still holds |

@@ -1,0 +1,84 @@
+<!-- partials/code-visual.html — B-Step 2: code tabs.
+     Tab 1 = v7.8-broken listing (verbatim from graphify_vba.html, documents the bug).
+     Tab 2 = v7.9-fixed summary pointing at Graphify.bas (modGraphify). -->
+<div class="gs-tabs" role="tablist" aria-label="Graphify source versions">
+  <button role="tab" aria-selected="true" data-tab="broken">v7.8 broken (as-shipped visual)</button>
+  <button role="tab" aria-selected="false" data-tab="fixed">v7.9 fixed (Graphify.bas)</button>
+</div>
+<div class="code-wrapper" id="gs-tab-broken">
+<pre><code class="vba">Option Explicit
+
+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+' Graphify (optimized) – creates a column chart from column A data
+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sub Graphify()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim dataArr() As Variant
+    Dim cht As Chart
+    Dim chtName As String
+
+    Set ws = ActiveSheet
+
+    '--- turn off screen updating for speed ---
+    Application.ScreenUpdating = False
+
+    '--- find last non‑empty row in column A ---
+    lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+    If lastRow &lt; 2 Then
+        MsgBox "No data in column A (starting at row 2).", vbExclamation, "Graphify"
+        GoTo Bye
+    End If
+
+    '--- read the whole column into a Variant array (single operation) ---
+    dataArr = ws.Range(ws.Cells(2, "A"), ws.Cells(lastRow, "A")).Value
+
+    '--- decide what to name the chart (reuse or create new) ---
+    chtName = "GraphifyChart"
+    On Error Resume Next
+    Set cht = ws.Charts(chtName)
+    On Error GoTo 0
+
+    If cht Is Nothing Then
+        'create a new chart sheet embedded in the workbook
+        Set cht = ws.Charts.Add
+        cht.Name = chtName
+    Else
+        'move it to the back, keep it embedded
+        cht.Move After:=ws.Worksheets(ws.Worksheets.Count)
+    End If
+
+    With cht
+        .SetSourceData Source:=ws.Range(ws.Cells(2, "A"), ws.Cells(lastRow, "A")), _
+                     PlotBy:=xlColumns
+        .ChartType = xlColumnClustered          'change if you prefer xlLine, xlPie, etc.
+        .HasTitle = True
+        .ChartTitle.Text = "Graphify – Column A"
+        .Axes(xlValue).HasTitle = True
+        .Axes(xlValue).AxisTitle.Caption = "Values"
+        .Axes(xlCategory).HasTitle = True
+        .Axes(xlCategory).AxisTitle.Caption = "Row"
+        .Legend.Visible = False
+    End With
+
+    '--- BUG: ws.Charts does not exist on a Worksheet; Shapes("GraphifyChart.chart.8") never exists; End Sub missing ---
+    With ws.Shapes(chtName &amp; ".chart.8")   'the chart object inside the worksheet
+        .Left = ws.Range("E2").Left
+        .Top = ws.Range("E2").Top
+    End With
+
+Bye:
+    Application.ScreenUpdating = True
+    Set cht = Nothing
+    Set ws = Nothing
+</code></pre>
+</div>
+<div class="code-wrapper" id="gs-tab-fixed" hidden>
+<pre><code class="vba">' v7.9-fixed = Graphify.bas (modGraphify) in this repo — 229 lines.
+' Fixes: ChartObjects (not ws.Charts), no .Move, series rebuilt on reuse,
+' data range bound live (blanks stay gaps), closed End Sub, guards:
+'   selection -&gt; CHART_COLUMN "I" -&gt; auto busiest-numeric -&gt; MsgBox empty,
+'   FirstNumericRow block scan, Fail: MsgBox + ScreenUpdating restore.
+' Full source: see Graphify.bas. G7: chart-only, never aggregates.
+</code></pre>
+</div>

@@ -1,0 +1,59 @@
+{
+  "v81_variant": "v8.1b (HOLD lifted by documented mapping)",
+  "built_utc": "2026-09-28T09:14:28.942675+00:00",
+  "source_workbook": "Global-Smile_2026-v8.0.xlsm",
+  "source_sha256": "76a783ad0dce60ef3e27b52c78632555541d529442ddd6b015aad944fa22e327",
+  "source_unmodified": true,
+  "output_workbook": "Global-Smile_2026-v8.1.xlsm",
+  "output_sha256": "32132e5f356b4154460295d760870814e8434aefb9f495849855af6e3c25d89b",
+  "vba_preserved_via": "openpyxl keep_vba=True (vbaProject.bin byte-preserved)",
+  "sheets_added": [
+    "COA_MAP",
+    "GL_AUDIT",
+    "GL_V8_CALC"
+  ],
+  "sheets_deleted_or_renamed": [],
+  "values_or_formulas_changed": false,
+  "macros_changed": false,
+  "mappings": [
+    {
+      "source": "Medical Equipment",
+      "amount": 2992.5,
+      "dc": "credit",
+      "target": "Dental Equipment",
+      "basis": "depreciation credit leg"
+    },
+    {
+      "source": "Cost of Revenue",
+      "amount": 1139.0,
+      "dc": "debit",
+      "target": "Clinic Material and Supplies",
+      "basis": "consumables bucket"
+    },
+    {
+      "source": "Supplies",
+      "amount": 2000.0,
+      "dc": "debit",
+      "target": "Clinic Material and Supplies",
+      "basis": "consumables bucket"
+    },
+    {
+      "source": "Bank Charge",
+      "amount": 15.0,
+      "dc": "debit",
+      "target": "Miscellaneous",
+      "basis": "immaterial bank fee"
+    },
+    {
+      "source": "Charges",
+      "amount": 7.5,
+      "dc": "debit",
+      "target": "Miscellaneous",
+      "basis": "immaterial charge"
+    }
+  ],
+  "hold_total_mapped": 6154.0,
+  "unmapped_after": 0.0,
+  "expected_calc_rows": 552,
+  "next_gate": "Open v8.1 in Excel, run RefreshAllGL(2026), record GL_AUDIT PASS + 552-row GL_V8_CALC"
+}

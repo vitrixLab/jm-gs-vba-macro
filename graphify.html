@@ -6,58 +6,66 @@
 
 <!-- Chart.js CDN (v4) -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-  body {font-family: Arial, sans-serif; margin: 2rem; background:#f5f7fa;}
-  h1 {color:#2c3e50; text-align:center;}
-  #chart {width:100%; max-width:800px; margin:0 auto; background:#fff; padding:2rem; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-</style>
+<link rel="stylesheet" href="assets/graphify.css">
 </head>
 <body>
 
+<!-- include: partials/header-nav.html -->
+<header class="gs-topbar">
+  <a class="gs-brand" href="graphify.html">Graphify</a>
+  <nav class="gs-nav" aria-label="Graphify">
+    <a href="graphify.html">Chart Demo</a>
+    <a href="graphify_vba.html">VBA Source</a>
+  </nav>
+  <span class="gs-badge" title="Fixed Graphify.bas (modGraphify)">v7.9-fixed</span>
+</header>
+
+<div class="gs-layout">
+<!-- include: partials/side-nav.html -->
+<aside class="gs-sidenav" aria-label="Graphify sections">
+  <ul>
+    <li><a href="graphify.html">Chart Demo</a></li>
+    <li><a href="graphify_vba.html">VBA Source (v7.8 broken vs v7.9 fixed)</a></li>
+    <li><a href="PLAN v1.md">Mapping: PLAN v1 (GL layer design)</a></li>
+    <li><a href="status_v2.md">Gates: status_v2 (G7 UNVERIFIED)</a></li>
+  </ul>
+</aside>
+
+<main>
 <h1>Graphify – Column Chart (v7.8)</h1>
 
+<!-- include: partials/chart-panel.html -->
 <div id="chart"><canvas id="myChart"></canvas></div>
+<div class="gs-chartbar">
+  <label for="gs-dataset">Dataset</label>
+  <select id="gs-dataset">
+    <option value="sample">Sample (10 pts)</option>
+    <option value="glshape">GL 46x12 shape demo (552 pts)</option>
+  </select>
+  <span id="gs-source" class="gs-source" aria-live="polite"></span>
+</div>
+<div id="gs-empty" class="gs-empty" hidden></div>
 
-<script>
-/* ── Sample data (replace or extend as you like) ───────────────────── */
-const sampleValues = [23, 45, 12, 78, 34, 56, 29, 80, 15, 62];
+<!-- include: partials/fault-log.html -->
+<section class="gs-faults" aria-label="Fault log">
+  <h2>Fault log</h2>
+  <table id="gs-fault-table">
+    <thead><tr><th>Time</th><th>Page</th><th>Code</th><th>Detail</th><th>Source</th></tr></thead>
+    <tbody id="gs-fault-body"><tr><td colspan="5">No faults recorded.</td></tr></tbody>
+  </table>
+</section>
+</main>
+</div>
 
-/* ── Build the chart ──────────────────────────────────────────────── */
-const ctx = document.getElementById('myChart').getContext('2d');
-new Chart(ctx, {
-  type: 'bar',                     // column chart
-  data: {
-    labels: sampleValues.map((_, i) => `R${i + 1}`), // Row 1 … Row N
-    datasets: [{
-      label: 'Values',
-      data: sampleValues,
-      backgroundColor: 'rgba(54, 162, 235, 0.6)',
-      borderColor: 'rgba(54, 162, 235, 1)',
-      borderWidth: 1
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      title: {
-        display: true,
-        text: 'Graphify – Column Chart'
-      },
-      legend: { display: false }
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        title: { display: true, text: 'Value' }
-      },
-      x: {
-        title: { display: true, text: 'Row' }
-      }
-    }
-  }
-});
-</script>
+<!-- include: partials/footer.html -->
+<footer class="gs-footer">
+  <span>G7: Graphify is chart-only and never aggregates accounting data.</span>
+  <span>Workbook SHA-256: <code id="gs-wbhash">see status_v2.md</code></span>
+</footer>
+
+<script src="assets/graphify-config.js"></script>
+<script src="assets/graphify-analytics.js"></script>
+<script src="assets/graphify-chart.js"></script>
 
 </body>
 </html>
