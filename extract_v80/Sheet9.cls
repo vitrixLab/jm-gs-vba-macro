@@ -9,7 +9,6 @@ Attribute VB_Customizable = True
 Option Explicit
 
 
-
 Private Const START_ROW As Long = 8
 
 Private Const COL_TIN As Integer = 4
@@ -29,9 +28,66 @@ Private Const COL_DEBIT_MIRROR As Integer = 9
 Private Const COL_FULL_ID As Integer = 17
 
 
-
 Private gMaxSeq As Long
 
+
+' ============================================================
+' TOTAL CALCULATION
+
+' Sums debit/credit from block start to current row and writes totals
+
+' ============================================================
+
+Private Sub CalculateTotals(rowNum As Long)
+
+    Dim startRow As Long, endRow As Long, debitSum As Double, creditSum As Double
+
+    startRow = FindBlockStart(rowNum): endRow = rowNum - 1
+
+    If endRow < startRow Then Exit Sub
+
+    debitSum = 0#: creditSum = 0#
+
+    Dim r As Long
+
+    For r = startRow To endRow
+
+        If IsNumeric(Me.Cells(r, COL_DEBIT).Value) Then debitSum = debitSum + Me.Cells(r, COL_DEBIT).Value
+
+        If IsNumeric(Me.Cells(r, COL_DEBIT_MIRROR).Value) Then creditSum = creditSum + Me.Cells(r, COL_DEBIT_MIRROR).Value
+
+    Next r
+
+    Me.Cells(rowNum, COL_DEBIT).Value = debitSum
+
+    Me.Cells(rowNum, COL_DEBIT_MIRROR).Value = debitSum
+
+    Me.Cells(rowNum, 13).Value = creditSum
+
+    Me.Cells(rowNum, 12).Value = creditSum
+
+End Sub
+
+
+Private Function FindBlockStart(rowNum As Long) As Long
+
+    Dim i As Long
+
+    For i = rowNum - 1 To START_ROW Step -1
+
+        If Me.Cells(i, COL_COA).Value <> "" Then
+
+            FindBlockStart = i + 1
+
+            Exit Function
+
+        End If
+
+    Next i
+
+    FindBlockStart = START_ROW
+
+End Function
 
 
 ' ============================================================
@@ -41,7 +97,6 @@ Private gMaxSeq As Long
 ' (Same as PJ – copy from PJ sheet)
 
 ' ============================================================
-
 
 
 ' ============================================================
@@ -62,7 +117,6 @@ Private Function FindReferenceInCDJ(ref As String) As Long
 
     If wsCDJ Is Nothing Then FindReferenceInCDJ = 0: Exit Function
 
-    
 
     Set found = wsCDJ.Range("Y:Y").Find(What:=ref, LookIn:=xlValues, LookAt:=xlWhole)
 
@@ -71,7 +125,6 @@ Private Function FindReferenceInCDJ(ref As String) As Long
     If Not found Is Nothing Then FindReferenceInCDJ = found.row Else FindReferenceInCDJ = 0
 
 End Function
-
 
 
 ' ============================================================
@@ -91,8 +144,6 @@ Private Sub SyncToCDJ_NonVat(sourceRow As Long)
 End Sub
 
 
-
-
 ' ============================================================
 
 ' HELPER FUNCTIONS (Copy from PJ sheet)
@@ -100,7 +151,6 @@ End Sub
 ' GetExpenseColumn, CalculateWithholdingTax
 
 ' ============================================================
-
 
 
 ' ============================================================
@@ -115,15 +165,14 @@ Private Sub Worksheet_Change(ByVal Target As Range)
 
     Dim currentTimestamp As String
 
-    
 
     Set rng = Intersect(Target, Union(Me.Range("D:D"), Me.Range("E:E"), _
-
                                       Me.Range("F:F"), Me.Range("G:G"), _
-
-                                      Me.Range("I:I")))
+                                      Me.Range("H:H"), Me.Range("I:I")))
 
     If rng Is Nothing Then Exit Sub
+
+
 
 
 
@@ -134,11 +183,9 @@ Private Sub Worksheet_Change(ByVal Target As Range)
     Application.Calculation = xlCalculationManual
 
 
-
     On Error GoTo Cleanup
 
     currentTimestamp = Format(Now, "yyyymmdd-HHnnSS")
-
 
 
     For Each cell In rng
@@ -155,7 +202,7 @@ Private Sub Worksheet_Change(ByVal Target As Range)
 
                 nameVal = Trim(Me.Cells(cell.row, COL_NAME).value)
 
-                
+
 
                 If LCase(tinVal) = "total" Or LCase(nameVal) = "total" Then
 
@@ -163,7 +210,7 @@ Private Sub Worksheet_Change(ByVal Target As Range)
 
                 End If
 
-                
+
 
                 If tinVal <> "" Then
 
@@ -181,6 +228,8 @@ Private Sub Worksheet_Change(ByVal Target As Range)
 
             End If
 
+
+
             
 
             ' ---- NON-VAT AMOUNT (No VAT) ----
@@ -191,7 +240,7 @@ Private Sub Worksheet_Change(ByVal Target As Range)
 
                And Me.Cells(cell.row, COL_NAME).value <> "TOTAL" Then
 
-                
+
 
                 Me.Cells(cell.row, COL_DEBIT).value = Me.Cells(cell.row, "I").value
 
@@ -200,6 +249,8 @@ Private Sub Worksheet_Change(ByVal Target As Range)
                 Me.Cells(cell.row, 13).value = 0  ' Credit = 0
 
                 Me.Cells(cell.row, 12).value = 0  ' Credit Mirror = 0
+
+
 
                 
 
@@ -211,7 +262,7 @@ Private Sub Worksheet_Change(ByVal Target As Range)
 
                    And Me.Cells(cell.row, COL_REF).value = "" Then
 
-                    
+
 
                     Dim seqNum As Long
 
@@ -250,7 +301,6 @@ NextCell:
     Next cell
 
 
-
 Cleanup:
 
     Application.EnableEvents = True
@@ -262,22 +312,8 @@ Cleanup:
 End Sub
 
 
-
 ' ============================================================
 
 ' LOOKUP FUNCTIONS (Copy from PJ sheet – rename to _NonVat)
 
 ' ============================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
