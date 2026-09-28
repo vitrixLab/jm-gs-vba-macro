@@ -1,0 +1,145 @@
+{
+  "workbook": "Global-Smile_2026-v8.0.xlsm",
+  "workbook_sha256": "76a783ad0dce60ef3e27b52c78632555541d529442ddd6b015aad944fa22e327",
+  "workbook_sha256_after_extraction": "76a783ad0dce60ef3e27b52c78632555541d529442ddd6b015aad944fa22e327",
+  "workbook_unmodified": true,
+  "vbaProject_bin_sha256": "62af764f379f68fe05dada099b7f136253c28580edb9fd0d4461b54b633580ff",
+  "vba_project_name": "VBAProject",
+  "module_count": 19,
+  "modules": [
+    {
+      "name": "ThisWorkbook.cls",
+      "stream": "VBA/ThisWorkbook",
+      "chars": 723,
+      "lines": 19,
+      "sha256": "15248e9c3b07890788469b4d869a62895f9e0847effa35e641ff9c0b95cb4c87"
+    },
+    {
+      "name": "Sheet1.cls",
+      "stream": "VBA/Sheet1",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "8e442a8e542ca01c7d87af7e9ad015863e0a19232a647712a6e31b3911beb372"
+    },
+    {
+      "name": "Sheet2.cls",
+      "stream": "VBA/Sheet2",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "8105e1362a2256083c87650bf3f402ea18553abb1bdab2f08f7649859dd02312"
+    },
+    {
+      "name": "Sheet3.cls",
+      "stream": "VBA/Sheet3",
+      "chars": 7664,
+      "lines": 184,
+      "sha256": "39ca1f51cd291fa26ab664e93694c06add790428d610bf071f1f11623151d3f0"
+    },
+    {
+      "name": "Sheet4.cls",
+      "stream": "VBA/Sheet4",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "12a0f7735c6438a01176ea862764077f158f4cf3ceec0025bc7bea6477a8f5e1"
+    },
+    {
+      "name": "Sheet5.cls",
+      "stream": "VBA/Sheet5",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "7343b50dd86c466939cb6943c57d3ddf2308ddff4c459c9b0c60f622081b838c"
+    },
+    {
+      "name": "Sheet6.cls",
+      "stream": "VBA/Sheet6",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "d08325720114782b612eeef5b26309fbc76488594e24246b3748b4803911094f"
+    },
+    {
+      "name": "modEngine.bas",
+      "stream": "VBA/modEngine",
+      "chars": 56215,
+      "lines": 1244,
+      "sha256": "12ace32cc6adae18b629f9688eedb64a8eb7db3f82ad6d850d9ce4fbd8e8c54b"
+    },
+    {
+      "name": "Sheet7.cls",
+      "stream": "VBA/Sheet7",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "e47ac1d2c9fcc82778126b3d5f6b99f5fa7a1db5813045373f7fca4231868066"
+    },
+    {
+      "name": "modPJAutomation.bas",
+      "stream": "VBA/modPJAutomation",
+      "chars": 6075,
+      "lines": 185,
+      "sha256": "6a99ddcc3327122a1cc271fa333723f357262ff907238f6e85e7d77f9ff1c86b"
+    },
+    {
+      "name": "Sheet9.cls",
+      "stream": "VBA/Sheet9",
+      "chars": 6186,
+      "lines": 283,
+      "sha256": "d710bd307bf6bdbb6000af39deb8ed3c2894e95daf43f323a7197b18654ab62f"
+    },
+    {
+      "name": "Sheet10.cls",
+      "stream": "VBA/Sheet10",
+      "chars": 1423,
+      "lines": 43,
+      "sha256": "c702604f9c8a1781a1fa6b0432e2d138cb96bbeb796a8ba991734ba77de4eb4e"
+    },
+    {
+      "name": "ImportSuppliersFromJSON.bas",
+      "stream": "VBA/ImportSuppliersFromJSON",
+      "chars": 30963,
+      "lines": 856,
+      "sha256": "0d45ef9b34338ef252df691199d9c06a88be35acabf2388a3c8be55dcc728ea3"
+    },
+    {
+      "name": "modGraphify.bas",
+      "stream": "VBA/modGraphify",
+      "chars": 8689,
+      "lines": 229,
+      "sha256": "5133cb259f02b773f1f224ea01239321e5c74a24844968f8a6bd5aad721d0065"
+    },
+    {
+      "name": "Sheet12.cls",
+      "stream": "VBA/Sheet12",
+      "chars": 12714,
+      "lines": 284,
+      "sha256": "34a0edc1116d72b091fc6a3b72bef8b6c613de9397635273b997c226dee55487"
+    },
+    {
+      "name": "Sheet11.cls",
+      "stream": "VBA/Sheet11",
+      "chars": 13020,
+      "lines": 290,
+      "sha256": "1591636d93e0707bd87171b457f0a7ccebcbaef6356bed34083d2dc016f99534"
+    },
+    {
+      "name": "Sheet8.cls",
+      "stream": "VBA/Sheet8",
+      "chars": 3971,
+      "lines": 97,
+      "sha256": "f601f63188dc2dfc089cf20e7999df683896860dc0a35b73a5363550e5ebbec5"
+    },
+    {
+      "name": "Sheet13.cls",
+      "stream": "VBA/Sheet13",
+      "chars": 300,
+      "lines": 8,
+      "sha256": "f54a13f741e207b573009edd26ccb790a818da7112a6b93b176f70c98d3f1e70"
+    },
+    {
+      "name": "Module1.bas",
+      "stream": "VBA/Module1",
+      "chars": 31,
+      "lines": 1,
+      "sha256": "35fbb17bd6f3fcfd0955ba10d63159e09f51aac9f3b63048c2e564f117689ccf"
+    }
+  ],
+  "extraction_warnings": []
+}
