@@ -1,0 +1,35 @@
+﻿original sha256 before: CA7303CFB4737AAC981FDD9E106BAC5C547F073837DA2E6305402C791EAB3EDB
+opened scratch copy: scratch_run.xlsm (excel pid 17140)
+MSGBOX CAPTION: [RefreshGL Error]
+   text: OK
+   text: RefreshGL error 1004: We can't do that to a merged cell.
+RefreshGL returned after 0.2 s
+GL last non-empty Account Title row = 609
+sample GL rows after refresh (B=month, E=label, F=account title, G=debit, H=credit, I=ending):
+   row   11  B=Date   C=     E=Explanation      F=Account Title                      G=Debit        H=Credit       I=Credit
+   row   12  B=2026   C=     E=                 F=                                   G=             H=             I=
+   row   13  B=JAN    C=31   E=Ending Balance   F=Cash in Bank                       G=13240        H=7025.25      I=-7025.25
+   row   14  B=FEB    C=28   E=Ending Balance   F=Cash in Bank                       G=0            H=0            I=0
+   row   24  B=DEC    C=31   E=                 F=Cash in Bank                       G=0            H=0            I=0
+   row   25  B=       C=     E=                 F=                                   G=             H=             I=
+   row   26  B=JAN    C=31   E=                 F=Petty Cash Fund                    G=             H=             I=
+   row  193  B=DEC    C=31   E=                 F=Government Loans (EE)              G=             H=             I=
+   row  205  B=NOV    C=30   E=                 F=Income Tax Payable                 G=             H=             I=
+   row  553  B=AUG    C=31   E=                 F=Advertisement                      G=             H=             I=
+   row  564  B=JUN    C=30   E=                 F=Marketing Expense                  G=             H=             I=
+   row  565  B=JUL    C=31   E=                 F=Marketing Expense                  G=             H=             I=
+   row  577  B=JUN    C=30   E=                 F=Gas, Oil, Parking, Toll Fees       G=             H=             I=
+   row  609  B=DEC    C=31   E=                 F=Insurance                          G=             H=             I=
+   row  610  B=       C=     E=                 F=                                   G=             H=             I=
+GL after refresh: title rows=552 debit=907,749.86 credit=7,025.25 difference=900,724.61 active cells=7
+GL_AUDIT after refresh:
+   Source | Unmapped Detail | Amount | 
+   GJ | Cost of Revenue | 1139 | 
+    |  |  | 
+    |  |  | 
+GL_V8_CALC row2 after refresh: Cash in Bank | 1 | 0 | 7025.25 | -7025.25
+GL_V8_CALC row553 after refresh: Insurance | 12 | 0 | 0 | 0
+ValidateGLConsistency after refresh = False
+original sha256 after: CA7303CFB4737AAC981FDD9E106BAC5C547F073837DA2E6305402C791EAB3EDB
+original unchanged: True
+done

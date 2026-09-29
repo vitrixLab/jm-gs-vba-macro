@@ -1,0 +1,63 @@
+﻿====================================================================================================
+SIMULATION OF modEngine.RefreshGL (as embedded in the v8.2 workbook)
+====================================================================================================
+total debit  = 255006.75
+total credit = 256145.75
+difference   = -1139.00
+accounts written (GLAccounts array) = 46
+rows written = 552  (GL rows 13..564, contiguous, no separators)
+zero cells (0 debit and 0 credit) = 517 of 552
+accounts with NO activity in ANY month (30): ['Account Receivables', 'Excess CWT Over IT', 'Due To Clinicians', 'Due to Clinicians- Visiting', 'EWT Payable', 'Government Contributions (EE)', 'Government Loans (EE)', 'Income Tax Payable', 'Paid-Up Capital', 'Retained Earnings (Deficit)', 'Rent', "Clinician's Fee-Corporators", "Clinician's Fee-Visiting", 'Common Use Service Area', 'Light and Water Expense', 'Salaries and Wages', 'De Minimis', 'Government Contributions ER Share', 'Professional Fees', 'Meals, Gifts & Entertainment Expense', 'Communication ', 'Printing and Duplication', 'Taxes and Licences', 'Delivery', 'Software Subscription', 'Advertisement', 'Marketing Expense', 'Gas, Oil, Parking, Toll Fees', 'Other Penalties and Charges', 'Insurance']
+
+per-month totals written by RefreshGL:
+  JAN debit=    37188.83  credit=    38327.83
+  FEB debit=    11860.83  credit=    11860.83
+  MAR debit=   205957.09  credit=   205957.09
+  APR debit=        0.00  credit=        0.00
+  MAY debit=        0.00  credit=        0.00
+  JUN debit=        0.00  credit=        0.00
+  JUL debit=        0.00  credit=        0.00
+  AUG debit=        0.00  credit=        0.00
+  SEP debit=        0.00  credit=        0.00
+  OCT debit=        0.00  credit=        0.00
+  NOV debit=        0.00  credit=        0.00
+  DEC debit=        0.00  credit=        0.00
+
+CDJ rows posted = 4 ; CDJ data rows SILENTLY SKIPPED (no month in col C) = 2
+   SKIP CDJ row 17   F=-1025.25   S=Miscellaneous  T=1025.25   U=None   KNOXPORT INC
+   SKIP CDJ row 18   F=-1500      S=               T=1500      U=None   FEDERAL BRENT RETAIL INC
+
+CRJ TOTAL blocks found = 12 : [{'row': 25, 'label': 'JAN'}, {'row': 36, 'label': 'FEB'}, {'row': 44, 'label': 'MAR'}, {'row': 53, 'label': 'APR'}, {'row': 61, 'label': 'MAY'}, {'row': 69, 'label': 'JUN'}, {'row': 78, 'label': 'JUL'}, {'row': 87, 'label': 'AUG'}, {'row': 95, 'label': 'SEP'}, {'row': 103, 'label': 'OCT'}, {'row': 111, 'label': 'NOV'}, {'row': 118, 'label': 'DEC'}]
+CRJ data rows posted = 28
+   CRJ row 10   booked to month 1  col=8 Cash in Bank 2700.00   (entry log: Inserted from SJ Row 11 | Invoice: 1819 | 8/2/2026 6:35:49 PM)
+   CRJ row 10   booked to month 1  col=10 VAT Payable 289.29   (entry log: Inserted from SJ Row 11 | Invoice: 1819 | 8/2/2026 6:35:49 PM)
+   CRJ row 10   booked to month 1  col=11 Sales 0.00   (entry log: Inserted from SJ Row 11 | Invoice: 1819 | 8/2/2026 6:35:49 PM)
+   CRJ row 10   booked to month 1  col=12 Sales 2410.71   (entry log: Inserted from SJ Row 11 | Invoice: 1819 | 8/2/2026 6:35:49 PM)
+   CRJ row 11   booked to month 1  col=8 Cash in Bank 5360.00   (entry log: Updated from SJ Row 12 | Invoice: 1820 | 8/31/2026 1:50:49 PM)
+   CRJ row 11   booked to month 1  col=10 VAT Payable 574.29   (entry log: Updated from SJ Row 12 | Invoice: 1820 | 8/31/2026 1:50:49 PM)
+   CRJ row 11   booked to month 1  col=11 Sales 0.00   (entry log: Updated from SJ Row 12 | Invoice: 1820 | 8/31/2026 1:50:49 PM)
+   CRJ row 11   booked to month 1  col=12 Sales 4785.71   (entry log: Updated from SJ Row 12 | Invoice: 1820 | 8/31/2026 1:50:49 PM)
+   CRJ row 12   booked to month 1  col=8 Cash in Bank 2100.00   (entry log: Inserted from SJ Row 14 | Invoice: 1821 | 8/31/2026 1:50:40 PM)
+   CRJ row 12   booked to month 1  col=10 VAT Payable 225.00   (entry log: Inserted from SJ Row 14 | Invoice: 1821 | 8/31/2026 1:50:40 PM)
+   CRJ row 12   booked to month 1  col=11 Sales 0.00   (entry log: Inserted from SJ Row 14 | Invoice: 1821 | 8/31/2026 1:50:40 PM)
+   CRJ row 12   booked to month 1  col=12 Sales 1875.00   (entry log: Inserted from SJ Row 14 | Invoice: 1821 | 8/31/2026 1:50:40 PM)
+   CRJ row 13   booked to month 1  col=8 Cash in Bank 1000.00   (entry log: Inserted from SJ Row 14 | Invoice: 1822 | 8/31/2026 1:51:23 PM)
+   CRJ row 13   booked to month 1  col=10 VAT Payable 107.14   (entry log: Inserted from SJ Row 14 | Invoice: 1822 | 8/31/2026 1:51:23 PM)
+   CRJ row 13   booked to month 1  col=11 Sales 0.00   (entry log: Inserted from SJ Row 14 | Invoice: 1822 | 8/31/2026 1:51:23 PM)
+   CRJ row 13   booked to month 1  col=12 Sales 892.86   (entry log: Inserted from SJ Row 14 | Invoice: 1822 | 8/31/2026 1:51:23 PM)
+   CRJ row 14   booked to month 1  col=8 Cash in Bank 1000.00   (entry log: Inserted from SJ Row 15 | Invoice: 1823 | 8/31/2026 1:51:48 PM)
+   CRJ row 14   booked to month 1  col=10 VAT Payable 107.14   (entry log: Inserted from SJ Row 15 | Invoice: 1823 | 8/31/2026 1:51:48 PM)
+   CRJ row 14   booked to month 1  col=11 Sales 0.00   (entry log: Inserted from SJ Row 15 | Invoice: 1823 | 8/31/2026 1:51:48 PM)
+   CRJ row 14   booked to month 1  col=12 Sales 892.86   (entry log: Inserted from SJ Row 15 | Invoice: 1823 | 8/31/2026 1:51:48 PM)
+   CRJ row 15   booked to month 1  col=8 Cash in Bank 0.00   (entry log: Inserted from SJ Row 16 | Invoice: 1826 | 9/10/2026 6:18:09 PM)
+   CRJ row 15   booked to month 1  col=10 VAT Payable 0.00   (entry log: Inserted from SJ Row 16 | Invoice: 1826 | 9/10/2026 6:18:09 PM)
+   CRJ row 15   booked to month 1  col=11 Sales 0.00   (entry log: Inserted from SJ Row 16 | Invoice: 1826 | 9/10/2026 6:18:09 PM)
+   CRJ row 15   booked to month 1  col=12 Sales 0.00   (entry log: Inserted from SJ Row 16 | Invoice: 1826 | 9/10/2026 6:18:09 PM)
+   CRJ row 16   booked to month 1  col=8 Cash in Bank 1080.00   (entry log: Inserted from SJ Row 17 | Invoice: 1831 | 9/10/2026 6:18:53 PM)
+   CRJ row 16   booked to month 1  col=10 VAT Payable 115.71   (entry log: Inserted from SJ Row 17 | Invoice: 1831 | 9/10/2026 6:18:53 PM)
+   CRJ row 16   booked to month 1  col=11 Sales 0.00   (entry log: Inserted from SJ Row 17 | Invoice: 1831 | 9/10/2026 6:18:53 PM)
+   CRJ row 16   booked to month 1  col=12 Sales 964.29   (entry log: Inserted from SJ Row 17 | Invoice: 1831 | 9/10/2026 6:18:53 PM)
+
+GJ rows posted = 43
+GL_AUDIT unmapped rows the engine would write (1):
+   GJ   Cost of Revenue                          1139.0

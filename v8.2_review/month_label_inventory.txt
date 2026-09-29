@@ -1,0 +1,59 @@
+﻿--- CDJ: month labels in col C, data rows 15..1004 ---
+label cells: 16
+   C15   = JAN     E=FEDERAL BRENT RETAIL INC
+   C16   = JAN     E=FEDERAL BRENT RETAIL INC
+   C58   = JANUARY  E=TOTAL
+   C60   = FEB     E=
+   C68   = FEBRUARY  E=TOTAL
+   C70   = MAR     E=
+   C78   = MAR     E=TOTAL
+   C86   = APR     E=TOTAL
+   C94   = MAY     E=TOTAL
+   C105  = JUN     E=TOTAL
+   C114  = JUL     E=TOTAL
+   C122  = AUG     E=TOTAL
+   C131  = SEP     E=TOTAL
+   C143  = OCT     E=TOTAL
+   C153  = NOV     E=TOTAL
+   C162  = DEC     E=TOTAL
+data rows (E..U non-empty) = 16 -> [15, 16, 17, 18, 58, 68, 78, 86, 94, 105, 114, 122, 131, 143, 153, 162]
+
+--- CRJ: monthly TOTAL blocks (col F=TOTAL, col D=label) ---
+   row 25   D=JAN   E=31  H(debit)=13240      J=1418.57142668 L=11821.42857332
+   row 36   D=FEB   E=28  H(debit)=0          J=0         L=0
+   row 44   D=MAR   E=31  H(debit)=0          J=0         L=0
+   row 53   D=APR   E=30  H(debit)=0          J=0         L=0
+   row 61   D=MAY   E=31  H(debit)=0          J=0         L=0
+   row 69   D=JUN   E=30  H(debit)=0          J=0         L=0
+   row 78   D=JUL   E=31  H(debit)=0          J=0         L=0
+   row 87   D=AUG   E=31  H(debit)=0          J=0         L=0
+   row 95   D=SEP   E=30  H(debit)=0          J=0         L=0
+   row 103  D=OCT   E=31  H(debit)=0          J=0         L=0
+   row 111  D=NOV   E=30  H(debit)=0          J=0         L=0
+   row 118  D=DEC   E=31  H(debit)=0          J=0         L=0
+CRJ rows with particulars/amounts = 21 -> [10, 11, 12, 13, 14, 15, 16, 25, 36, 44, 53, 61, 69, 78, 87, 95, 103, 111, 118, 581, 582]
+
+--- GJ: month labels in col B, rows 10..1000 ---
+   B11   = JAN     E=Dep'n Expense-Leasehold Improvements
+   B29   = FEB     E=Dep'n Expense-Leasehold Improvements
+   B44   = MAR     E=Dep'n Expense-Leasehold Improvements
+GJ rows with explanation = 43 ; first=11 last=59
+   GJ label rows: [(11, "Dep'n Expense-Leasehold Improvements"), (12, "Dep'n Expense-Dental Equipment"), (13, 'Leasehold Improvements'), (14, '   Medical Equipment'), (15, '       Recording Depreciation for the month'), (17, 'Transportation and Travel'), (18, 'Miscellaneous'), (19, 'Cost of Revenue'), (20, 'Supplies'), (21, 'Pantry Supplies'), (22, 'Office Supplies'), (23, 'Bank Charge'), (24, 'Clinic Supplies'), (25, 'Office Supplies'), (26, 'Petty Cash Fund'), (27, '   Liquidation of PCF for the Month'), (29, "Dep'n Expense-Leasehold Improvements"), (30, "Dep'n Expense-Dental Equipment"), (31, 'Leasehold Improvements'), (32, '   Medical Equipment'), (33, '       Recording Depreciation for the month'), (35, 'Transporation and Travel'), (36, 'Office Supplies'), (37, 'Pantry Supplies'), (38, 'Advances to Employee'), (39, 'Office Supplies'), (40, 'Repairs and Maintenance'), (41, 'Petty Cash Fund'), (42, '   Liquidation of PCF for the Month'), (44, "Dep'n Expense-Leasehold Improvements"), (45, "Dep'n Expense-Dental Equipment"), (46, 'Leasehold Improvements'), (47, '   Medical Equipment'), (48, '       Recording Depreciation for the month'), (50, 'Pantry Supplies'), (51, 'Office Supplies'), (52, 'Charges'), (53, 'Transportation and Travel'), (54, 'Petty Cash Fund'), (55, '   Liquidation of PCF for the Month'), (57, 'Output VAT Payable'), (58, 'Input VAT'), (59, 'Closing of Input VAT for Q1 2026')]
+
+--- SJ: dates and totals ---
+   row 2   3=SALES JOURNAL 
+   row 4   3=Name: | 5=Global City Smiles Dental and Medical Wellness Inc.
+   row 5   3=Address: | 5=Unit 1501 15th Floor MDI Corporate Center 39th St. Cor 10th Ave. Fort Bonifacio Taguig City
+   row 6   3=VAT Reg .TIN: | 5=613-594-172-000
+   row 7   3=RDO: | 5=044
+   row 9   3=Date | 5=Customers' TIN | 6=Customers' Name | 7=Address | 8=Description | 9=Reference | 10=Amount | 11=Discount
+   row 10  3=2026 | 9=Sales Invoice
+   row 11  6=Tan, Theodore | 7=NCR Metro Manila | 8=Full Payment for Service | 9=1819 | 10=2700
+   row 12  6=Pascual, Alonzo | 7=NCR Metro Manila | 8=Full Payment for Service | 9=1820 | 10=5360
+   row 13  6=Mercado, Jose | 7=NCR Metro Manila | 8=Full Payment for Service | 9=1821 | 10=2100
+   row 14  6=Pascual, Alonzo | 7=NCR Metro Manila | 8=Full Payment for Service | 9=1822 | 10=1000
+   row 15  6=Tan, Theodore | 7=NCR Metro Manila | 8=Full Payment for Service | 9=1823 | 10=1000
+   row 16  6=Quintos, Matteo | 7=NCR Metro Manila | 8=Full Payment for Service | 9=1826 | 10=1928.57 | 11=1928.57
+   row 17  6=Derpo, Phreus | 7=NCR Metro Manila | 8=Full Payment for Service | 9=1831 | 10=1080
+   row 34  4=31 | 5=TOTAL | 10=15168.57 | 11=1928.57
+   row 36  3=FEB | 4=01

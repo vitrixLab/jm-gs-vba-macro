@@ -1,0 +1,3918 @@
+==============================================================================
+== MODULE: ThisWorkbook.cls
+==============================================================================
+Attribute VB_Name = "ThisWorkbook"
+Attribute VB_Base = "0{00020819-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+Option Explicit
+
+Private Sub Workbook_Open()
+    ' Initialize the engine – this loads all suppliers, CDJ references, headers, and sequence
+    ' into memory. The target sheet is "CDJ" (you can change to "TEST" for testing).
+    Call modEngine.InitializeEngine("CDJ")
+    
+    ' Optional: show a message to confirm
+    ' MsgBox "Engine initialized. Status: " & modEngine.EngineStatus, vbInformation
+End Sub
+
+
+
+==============================================================================
+== MODULE: Sheet1.cls
+==============================================================================
+Attribute VB_Name = "Sheet1"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+
+
+==============================================================================
+== MODULE: Sheet2.cls
+==============================================================================
+Attribute VB_Name = "Sheet2"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+
+
+==============================================================================
+== MODULE: Sheet3.cls
+==============================================================================
+Attribute VB_Name = "Sheet3"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+Option Explicit
+
+Private Const START_ROW As Long = 10
+Private Const CRJ_SHEET_NAME As String = "CRJ"
+
+' SJ Columns (now final)
+Private Const SJ_COL_DATE As Integer = 3
+Private Const SJ_COL_CUSTOMER As Integer = 6
+Private Const SJ_COL_CUSTOMER_ADDRESS As Integer = 7
+Private Const SJ_COL_DESCRIPTION As Integer = 8
+Private Const SJ_COL_AMOUNT As Integer = 10
+Private Const SJ_COL_DISCOUNT As Integer = 11
+Private Const SJ_COL_OUTPUTVAT_MIRROR As Integer = 12
+Private Const SJ_COL_OUTPUTVAT As Integer = 13
+Private Const SJ_COL_NETSALES_MIRROR As Integer = 14
+Private Const SJ_COL_NETSALES As Integer = 15
+Private Const SJ_COL_INVOICE As Integer = 21         ' U – auto short number (SJ-NNNNN)
+Private Const SJ_COL_FULLID As Integer = 22          ' V – auto full ID (SJINV-…)
+Private Const SJ_COL_PHYSICAL_INV As Integer = 9     ' I – manual physical invoice (NEVER overwritten)
+
+Private Sub Worksheet_Activate()
+    On Error Resume Next
+    modEngine.InitializeCRJ
+    On Error GoTo 0
+End Sub
+
+Private Sub LookupCustomer(rowNum As Long, name As String)
+    name = Trim(name)
+    If name = "" Then Exit Sub
+    Me.Cells(rowNum, SJ_COL_CUSTOMER_ADDRESS).value = "NCR Metro Manila"
+    Me.Cells(rowNum, SJ_COL_DESCRIPTION).value = "Full Payment for Service"
+End Sub
+
+Private Sub ClearCustomerRow(rowNum As Long)
+    Me.Cells(rowNum, SJ_COL_CUSTOMER_ADDRESS).value = ""
+    Me.Cells(rowNum, SJ_COL_DESCRIPTION).value = ""
+End Sub
+
+Private Sub Worksheet_Change(ByVal Target As Range)
+    Dim rngLookup As Range, rngSync As Range, cell As Range
+    Dim currentTimestamp As String, newInvoice As Variant
+
+    ' ---- PART 1: LOOKUP, FORMULAS, INVOICE STAMPING ----
+    Set rngLookup = Intersect(Target, Union(Me.Range("F:F"), Me.Range("G:G"), Me.Range("J:J"), Me.Range("K:K")))
+    If Not rngLookup Is Nothing Then
+        Application.EnableEvents = False
+        Application.ScreenUpdating = False
+        Application.Calculation = xlCalculationManual
+        On Error GoTo CleanupLookup
+        currentTimestamp = Format(Now, "yyyymmdd-HHnnSS")
+
+        For Each cell In rngLookup
+            If cell.row >= START_ROW Then
+
+                ' ---- SKIP TOTAL ROW ----
+                If UCase(Trim(Me.Cells(cell.row, 5).value)) = "TOTAL" Then GoTo NextLookup
+
+                If cell.Column = SJ_COL_CUSTOMER Then
+                    Call LookupCustomer(cell.row, Trim(Me.Cells(cell.row, SJ_COL_CUSTOMER).value))
+                End If
+
+                If Me.Cells(cell.row, SJ_COL_AMOUNT).value <> "" And _
+                   Me.Cells(cell.row, SJ_COL_AMOUNT).value <> "TOTAL" Then
+
+                    ' Formats
+                    Me.Cells(cell.row, SJ_COL_AMOUNT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+                    Me.Cells(cell.row, SJ_COL_DISCOUNT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+                    Me.Cells(cell.row, SJ_COL_OUTPUTVAT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+                    Me.Cells(cell.row, SJ_COL_NETSALES).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+
+                    ' Formulas
+                    Me.Cells(cell.row, SJ_COL_OUTPUTVAT).Formula = "=IF(J" & cell.row & "-K" & cell.row & "=0, 0, (J" & cell.row & "-K" & cell.row & ")*0.107142857)"
+                    Me.Cells(cell.row, SJ_COL_NETSALES).Formula = "=J" & cell.row & "-K" & cell.row & "-M" & cell.row
+                    Me.Cells(cell.row, SJ_COL_OUTPUTVAT_MIRROR).Formula = "=M" & cell.row
+                    Me.Cells(cell.row, SJ_COL_NETSALES_MIRROR).Formula = "=O" & cell.row
+
+                    ' ---- STAMP AUTO INVOICE (U) & FULL ID (V) ----
+                    If Me.Cells(cell.row, SJ_COL_INVOICE).value = "" Then
+                        newInvoice = modEngine.GetNextInvoiceNumber()   ' e.g. 304
+                        Me.Cells(cell.row, SJ_COL_INVOICE).value = "SJ-" & Format(newInvoice, "00000")
+
+                        ' Read the manual physical invoice from column I
+                        Dim physicalInv As String
+                        If IsNumeric(Me.Cells(cell.row, SJ_COL_PHYSICAL_INV).value) Then
+                            physicalInv = Format(CLng(Me.Cells(cell.row, SJ_COL_PHYSICAL_INV).value), "00000")
+                        Else
+                            physicalInv = "00000"   ' fallback if I is blank
+                        End If
+
+                        Me.Cells(cell.row, SJ_COL_FULLID).value = "SJINV-" & currentTimestamp & "-" & physicalInv & "-" & Format(newInvoice, "00000")
+
+                        If SheetExists(CRJ_SHEET_NAME) Then
+                            Call modEngine.SyncSJToCRJ(Me, cell.row)
+                        End If
+                    End If
+                End If
+            End If
+NextLookup:
+        Next cell
+
+CleanupLookup:
+        Application.EnableEvents = True
+        Application.ScreenUpdating = True
+        Application.Calculation = xlCalculationAutomatic
+    End If
+
+    ' ---- PART 2: SYNC (Triggered by change in U – Invoice column) ----
+    Set rngSync = Intersect(Target, Me.Range("U:U"))
+    If Not rngSync Is Nothing Then
+        Application.EnableEvents = False
+        Application.ScreenUpdating = False
+        Application.Calculation = xlCalculationManual
+        On Error GoTo CleanupSync
+
+        For Each cell In rngSync
+            If cell.row >= START_ROW Then
+                ' ---- SKIP TOTAL ROW ----
+                If UCase(Trim(Me.Cells(cell.row, 5).value)) = "TOTAL" Then GoTo NextSync
+
+                If Me.Cells(cell.row, SJ_COL_INVOICE).value <> "" And _
+                   Me.Cells(cell.row, SJ_COL_INVOICE).value <> "TOTAL" Then
+                    If SheetExists(CRJ_SHEET_NAME) Then
+                        Call modEngine.SyncSJToCRJ(Me, cell.row)
+                    End If
+                End If
+            End If
+NextSync:
+        Next cell
+
+CleanupSync:
+        Application.EnableEvents = True
+        Application.ScreenUpdating = True
+        Application.Calculation = xlCalculationAutomatic
+    End If
+End Sub
+
+Sub ManualSyncToCRJ()
+    Dim rowNum As Long
+    rowNum = ActiveCell.row
+    If rowNum < START_ROW Then
+        MsgBox "Select a row below row 10.", vbExclamation
+        Exit Sub
+    End If
+
+    ' ---- SKIP TOTAL ROW ----
+    If UCase(Trim(Me.Cells(rowNum, 5).value)) = "TOTAL" Then
+        MsgBox "Cannot sync the TOTAL row.", vbExclamation
+        Exit Sub
+    End If
+
+    If Me.Cells(rowNum, SJ_COL_INVOICE).value = "" Then
+        MsgBox "No invoice number in column U. Enter Amount first.", vbExclamation
+        Exit Sub
+    End If
+
+    If Not SheetExists(CRJ_SHEET_NAME) Then
+        MsgBox "CRJ sheet not found. Cannot sync.", vbCritical
+        Exit Sub
+    End If
+
+    On Error Resume Next
+    Call modEngine.SyncSJToCRJ(Me, rowNum)
+    If Err.Number = 0 Then
+        MsgBox "Successfully synced row " & rowNum & " to CRJ.", vbInformation
+    Else
+        MsgBox "Sync failed: " & Err.description, vbExclamation
+    End If
+    On Error GoTo 0
+End Sub
+
+Private Function SheetExists(sheetName As String) As Boolean
+    On Error Resume Next
+    SheetExists = Not ThisWorkbook.Sheets(sheetName) Is Nothing
+    On Error GoTo 0
+End Function
+
+
+
+==============================================================================
+== MODULE: Sheet4.cls
+==============================================================================
+Attribute VB_Name = "Sheet4"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+
+
+==============================================================================
+== MODULE: Sheet5.cls
+==============================================================================
+Attribute VB_Name = "Sheet5"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+
+
+==============================================================================
+== MODULE: Sheet6.cls
+==============================================================================
+Attribute VB_Name = "Sheet6"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+
+
+==============================================================================
+== MODULE: modEngine.bas
+==============================================================================
+Attribute VB_Name = "modEngine"
+Rem Attribute VBA_ModuleType=VBAModule
+'Option VBASupport 1
+Option Explicit
+
+' ============================================================
+' modEngine
+' Central memory-first engine for PJ?CDJ, SJ?CRJ, and GL auto-aggregation
+' Version: 7.9.4 (fix: GL_AUTO_TOL moved to module top)
+' ============================================================
+
+' ============================================================
+' MODULE-LEVEL CONSTANTS  (MUST be at top, before any Sub/Function)
+' ============================================================
+Private Const GL_AUTO_TOL As Double = 0.01
+
+' ============================================================
+' COLUMN CONSTANTS — PJ
+' ============================================================
+Private Const PJ_COL_TIN As Integer = 4
+Private Const PJ_COL_NAME As Integer = 5
+Private Const PJ_COL_ADDRESS As Integer = 6
+Private Const PJ_COL_COA As Integer = 7
+Private Const PJ_COL_REF As Integer = 8
+Private Const PJ_COL_NET As Integer = 10
+Private Const PJ_COL_VAT As Integer = 13
+Private Const PJ_COL_GROSS As Integer = 14
+Private Const PJ_COL_FULLID As Integer = 17
+
+' ============================================================
+' COLUMN CONSTANTS — SUPPLIERS DATA
+' ============================================================
+Private Const SUP_COL_TIN As Integer = 3
+Private Const SUP_COL_NAME As Integer = 4
+Private Const SUP_COL_ADDRESS As Integer = 5
+Private Const SUP_COL_COA As Integer = 6
+
+' ============================================================
+' COLUMN CONSTANTS — CDJ
+' ============================================================
+Private Const CDJ_COL_DATE As Integer = 3
+Private Const CDJ_COL_PARTICULARS As Integer = 5
+Private Const CDJ_COL_CASH As Integer = 6
+Private Const CDJ_COL_VAT As Integer = 7
+Private Const CDJ_COL_WHTAX As Integer = 8
+Private Const CDJ_COL_REF As Integer = 25
+Private Const CDJ_COL_REF_PNV As Integer = 26
+Private Const CDJ_COL_DAY As Integer = 4
+Private Const CDJ_COL_NOTE As Integer = 24
+Private Const CDJ_COL_SEQ As Integer = 27
+Private Const CDJ_COL_NEXTROW As Integer = 27
+Private Const CDJ_EXPENSE_START As Integer = 14
+Private Const CDJ_EXPENSE_END As Integer = 19
+Private Const CDJ_DATA_START As Integer = 15
+Private Const CDJ_COL_DEBIT As Integer = 20
+Private Const CDJ_ROW_SEQ As Integer = 13
+Private Const CDJ_ROW_NEXTROW As Integer = 14
+
+' ============================================================
+' COLUMN CONSTANTS — CRJ
+' ============================================================
+Private Const CRJ_COL_DATE As Integer = 4
+Private Const CRJ_COL_CUSTOMER As Integer = 6
+Private Const CRJ_COL_INVOICE As Integer = 7
+Private Const CRJ_COL_CASH As Integer = 8
+Private Const CRJ_COL_OUTPUTVAT As Integer = 10
+Private Const CRJ_COL_EXEMPT As Integer = 11
+Private Const CRJ_COL_SALES As Integer = 12
+Private Const CRJ_COL_NOTE As Integer = 15
+Private Const CRJ_COL_REF As Integer = 16
+Private Const CRJ_COL_SEQ As Integer = 17
+Private Const CRJ_COL_NEXTROW As Integer = 17
+Private Const CRJ_ROW_SEQ As Integer = 8
+Private Const CRJ_ROW_NEXTROW As Integer = 9
+Private Const CRJ_DATA_START As Integer = 10
+
+' ============================================================
+' COLUMN CONSTANTS — SJ
+' ============================================================
+Private Const SJ_COL_DATE As Integer = 3
+Private Const SJ_COL_CUSTOMER As Integer = 6
+Private Const SJ_COL_AMOUNT As Integer = 10
+Private Const SJ_COL_DISCOUNT As Integer = 11
+Private Const SJ_COL_OUTPUTVAT As Integer = 13
+Private Const SJ_COL_NETSALES As Integer = 15
+Private Const SJ_COL_INVOICE As Integer = 9
+Private Const SJ_COL_REFERENCE As Integer = 21
+
+' ============================================================
+' GLOBAL STATE — CDJ / PJ
+' ============================================================
+Private dictTIN As Object
+Private dictName As Object
+Private dictRef As Object
+Private arrHeaders As Variant
+Private arrCols As Variant
+Private gNextSeq As Long
+Private gNextRow As Long
+Private gInitialized As Boolean
+Private gSyncSheet As String
+Private gHeaderCount As Integer
+
+' ============================================================
+' GLOBAL STATE — CRJ
+' ============================================================
+Private dictCRJRef As Object
+Private gNextCRJRow As Long
+Private gNextCRJSeq As Long
+Private gInitializedCRJ As Boolean
+
+' ============================================================
+' INIT
+' ============================================================
+Public Sub InitializeEngine(Optional targetSheet As String = "CDJ")
+    On Error Resume Next
+    gSyncSheet = targetSheet
+    Set dictTIN = CreateObject("Scripting.Dictionary")
+    Set dictName = CreateObject("Scripting.Dictionary")
+    Set dictRef = CreateObject("Scripting.Dictionary")
+    Call LoadSuppliers
+    Call LoadCDJHeaders
+    Call LoadCDJReferences
+    Call LoadSequence
+    Call LoadNextRow
+    gInitialized = True
+    On Error GoTo 0
+End Sub
+
+Public Sub InitializeCRJ()
+    If gInitializedCRJ Then Exit Sub
+    Set dictCRJRef = CreateObject("Scripting.Dictionary")
+    Call LoadCRJReferences
+    Call LoadCRJNextRow
+    Call LoadCRJSequence
+    gInitializedCRJ = True
+End Sub
+
+' ============================================================
+' LOADERS
+' ============================================================
+Private Sub LoadSuppliers()
+    Dim ws As Worksheet
+    Dim lastRow As Long, i As Long
+    Dim tin As String, name As String, address As String, coa As String
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("SUPPLIERS DATA")
+    On Error GoTo 0
+    If ws Is Nothing Then Exit Sub
+    lastRow = ws.Cells(ws.Rows.count, SUP_COL_TIN).End(xlUp).row
+    For i = 2 To lastRow
+        tin = Trim(ws.Cells(i, SUP_COL_TIN).value)
+        name = Trim(ws.Cells(i, SUP_COL_NAME).value)
+        address = Trim(ws.Cells(i, SUP_COL_ADDRESS).value)
+        coa = Trim(ws.Cells(i, SUP_COL_COA).value)
+        If tin <> "" Then dictTIN(tin) = Array(name, address, coa)
+        If name <> "" Then dictName(name) = Array(tin, address, coa)
+    Next i
+End Sub
+
+Private Sub LoadCDJHeaders()
+    Dim ws As Worksheet
+    Dim col As Integer, header As String, count As Integer
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(gSyncSheet)
+    On Error GoTo 0
+    If ws Is Nothing Then Exit Sub
+    count = 0
+    For col = CDJ_EXPENSE_START To CDJ_EXPENSE_END
+        header = Trim(Trim(ws.Cells(13, col).value) & " " & Trim(ws.Cells(14, col).value))
+        If header <> "" Then count = count + 1
+    Next col
+    If count = 0 Then
+        arrHeaders = Array("Clinic Supplies", "Rent", "Fuel", "Utilities", "Professional", "Sundry")
+        arrCols = Array(14, 15, 16, 17, 18, 19)
+        gHeaderCount = 7
+        Exit Sub
+    End If
+    ReDim arrHeaders(1 To count)
+    ReDim arrCols(1 To count)
+    count = 0
+    For col = CDJ_EXPENSE_START To CDJ_EXPENSE_END
+        header = Trim(Trim(ws.Cells(13, col).value) & " " & Trim(ws.Cells(14, col).value))
+        If header <> "" Then
+            count = count + 1
+            arrHeaders(count) = LCase(header)
+            arrCols(count) = col
+        End If
+    Next col
+    gHeaderCount = count
+End Sub
+
+Private Sub LoadCDJReferences()
+    Dim ws As Worksheet
+    Dim lastRow As Long, i As Long, ref As String
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(gSyncSheet)
+    On Error GoTo 0
+    If ws Is Nothing Then Exit Sub
+    lastRow = ws.Cells(ws.Rows.count, CDJ_COL_REF).End(xlUp).row
+    If ws.Cells(ws.Rows.count, CDJ_COL_REF_PNV).End(xlUp).row > lastRow Then _
+        lastRow = ws.Cells(ws.Rows.count, CDJ_COL_REF_PNV).End(xlUp).row
+    For i = CDJ_DATA_START To lastRow
+        ref = Trim(ws.Cells(i, CDJ_COL_REF).value)
+        If ref <> "" Then dictRef(ref) = i
+        ref = Trim(ws.Cells(i, CDJ_COL_REF_PNV).value)
+        If ref <> "" Then dictRef(ref) = i
+    Next i
+End Sub
+
+Private Sub LoadSequence()
+    Dim ws As Worksheet, val As Variant
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(gSyncSheet)
+    On Error GoTo 0
+    If ws Is Nothing Then gNextSeq = 0: Exit Sub
+    val = ws.Cells(CDJ_ROW_SEQ, CDJ_COL_SEQ).value
+    If IsNumeric(val) Then gNextSeq = CLng(val) Else gNextSeq = 0
+End Sub
+
+Private Sub LoadNextRow()
+    Dim ws As Worksheet, val As Variant
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(gSyncSheet)
+    On Error GoTo 0
+    If ws Is Nothing Then gNextRow = CDJ_DATA_START: Exit Sub
+    val = ws.Cells(CDJ_ROW_NEXTROW, CDJ_COL_NEXTROW).value
+    If IsNumeric(val) Then
+        gNextRow = CLng(val)
+    Else
+        gNextRow = CDJ_DATA_START
+        Do While ws.Cells(gNextRow, CDJ_COL_REF).value <> ""
+            gNextRow = gNextRow + 1
+        Loop
+    End If
+End Sub
+
+Private Sub LoadCRJReferences()
+    Dim ws As Worksheet
+    Dim lastRow As Long, i As Long, inv As String
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("CRJ")
+    On Error GoTo 0
+    If ws Is Nothing Then Exit Sub
+    lastRow = ws.Cells(ws.Rows.count, CRJ_COL_INVOICE).End(xlUp).row
+    For i = CRJ_DATA_START To lastRow
+        inv = Trim(ws.Cells(i, CRJ_COL_INVOICE).value)
+        If inv <> "" Then dictCRJRef(inv) = i
+    Next i
+End Sub
+
+Private Sub LoadCRJNextRow()
+    Dim ws As Worksheet, val As Variant
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("CRJ")
+    On Error GoTo 0
+    If ws Is Nothing Then gNextCRJRow = CRJ_DATA_START: Exit Sub
+    val = ws.Cells(CRJ_ROW_NEXTROW, CRJ_COL_NEXTROW).value
+    If IsNumeric(val) Then
+        gNextCRJRow = CLng(val)
+    Else
+        gNextCRJRow = CRJ_DATA_START
+        Do While ws.Cells(gNextCRJRow, CRJ_COL_INVOICE).value <> ""
+            gNextCRJRow = gNextCRJRow + 1
+        Loop
+    End If
+End Sub
+
+Private Sub LoadCRJSequence()
+    Dim ws As Worksheet, val As Variant
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("CRJ")
+    On Error GoTo 0
+    If ws Is Nothing Then gNextCRJSeq = 0: Exit Sub
+    val = ws.Cells(CRJ_ROW_SEQ, CRJ_COL_SEQ).value
+    If IsNumeric(val) Then gNextCRJSeq = CLng(val) Else gNextCRJSeq = 0
+End Sub
+
+' ============================================================
+' SEQUENCE
+' ============================================================
+Public Function GetNextPJNumber() As String
+    Dim ws As Worksheet
+    If Not gInitialized Then Call InitializeEngine(gSyncSheet)
+    gNextSeq = gNextSeq + 1
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(gSyncSheet)
+    If Not ws Is Nothing Then ws.Cells(CDJ_ROW_SEQ, CDJ_COL_SEQ).value = gNextSeq
+    On Error GoTo 0
+    GetNextPJNumber = "PJ-" & Format(gNextSeq, "00000")
+End Function
+
+Public Function GetNextInvoiceNumber() As Long
+    Dim ws As Worksheet
+    If Not gInitializedCRJ Then Call InitializeCRJ
+    gNextCRJSeq = gNextCRJSeq + 1
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("CRJ")
+    If Not ws Is Nothing Then ws.Cells(CRJ_ROW_SEQ, CRJ_COL_SEQ).value = gNextCRJSeq
+    On Error GoTo 0
+    GetNextInvoiceNumber = gNextCRJSeq
+End Function
+
+Public Function GetNextSeq() As Long
+    Dim s As String
+    s = GetNextPJNumber()
+    If Len(s) > 3 Then GetNextSeq = CLng(Mid$(s, 4)) Else GetNextSeq = 0
+End Function
+
+' ============================================================
+' SUPPLIER LOOKUPS
+' ============================================================
+Public Function GetSupplierByTIN(tin As String) As Variant
+    If Not gInitialized Then Call InitializeEngine(gSyncSheet)
+    tin = Trim(tin)
+    If tin = "" Then GetSupplierByTIN = False: Exit Function
+    If dictTIN.Exists(tin) Then GetSupplierByTIN = dictTIN(tin) Else GetSupplierByTIN = False
+End Function
+
+Public Function GetSupplierByName(name As String) As Variant
+    If Not gInitialized Then Call InitializeEngine(gSyncSheet)
+    name = Trim(name)
+    If name = "" Then GetSupplierByName = False: Exit Function
+    If dictName.Exists(name) Then GetSupplierByName = dictName(name) Else GetSupplierByName = False
+End Function
+
+Public Sub AddSupplierToCache(tin As String, name As String, address As String, coa As String)
+    If Not gInitialized Then Call InitializeEngine(gSyncSheet)
+    tin = Trim(tin): name = Trim(name)
+    If tin <> "" Then dictTIN(tin) = Array(name, address, coa)
+    If name <> "" Then dictName(name) = Array(tin, address, coa)
+End Sub
+
+' ============================================================
+' EXPENSE COLUMN MAPPING
+' ============================================================
+Public Function FindExpenseColumn(description As String) As Integer
+    Dim descLower As String, i As Integer
+    If Not gInitialized Then Call InitializeEngine(gSyncSheet)
+    descLower = LCase(Trim(description))
+    If descLower = "" Then FindExpenseColumn = 0: Exit Function
+    For i = 1 To gHeaderCount
+        If arrHeaders(i) <> "" Then
+            If InStr(descLower, arrHeaders(i)) > 0 Or InStr(arrHeaders(i), descLower) > 0 Then
+                FindExpenseColumn = arrCols(i)
+                Exit Function
+            End If
+        End If
+    Next i
+    FindExpenseColumn = 0
+End Function
+
+' ============================================================
+' WITHHOLDING TAX
+' ============================================================
+Public Function CalculateWithholdingTax(expenseType As String, amount As Double) As Double
+    Dim expLower As String
+    expLower = LCase(Trim(expenseType))
+    Select Case True
+        Case InStr(expLower, "rent") > 0
+            CalculateWithholdingTax = amount * 0.05
+        Case InStr(expLower, "professional") > 0 Or InStr(expLower, "consulting") > 0
+            CalculateWithholdingTax = amount * 0.1
+        Case InStr(expLower, "repair") > 0 Or InStr(expLower, "maintenance") > 0
+            CalculateWithholdingTax = amount * 0.02
+        Case Else
+            CalculateWithholdingTax = 0
+    End Select
+End Function
+
+' ============================================================
+' REFERENCE CACHE
+' ============================================================
+Public Function FindCDJRow(ref As String) As Long
+    If Not gInitialized Then Call InitializeEngine(gSyncSheet)
+    ref = Trim(ref)
+    If ref = "" Then FindCDJRow = 0: Exit Function
+    If dictRef.Exists(ref) Then FindCDJRow = dictRef(ref) Else FindCDJRow = 0
+End Function
+
+Public Sub UpdateCDJReference(ref As String, rowNum As Long)
+    If Not gInitialized Then Call InitializeEngine(gSyncSheet)
+    ref = Trim(ref)
+    If ref <> "" And rowNum > 0 Then dictRef(ref) = rowNum
+End Sub
+
+Public Function FindCRJRow(invoiceNum As String) As Long
+    If Not gInitializedCRJ Then Call InitializeCRJ
+    invoiceNum = Trim(invoiceNum)
+    If invoiceNum = "" Then FindCRJRow = 0: Exit Function
+    If dictCRJRef.Exists(invoiceNum) Then FindCRJRow = dictCRJRef(invoiceNum) Else FindCRJRow = 0
+End Function
+
+Public Sub UpdateCRJReference(invoiceNum As String, rowNum As Long)
+    If Not gInitializedCRJ Then Call InitializeCRJ
+    invoiceNum = Trim(invoiceNum)
+    If invoiceNum <> "" And rowNum > 0 Then dictCRJRef(invoiceNum) = rowNum
+End Sub
+
+' ============================================================
+' SYNC PJ -> CDJ
+' ============================================================
+Public Sub SyncPJToCDJ(sourceSheet As Worksheet, sourceRow As Long)
+    Dim wsTarget As Worksheet
+    Dim ref As String, targetRow As Long
+    Dim supplierName As String, description As String
+    Dim dateVal As Variant
+    Dim grossAmount As Double, netAmount As Double, vatAmount As Double, whtax As Double
+    Dim expenseCol As Integer, c As Integer
+    On Error GoTo ErrorHandler
+    If Not gInitialized Then Call InitializeEngine(gSyncSheet)
+    On Error Resume Next
+    Set wsTarget = ThisWorkbook.Sheets(gSyncSheet)
+    On Error GoTo 0
+    If wsTarget Is Nothing Then Exit Sub
+    ref = Trim(sourceSheet.Cells(sourceRow, PJ_COL_REF).value)
+    If ref = "" Or ref = "TOTAL" Then Exit Sub
+    supplierName = Trim(sourceSheet.Cells(sourceRow, PJ_COL_NAME).value)
+    description = Trim(sourceSheet.Cells(sourceRow, PJ_COL_COA).value)
+    dateVal = sourceSheet.Cells(sourceRow, 2).value
+    grossAmount = sourceSheet.Cells(sourceRow, PJ_COL_GROSS).value
+    netAmount = sourceSheet.Cells(sourceRow, PJ_COL_NET).value
+    vatAmount = sourceSheet.Cells(sourceRow, PJ_COL_VAT).value
+    If grossAmount = 0 Or Not IsNumeric(grossAmount) Then Exit Sub
+    expenseCol = FindExpenseColumn(description)
+    If expenseCol >= CDJ_EXPENSE_START And expenseCol <= CDJ_EXPENSE_END Then
+        whtax = CalculateWithholdingTax( _
+            Trim(Trim(wsTarget.Cells(13, expenseCol).value) & " " & _
+                 Trim(wsTarget.Cells(14, expenseCol).value)), netAmount)
+    Else
+        whtax = 0
+    End If
+    targetRow = FindCDJRow(ref)
+    If targetRow > 0 Then
+        With wsTarget
+            .Cells(targetRow, CDJ_COL_DATE).value = dateVal
+            .Cells(targetRow, CDJ_COL_PARTICULARS).value = supplierName
+            .Cells(targetRow, CDJ_COL_CASH).value = grossAmount * -1
+            .Cells(targetRow, CDJ_COL_VAT).value = vatAmount
+            .Cells(targetRow, CDJ_COL_WHTAX).value = whtax
+            .Cells(targetRow, CDJ_COL_REF).value = ref
+            For c = CDJ_EXPENSE_START To CDJ_EXPENSE_END
+                .Cells(targetRow, c).value = ""
+            Next c
+            If expenseCol >= CDJ_EXPENSE_START And expenseCol <= CDJ_EXPENSE_END Then
+                .Cells(targetRow, expenseCol).value = netAmount
+                .Cells(targetRow, CDJ_COL_DEBIT).value = grossAmount
+            End If
+            .Cells(targetRow, CDJ_COL_NOTE).value = "Updated from PJ Row " & sourceRow & " | " & Now
+        End With
+    Else
+        targetRow = gNextRow
+        If targetRow < CDJ_DATA_START Then
+            targetRow = CDJ_DATA_START
+            Do While wsTarget.Cells(targetRow, CDJ_COL_REF).value <> "" Or _
+                     wsTarget.Cells(targetRow, CDJ_COL_REF_PNV).value <> ""
+                targetRow = targetRow + 1
+            Loop
+            gNextRow = targetRow
+        End If
+        With wsTarget
+            .Cells(targetRow, CDJ_COL_DATE).value = dateVal
+            .Cells(targetRow, CDJ_COL_PARTICULARS).value = supplierName
+            .Cells(targetRow, CDJ_COL_CASH).value = grossAmount * -1
+            .Cells(targetRow, CDJ_COL_VAT).value = vatAmount
+            .Cells(targetRow, CDJ_COL_WHTAX).value = whtax
+            .Cells(targetRow, CDJ_COL_REF).value = ref
+            If expenseCol >= CDJ_EXPENSE_START And expenseCol <= CDJ_EXPENSE_END Then
+                .Cells(targetRow, expenseCol).value = netAmount
+                .Cells(targetRow, CDJ_COL_DEBIT).value = grossAmount
+            End If
+            .Cells(targetRow, CDJ_COL_NOTE).value = "Inserted from PJ Row " & sourceRow & " | " & Now
+            .Cells(targetRow, CDJ_COL_CASH).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            .Cells(targetRow, CDJ_COL_VAT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            .Cells(targetRow, CDJ_COL_WHTAX).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            .Cells(targetRow, expenseCol).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+        End With
+        UpdateCDJReference ref, targetRow
+        gNextRow = targetRow + 1
+        On Error Resume Next
+        wsTarget.Cells(CDJ_ROW_NEXTROW, CDJ_COL_NEXTROW).value = gNextRow
+        On Error GoTo 0
+    End If
+    Exit Sub
+ErrorHandler:
+End Sub
+
+' ============================================================
+' SYNC SJ -> CRJ
+' ============================================================
+Public Sub SyncSJToCRJ(sourceSheet As Worksheet, sourceRow As Long)
+    Dim wsTarget As Worksheet
+    Dim invoiceNum As Variant, targetRow As Long
+    Dim referenceInvoiceNum As Variant
+    Dim customerName As String
+    Dim dateVal As Variant
+    Dim amount As Double, discount As Double, outputVAT As Double, netSales As Double
+    Dim cashInBank As Double
+    On Error GoTo ErrorHandler
+    If Not gInitializedCRJ Then Call InitializeCRJ
+    On Error Resume Next
+    Set wsTarget = ThisWorkbook.Sheets("CRJ")
+    On Error GoTo 0
+    If wsTarget Is Nothing Then Exit Sub
+    invoiceNum = sourceSheet.Cells(sourceRow, SJ_COL_INVOICE).value
+    If invoiceNum = "" Or invoiceNum = "TOTAL" Then Exit Sub
+    customerName = Trim(sourceSheet.Cells(sourceRow, SJ_COL_CUSTOMER).value)
+    dateVal = sourceSheet.Cells(sourceRow, SJ_COL_DATE).value
+    referenceInvoiceNum = sourceSheet.Cells(sourceRow, SJ_COL_REFERENCE).value
+    amount = sourceSheet.Cells(sourceRow, SJ_COL_AMOUNT).value
+    discount = sourceSheet.Cells(sourceRow, SJ_COL_DISCOUNT).value
+    outputVAT = sourceSheet.Cells(sourceRow, SJ_COL_OUTPUTVAT).value
+    netSales = sourceSheet.Cells(sourceRow, SJ_COL_NETSALES).value
+    cashInBank = amount - discount
+    If customerName = "" Or amount = 0 Or Not IsNumeric(amount) Then Exit Sub
+    targetRow = FindCRJRow(CStr(invoiceNum))
+    If targetRow > 0 Then
+        With wsTarget
+            .Cells(targetRow, CRJ_COL_DATE).value = dateVal
+            .Cells(targetRow, CRJ_COL_CUSTOMER).value = customerName
+            .Cells(targetRow, CRJ_COL_INVOICE).value = invoiceNum
+            .Cells(targetRow, CRJ_COL_REF).value = referenceInvoiceNum
+            .Cells(targetRow, CRJ_COL_CASH).value = cashInBank
+            .Cells(targetRow, CRJ_COL_OUTPUTVAT).value = outputVAT
+            .Cells(targetRow, CRJ_COL_EXEMPT).value = 0
+            .Cells(targetRow, CRJ_COL_SALES).value = netSales
+            .Cells(targetRow, CRJ_COL_NOTE).value = "Updated from SJ Row " & sourceRow & " | Invoice: " & invoiceNum & " | " & Now
+        End With
+    Else
+        targetRow = gNextCRJRow
+        If targetRow < CRJ_DATA_START Then
+            targetRow = CRJ_DATA_START
+            Do While wsTarget.Cells(targetRow, CRJ_COL_INVOICE).value <> ""
+                targetRow = targetRow + 1
+            Loop
+            gNextCRJRow = targetRow
+        End If
+        With wsTarget
+            .Cells(targetRow, CRJ_COL_DATE).value = dateVal
+            .Cells(targetRow, CRJ_COL_CUSTOMER).value = customerName
+            .Cells(targetRow, CRJ_COL_INVOICE).value = invoiceNum
+            .Cells(targetRow, CRJ_COL_REF).value = referenceInvoiceNum
+            .Cells(targetRow, CRJ_COL_CASH).value = cashInBank
+            .Cells(targetRow, CRJ_COL_OUTPUTVAT).value = outputVAT
+            .Cells(targetRow, CRJ_COL_EXEMPT).value = 0
+            .Cells(targetRow, CRJ_COL_SALES).value = netSales
+            .Cells(targetRow, CRJ_COL_NOTE).value = "Inserted from SJ Row " & sourceRow & " | Invoice: " & invoiceNum & " | " & Now
+            .Cells(targetRow, CRJ_COL_CASH).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            .Cells(targetRow, CRJ_COL_OUTPUTVAT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            .Cells(targetRow, CRJ_COL_EXEMPT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            .Cells(targetRow, CRJ_COL_SALES).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+        End With
+        UpdateCRJReference CStr(invoiceNum), targetRow
+        gNextCRJRow = targetRow + 1
+        On Error Resume Next
+        wsTarget.Cells(CRJ_ROW_NEXTROW, CRJ_COL_NEXTROW).value = gNextCRJRow
+        On Error GoTo 0
+    End If
+    Exit Sub
+ErrorHandler:
+End Sub
+
+' ============================================================
+' STATUS
+' ============================================================
+Public Function EngineStatus() As String
+    If gInitialized Then
+        EngineStatus = "Initialized | Suppliers: " & dictTIN.count & _
+                       " | CDJ Refs: " & dictRef.count & _
+                       " | Headers: " & gHeaderCount & _
+                       " | Next PJ Seq: " & gNextSeq & _
+                       " | Next CDJ Row: " & gNextRow & _
+                       " | Target: " & gSyncSheet
+    Else
+        EngineStatus = "NOT INITIALIZED"
+    End If
+    If gInitializedCRJ Then
+        EngineStatus = EngineStatus & " || CRJ Refs: " & dictCRJRef.count & _
+                       " | Next CRJ Seq: " & gNextCRJSeq & _
+                       " | Next CRJ Row: " & gNextCRJRow
+    End If
+End Function
+
+Public Sub ShowCDJStatus()
+    Dim ws As Worksheet, msg As String, lastRow As Long, i As Long
+    If Not gInitialized Then Call InitializeEngine(gSyncSheet)
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("CDJ")
+    On Error GoTo 0
+    If ws Is Nothing Then MsgBox "Target sheet '" & gSyncSheet & "' not found!", vbCritical: Exit Sub
+    msg = "===== CDJ STATUS REPORT =====" & vbCrLf & vbCrLf
+    msg = msg & "Target Sheet: " & gSyncSheet & vbCrLf
+    msg = msg & "Data starts at row: " & CDJ_DATA_START & vbCrLf
+    msg = msg & "Current row counter (Z14): " & gNextRow & vbCrLf
+    lastRow = ws.Cells(ws.Rows.count, CDJ_COL_REF).End(xlUp).row
+    If lastRow < CDJ_DATA_START Then
+        msg = msg & "Last used row (with reference): None yet" & vbCrLf
+    Else
+        msg = msg & "Last used row: " & lastRow & vbCrLf
+    End If
+    msg = msg & "References in cache: " & dictRef.count & vbCrLf
+    msg = msg & "Sequence (Z13): " & IIf(IsNumeric(ws.Cells(CDJ_ROW_SEQ, CDJ_COL_SEQ).value), ws.Cells(CDJ_ROW_SEQ, CDJ_COL_SEQ).value, "empty") & vbCrLf
+    msg = msg & "Next PJ number: " & Format(gNextSeq + 1, "PJ-00000") & vbCrLf
+    msg = msg & vbCrLf & "Expense headers (row 14, N-T):" & vbCrLf
+    For i = 1 To gHeaderCount
+        msg = msg & "  Col " & arrCols(i) & ": " & arrHeaders(i) & vbCrLf
+    Next i
+    MsgBox msg, vbInformation, "CDJ Status"
+End Sub
+
+Public Sub ShowCRJStatus()
+    Dim ws As Worksheet, msg As String, lastRow As Long
+    If Not gInitializedCRJ Then Call InitializeCRJ
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("CRJ")
+    On Error GoTo 0
+    If ws Is Nothing Then MsgBox "CRJ sheet not found!", vbCritical: Exit Sub
+    msg = "===== CRJ STATUS REPORT =====" & vbCrLf & vbCrLf
+    msg = msg & "Data starts at row: " & CRJ_DATA_START & vbCrLf
+    msg = msg & "Current row counter (Q9): " & gNextCRJRow & vbCrLf
+    lastRow = ws.Cells(ws.Rows.count, CRJ_COL_INVOICE).End(xlUp).row
+    If lastRow < CRJ_DATA_START Then
+        msg = msg & "Last used row (with invoice): None yet" & vbCrLf
+    Else
+        msg = msg & "Last used row: " & lastRow & vbCrLf
+    End If
+    msg = msg & "Invoice references in cache: " & dictCRJRef.count & vbCrLf
+    msg = msg & "Invoice sequence (Q8): " & gNextCRJSeq & vbCrLf
+    msg = msg & "Next invoice number will be: " & Format(gNextCRJSeq + 1, "00000") & vbCrLf
+    MsgBox msg, vbInformation, "CRJ Status"
+End Sub
+
+' ============================================================
+' REPAIR / RESET
+' ============================================================
+Public Sub RepairEngine()
+    Dim ws As Worksheet, lastRow As Long, seqVal As Variant
+    gSyncSheet = "CDJ"
+    Call InitializeEngine(gSyncSheet)
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("CDJ")
+    On Error GoTo 0
+    If Not ws Is Nothing Then
+        lastRow = ws.Cells(ws.Rows.count, CDJ_COL_REF).End(xlUp).row
+        If lastRow < CDJ_DATA_START Then lastRow = CDJ_DATA_START - 1
+        gNextRow = lastRow + 1
+        ws.Cells(CDJ_ROW_NEXTROW, CDJ_COL_NEXTROW).value = gNextRow
+        seqVal = ws.Cells(CDJ_ROW_SEQ, CDJ_COL_SEQ).value
+        If IsNumeric(seqVal) Then gNextSeq = CLng(seqVal) Else gNextSeq = 0: ws.Cells(CDJ_ROW_SEQ, CDJ_COL_SEQ).value = 0
+        Call LoadCDJReferences
+    End If
+    If Not gInitializedCRJ Then Call InitializeCRJ
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("CRJ")
+    On Error GoTo 0
+    If Not ws Is Nothing Then
+        lastRow = ws.Cells(ws.Rows.count, CRJ_COL_INVOICE).End(xlUp).row
+        If lastRow < CRJ_DATA_START Then lastRow = CRJ_DATA_START - 1
+        gNextCRJRow = lastRow + 1
+        ws.Cells(CRJ_ROW_NEXTROW, CRJ_COL_NEXTROW).value = gNextCRJRow
+        seqVal = ws.Cells(CRJ_ROW_SEQ, CRJ_COL_SEQ).value
+        If IsNumeric(seqVal) Then
+            gNextCRJSeq = CLng(seqVal)
+        Else
+            gNextCRJSeq = 0
+            ws.Cells(CRJ_ROW_SEQ, CRJ_COL_SEQ).value = 0
+        End If
+        Call LoadCRJReferences
+    End If
+    MsgBox "Engine repaired!" & vbCrLf & vbCrLf & EngineStatus, vbInformation
+End Sub
+
+Public Sub ResetCRJ()
+    Dim ws As Worksheet, lastRow As Long, confirm As VbMsgBoxResult
+    confirm = MsgBox("This will DELETE ALL data in the CRJ sheet and reset counters." & vbCrLf & _
+                     "Are you sure?", vbYesNo + vbExclamation, "Reset CRJ")
+    If confirm <> vbYes Then Exit Sub
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("CRJ")
+    On Error GoTo 0
+    If ws Is Nothing Then MsgBox "CRJ sheet not found!", vbCritical: Exit Sub
+    Application.ScreenUpdating = False
+    Application.EnableEvents = False
+    lastRow = ws.Cells(ws.Rows.count, CRJ_COL_INVOICE).End(xlUp).row
+    If lastRow >= CRJ_DATA_START Then ws.Rows(CRJ_DATA_START & ":" & lastRow).ClearContents
+    ws.Cells(CRJ_ROW_SEQ, CRJ_COL_SEQ).value = 0
+    gNextCRJSeq = 0
+    ws.Cells(CRJ_ROW_NEXTROW, CRJ_COL_NEXTROW).value = CRJ_DATA_START
+    gNextCRJRow = CRJ_DATA_START
+    If Not gInitializedCRJ Then Call InitializeCRJ
+    dictCRJRef.RemoveAll
+    gInitializedCRJ = True
+    Application.EnableEvents = True
+    Application.ScreenUpdating = True
+    MsgBox "CRJ has been reset." & vbCrLf & _
+           "Sequence (Q8) = 0, Next row (Q9) = " & CRJ_DATA_START, vbInformation
+End Sub
+
+Public Sub ResetCDJ()
+    Dim ws As Worksheet, lastRow As Long, confirm As VbMsgBoxResult
+    confirm = MsgBox("This will DELETE ALL data in the CDJ sheet and reset counters." & vbCrLf & _
+                     "Are you sure?", vbYesNo + vbExclamation, "Reset CDJ")
+    If confirm <> vbYes Then Exit Sub
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("CDJ")
+    On Error GoTo 0
+    If ws Is Nothing Then MsgBox "CDJ sheet not found!", vbCritical: Exit Sub
+    Application.ScreenUpdating = False
+    Application.EnableEvents = False
+    lastRow = ws.Cells(ws.Rows.count, CDJ_COL_REF).End(xlUp).row
+    If lastRow >= CDJ_DATA_START Then ws.Rows(CDJ_DATA_START & ":" & lastRow).ClearContents
+    ws.Cells(CDJ_ROW_SEQ, CDJ_COL_SEQ).value = 0
+    gNextSeq = 0
+    ws.Cells(CDJ_ROW_NEXTROW, CDJ_COL_NEXTROW).value = CDJ_DATA_START
+    gNextRow = CDJ_DATA_START
+    If Not gInitialized Then Call InitializeEngine(gSyncSheet)
+    dictRef.RemoveAll
+    Call LoadCDJReferences
+    Application.EnableEvents = True
+    Application.ScreenUpdating = True
+    MsgBox "CDJ has been reset." & vbCrLf & _
+           "Sequence (Z13) = 0, Next row (Z14) = " & CDJ_DATA_START, vbInformation
+End Sub
+
+' ============================================================
+' EWT (extended)
+' ============================================================
+Public Function CalculateEWT(expenseType As String, amount As Double) As Double
+    Dim expLower As String
+    expLower = LCase(Trim(expenseType))
+    Select Case True
+        Case InStr(expLower, "rent") > 0
+            CalculateEWT = amount * 0.05
+        Case InStr(expLower, "professional") > 0 Or InStr(expLower, "consulting") > 0
+            CalculateEWT = amount * 0.1
+        Case InStr(expLower, "repair") > 0 Or InStr(expLower, "maintenance") > 0
+            CalculateEWT = amount * 0.02
+        Case InStr(expLower, "supply") > 0 Or InStr(expLower, "office") > 0
+            CalculateEWT = amount * 0.01
+        Case Else
+            CalculateEWT = 0
+    End Select
+End Function
+
+' ============================================================
+' SYNC PJ NON-VAT -> CDJ
+' ============================================================
+Public Sub SyncPJNonVatToCDJ(sourceSheet As Worksheet, sourceRow As Long)
+    Dim wsTarget As Worksheet
+    Dim ref As String, targetRow As Long
+    Dim supplierName As String, description As String
+    Dim dateVal As Variant
+    Dim netAmount As Double, whtax As Double
+    Dim expenseCol As Integer, c As Integer
+    On Error GoTo ErrorHandler
+    If Not gInitialized Then Call InitializeEngine(gSyncSheet)
+    On Error Resume Next
+    Set wsTarget = ThisWorkbook.Sheets(gSyncSheet)
+    On Error GoTo 0
+    If wsTarget Is Nothing Then Exit Sub
+    ref = Trim(sourceSheet.Cells(sourceRow, PJ_COL_REF).value)
+    If ref = "" Or ref = "TOTAL" Then Exit Sub
+    supplierName = Trim(sourceSheet.Cells(sourceRow, PJ_COL_NAME).value)
+    description = Trim(sourceSheet.Cells(sourceRow, PJ_COL_COA).value)
+    dateVal = sourceSheet.Cells(sourceRow, 2).value
+    netAmount = sourceSheet.Cells(sourceRow, 14).value
+    If netAmount = 0 Or Not IsNumeric(netAmount) Then Exit Sub
+    whtax = CalculateEWT(description, netAmount)
+    expenseCol = FindExpenseColumn(description)
+    targetRow = FindCDJRow(ref)
+    If targetRow > 0 Then
+        With wsTarget
+            .Cells(targetRow, CDJ_COL_DATE).value = dateVal
+            .Cells(targetRow, CDJ_COL_PARTICULARS).value = supplierName
+            .Cells(targetRow, CDJ_COL_CASH).value = netAmount * -1
+            .Cells(targetRow, CDJ_COL_VAT).value = 0
+            .Cells(targetRow, CDJ_COL_WHTAX).value = whtax
+            .Cells(targetRow, CDJ_COL_REF_PNV).value = ref
+            .Cells(targetRow, CDJ_COL_DAY).value = sourceSheet.Cells(sourceRow, 2).value
+            For c = CDJ_EXPENSE_START To CDJ_EXPENSE_END
+                .Cells(targetRow, c).value = ""
+            Next c
+            .Cells(targetRow, expenseCol).value = netAmount
+            .Cells(targetRow, CDJ_COL_DEBIT).value = netAmount + whtax
+            .Cells(targetRow, CDJ_COL_NOTE).value = "Updated Non-Vat Row " & sourceRow & " | EWT: " & whtax & " | " & Now
+        End With
+    Else
+        targetRow = gNextRow
+        If targetRow < CDJ_DATA_START Then
+            targetRow = CDJ_DATA_START
+            Do While wsTarget.Cells(targetRow, CDJ_COL_REF).value <> "" Or _
+                     wsTarget.Cells(targetRow, CDJ_COL_REF_PNV).value <> ""
+                targetRow = targetRow + 1
+            Loop
+            gNextRow = targetRow
+        End If
+        With wsTarget
+            .Cells(targetRow, CDJ_COL_DATE).value = dateVal
+            .Cells(targetRow, CDJ_COL_PARTICULARS).value = supplierName
+            .Cells(targetRow, CDJ_COL_CASH).value = netAmount * -1
+            .Cells(targetRow, CDJ_COL_VAT).value = 0
+            .Cells(targetRow, CDJ_COL_WHTAX).value = whtax
+            .Cells(targetRow, CDJ_COL_REF_PNV).value = ref
+            .Cells(targetRow, CDJ_COL_DAY).value = sourceSheet.Cells(sourceRow, 2).value
+            .Cells(targetRow, expenseCol).value = netAmount
+            .Cells(targetRow, CDJ_COL_DEBIT).value = netAmount + whtax
+            .Cells(targetRow, CDJ_COL_NOTE).value = "Inserted Non-Vat Row " & sourceRow & " | EWT: " & whtax & " | " & Now
+            .Cells(targetRow, CDJ_COL_CASH).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            .Cells(targetRow, CDJ_COL_VAT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            .Cells(targetRow, CDJ_COL_WHTAX).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            .Cells(targetRow, expenseCol).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+        End With
+        UpdateCDJReference ref, targetRow
+        gNextRow = targetRow + 1
+        On Error Resume Next
+        wsTarget.Cells(CDJ_ROW_NEXTROW, CDJ_COL_NEXTROW).value = gNextRow
+        On Error GoTo 0
+    End If
+    Exit Sub
+ErrorHandler:
+End Sub
+
+' ============================================================
+' GL AUTO-AGGREGATION  (no Const here — it lives at the top)
+' ============================================================
+Private Function GLN(ByVal s As String) As String
+    s = LCase$(Trim$(s))
+    s = Replace(s, "'", "")
+    Do While InStr(s, "  ") > 0
+        s = Replace(s, "  ", " ")
+    Loop
+    GLN = s
+End Function
+
+Private Function GLAcct(ByVal s As String) As String
+    Dim k As String
+    k = GLN(s)
+    Select Case k
+        Case "cash in bank", "cash": GLAcct = "Cash in Bank"
+        Case "petty cash fund", "petty cash": GLAcct = "Petty Cash Fund"
+        Case "account receivables", "accounts receivable", "account receivable": GLAcct = "Account Receivables"
+        Case "advances to employee", "advances to employees": GLAcct = "Advances to Employees"
+        Case "input vat", "input tax": GLAcct = "Input VAT"
+        Case "excess cwt over it", "cwt/it", "cwt": GLAcct = "Excess CWT Over IT"
+        Case "leasehold improvements": GLAcct = "Leasehold Improvements"
+        Case "dental equipment", "medical equipment": GLAcct = "Dental Equipment"
+        Case "due to clinicians": GLAcct = "Due To Clinicians"
+        Case "due to clinicians- visiting", "due to clinicians visiting": GLAcct = "Due to Clinicians- Visiting"
+        Case "vat payable", "output vat payable", "output vat": GLAcct = "VAT Payable"
+        Case "ewt payable", "withholding tax", "withholding tax payable", "ewt": GLAcct = "EWT Payable"
+        Case "government contributions (ee)", "ee government contributions": GLAcct = "Government Contributions (EE)"
+        Case "government loans (ee)", "ee government loans": GLAcct = "Government Loans (EE)"
+        Case "income tax payable": GLAcct = "Income Tax Payable"
+        Case "paid-up capital", "paid up capital": GLAcct = "Paid-Up Capital"
+        Case "retained earnings (deficit)", "retained earnings": GLAcct = "Retained Earnings (Deficit)"
+        Case "sales", "exempt sales": GLAcct = "Sales"
+        Case "rent", "rental": GLAcct = "Rent"
+        Case "clinician's fee-corporators", "clinicians fee-corporators": GLAcct = "Clinician's Fee-Corporators"
+        Case "clinician's fee-visiting", "clinicians fee-visiting": GLAcct = "Clinician's Fee-Visiting"
+        Case "clinic material and supplies", "clinic materials and supplies", "clinic supplies": GLAcct = "Clinic Material and Supplies"
+        Case "common use service area": GLAcct = "Common Use Service Area"
+        Case "light and water expense", "light and water": GLAcct = "Light and Water Expense"
+        Case "dep'n expense-leasehold improvements", "depn expense-leasehold improvements": GLAcct = "Dep'n Expense-Leasehold Improvements"
+        Case "dep'n expense-dental equipment", "depn expense-dental equipment": GLAcct = "Dep'n Expense-Dental Equipment"
+        Case "salaries and wages", "salary and wages": GLAcct = "Salaries and Wages"
+        Case "de minimis": GLAcct = "De Minimis"
+        Case "government contributions er share", "government contributions er": GLAcct = "Government Contributions ER Share"
+        Case "professional fees", "professional fee": GLAcct = "Professional Fees"
+        Case "repair and maintenance", "repairs and maintenance": GLAcct = "Repair and Maintenance"
+        Case "pantry supplies": GLAcct = "Pantry Supplies"
+        Case "office supplies", "supplies": GLAcct = "Office Supplies"
+        Case "meals, gifts & entertainment expense", "meals and entertainment": GLAcct = "Meals, Gifts & Entertainment Expense"
+        Case "communication": GLAcct = "Communication "
+        Case "printing and duplication": GLAcct = "Printing and Duplication"
+        Case "taxes and licences", "taxes and licenses": GLAcct = "Taxes and Licences"
+        Case "delivery": GLAcct = "Delivery"
+        Case "software subscription": GLAcct = "Software Subscription"
+        Case "miscellaneous", "charges", "bank charge": GLAcct = "Miscellaneous"
+        Case "transportation and travel", "transporation and travel": GLAcct = "Transportation and Travel"
+        Case "advertisement": GLAcct = "Advertisement"
+        Case "marketing expense": GLAcct = "Marketing Expense"
+        Case "gas, oil, parking, toll fees", "fuel and oil": GLAcct = "Gas, Oil, Parking, Toll Fees"
+        Case "other penalties and charges": GLAcct = "Other Penalties and Charges"
+        Case "insurance": GLAcct = "Insurance"
+    End Select
+End Function
+
+Private Function GLMonth(ByVal v As Variant) As Long
+    Dim k As String
+    k = GLN(CStr(v))
+    Select Case Left$(k, 3)
+        Case "jan": GLMonth = 1
+        Case "feb": GLMonth = 2
+        Case "mar": GLMonth = 3
+        Case "apr": GLMonth = 4
+        Case "may": GLMonth = 5
+        Case "jun": GLMonth = 6
+        Case "jul": GLMonth = 7
+        Case "aug": GLMonth = 8
+        Case "sep": GLMonth = 9
+        Case "oct": GLMonth = 10
+        Case "nov": GLMonth = 11
+        Case "dec": GLMonth = 12
+        Case Else: If IsDate(v) Then GLMonth = month(CDate(v))
+    End Select
+End Function
+
+Private Sub GLAdd(ByRef d As Object, ByVal a As String, ByVal m As Long, ByVal dr As Double, ByVal cr As Double)
+    If a = "" Or m < 1 Or m > 12 Then Exit Sub
+    Dim k As String: k = a & "|" & m
+    Dim x As Variant
+    If d.Exists(k) Then x = d(k) Else x = Array(0#, 0#)
+    x(0) = x(0) + dr
+    x(1) = x(1) + cr
+    d(k) = x
+End Sub
+
+Private Sub GLAudit(ByVal aw As Worksheet, ByRef r As Long, ByVal src As String, ByVal detail As String, ByVal amt As Double)
+    aw.Cells(r, 1).value = src
+    aw.Cells(r, 2).value = detail
+    aw.Cells(r, 3).value = amt
+    r = r + 1
+End Sub
+
+Private Sub GLScanCDJ(ByVal d As Object, ByVal aw As Worksheet, ByRef ar As Long)
+    Dim w As Worksheet: Set w = ThisWorkbook.Sheets("CDJ")
+    Dim r As Long, m As Long, a As String, v As Double
+    For r = 15 To w.Cells(w.Rows.count, 3).End(xlUp).row
+        If GLN(w.Cells(r, 5).value) <> "total" Then
+            m = GLMonth(w.Cells(r, 3).value)
+            If m > 0 Then
+                If IsNumeric(w.Cells(r, 6).value) Then
+                    v = CDbl(w.Cells(r, 6).value)
+                    If v < 0 Then
+                        GLAdd d, "Cash in Bank", m, 0, -v
+                    Else
+                        GLAdd d, "Cash in Bank", m, v, 0
+                    End If
+                End If
+                If IsNumeric(w.Cells(r, 7).value) Then GLAdd d, "Input VAT", m, CDbl(w.Cells(r, 7).value), 0
+                If IsNumeric(w.Cells(r, 8).value) Then GLAdd d, "EWT Payable", m, 0, CDbl(w.Cells(r, 8).value)
+                If IsNumeric(w.Cells(r, 9).value) Then GLAdd d, "Petty Cash Fund", m, CDbl(w.Cells(r, 9).value), 0
+                If IsNumeric(w.Cells(r, 10).value) Then GLAdd d, "Government Contributions (EE)", m, 0, CDbl(w.Cells(r, 10).value)
+                If IsNumeric(w.Cells(r, 11).value) Then GLAdd d, "Government Loans (EE)", m, 0, CDbl(w.Cells(r, 11).value)
+                If IsNumeric(w.Cells(r, 12).value) Then GLAdd d, "De Minimis", m, CDbl(w.Cells(r, 12).value), 0
+                If IsNumeric(w.Cells(r, 13).value) Then GLAdd d, "Salaries and Wages", m, CDbl(w.Cells(r, 13).value), 0
+                If IsNumeric(w.Cells(r, 14).value) Then GLAdd d, "Clinic Material and Supplies", m, CDbl(w.Cells(r, 14).value), 0
+                If IsNumeric(w.Cells(r, 15).value) Then GLAdd d, "Rent", m, CDbl(w.Cells(r, 15).value), 0
+                If IsNumeric(w.Cells(r, 16).value) Then GLAdd d, "Gas, Oil, Parking, Toll Fees", m, CDbl(w.Cells(r, 16).value), 0
+                If IsNumeric(w.Cells(r, 17).value) Then GLAdd d, "Communication ", m, CDbl(w.Cells(r, 17).value), 0
+                If IsNumeric(w.Cells(r, 18).value) Then GLAdd d, "Professional Fees", m, CDbl(w.Cells(r, 18).value), 0
+                a = GLAcct(w.Cells(r, 19).value)
+                If a <> "" Then
+                    If IsNumeric(w.Cells(r, 20).value) Then GLAdd d, a, m, CDbl(w.Cells(r, 20).value), 0
+                    If IsNumeric(w.Cells(r, 21).value) Then GLAdd d, a, m, 0, CDbl(w.Cells(r, 21).value)
+                ElseIf Len(Trim$(CStr(w.Cells(r, 19).value))) > 0 Then
+                    GLAudit aw, ar, "CDJ", CStr(w.Cells(r, 19).value), 0
+                End If
+            End If
+        End If
+    Next r
+End Sub
+
+Private Sub GLScanCRJ(ByVal d As Object)
+    Dim w As Worksheet: Set w = ThisWorkbook.Sheets("CRJ")
+    Dim ends As New Collection, r As Long, m As Long, st As Long, en As Long, rr As Long
+    For r = 10 To w.Cells(w.Rows.count, 4).End(xlUp).row
+        If GLN(w.Cells(r, 6).value) = "total" And GLMonth(w.Cells(r, 4).value) > 0 Then ends.Add r
+    Next r
+    st = 10
+    For m = 1 To 12
+        If m <= ends.count Then en = ends(m) - 1 Else en = w.Cells(w.Rows.count, 6).End(xlUp).row
+        For rr = st To en
+            If GLN(w.Cells(rr, 6).value) <> "total" Then
+                If IsNumeric(w.Cells(rr, 8).value) Then GLAdd d, "Cash in Bank", m, CDbl(w.Cells(rr, 8).value), 0
+                If IsNumeric(w.Cells(rr, 9).value) Then GLAdd d, "Excess CWT Over IT", m, CDbl(w.Cells(rr, 9).value), 0
+                If IsNumeric(w.Cells(rr, 10).value) Then GLAdd d, "VAT Payable", m, 0, CDbl(w.Cells(rr, 10).value)
+                If IsNumeric(w.Cells(rr, 11).value) Then GLAdd d, "Sales", m, 0, CDbl(w.Cells(rr, 11).value)
+                If IsNumeric(w.Cells(rr, 12).value) Then GLAdd d, "Sales", m, 0, CDbl(w.Cells(rr, 12).value)
+            End If
+        Next rr
+        If m <= ends.count Then st = ends(m) + 1 Else Exit For
+    Next m
+End Sub
+
+Private Sub GLScanGJ(ByVal d As Object, ByVal aw As Worksheet, ByRef ar As Long)
+    Dim w As Worksheet: Set w = ThisWorkbook.Sheets("GJ")
+    Dim r As Long, m As Long, a As String, s As String, dr As Double, cr As Double
+    For r = 10 To w.Cells(w.Rows.count, 5).End(xlUp).row
+        If GLMonth(w.Cells(r, 2).value) > 0 Then m = GLMonth(w.Cells(r, 2).value)
+        s = Trim$(CStr(w.Cells(r, 5).value))
+        If m > 0 And s <> "" And GLN(s) <> "total" Then
+            a = GLAcct(s)
+            dr = 0: cr = 0
+            If IsNumeric(w.Cells(r, 6).value) Then dr = CDbl(w.Cells(r, 6).value)
+            If IsNumeric(w.Cells(r, 7).value) Then cr = CDbl(w.Cells(r, 7).value)
+            If a <> "" Then
+                GLAdd d, a, m, dr, cr
+            ElseIf dr <> 0 Or cr <> 0 Then
+                GLAudit aw, ar, "GJ", s, dr + cr
+            End If
+        End If
+    Next r
+End Sub
+
+Private Function GLAccounts() As Variant
+    GLAccounts = Array( _
+        "Cash in Bank", "Petty Cash Fund", "Account Receivables", "Advances to Employees", _
+        "Input VAT", "Excess CWT Over IT", "Leasehold Improvements", "Dental Equipment", _
+        "Due To Clinicians", "Due to Clinicians- Visiting", "VAT Payable", "EWT Payable", _
+        "Government Contributions (EE)", "Government Loans (EE)", "Income Tax Payable", _
+        "Paid-Up Capital", "Retained Earnings (Deficit)", "Sales", "Rent", _
+        "Clinician's Fee-Corporators", "Clinician's Fee-Visiting", "Clinic Material and Supplies", _
+        "Common Use Service Area", "Light and Water Expense", _
+        "Dep'n Expense-Leasehold Improvements", "Dep'n Expense-Dental Equipment", _
+        "Salaries and Wages", "De Minimis", "Government Contributions ER Share", _
+        "Professional Fees", "Repair and Maintenance", "Pantry Supplies", "Office Supplies", _
+        "Meals, Gifts & Entertainment Expense", "Communication ", "Printing and Duplication", _
+        "Taxes and Licences", "Delivery", "Software Subscription", "Miscellaneous", _
+        "Transportation and Travel", "Advertisement", "Marketing Expense", _
+        "Gas, Oil, Parking, Toll Fees", "Other Penalties and Charges", "Insurance")
+End Function
+
+' ============================================================
+' REFRESH GL — public entry point
+'   reportYear: 0 = auto (detect from source sheets, else system year)
+'               any other value = force that year
+' ============================================================
+Public Sub RefreshGL(Optional ByVal reportYear As Long = 0)
+    Dim d As Object: Set d = CreateObject("Scripting.Dictionary")
+    Dim aw As Worksheet, gl As Worksheet
+    Dim ar As Long, r As Long, i As Long, m As Long
+    Dim bal As Double, x As Variant, a As Variant
+    Dim yr As Long
+
+    On Error GoTo EH
+
+    ' ---- Resolve the reporting year ----
+    If reportYear <= 0 Then
+        yr = DetectGLYear()
+    Else
+        yr = reportYear
+    End If
+    If yr < 1900 Or yr > 9999 Then yr = year(Date)
+
+    ' ---- GL_AUDIT sheet ----
+    On Error Resume Next
+    Set aw = ThisWorkbook.Sheets("GL_AUDIT")
+    On Error GoTo EH
+    If aw Is Nothing Then
+        Set aw = ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.count))
+        On Error Resume Next
+        aw.name = "GL_AUDIT"
+        On Error GoTo EH
+    End If
+
+    aw.Cells.Clear
+    aw.Range("A1:C1").value = Array("Source", "Unmapped Detail", "Amount")
+    ar = 2
+
+    ' ---- Scan sources ----
+    GLScanCDJ d, aw, ar
+    GLScanCRJ d
+    GLScanGJ d, aw, ar
+
+    ' ---- GL sheet must exist ----
+    On Error Resume Next
+    Set gl = ThisWorkbook.Sheets("GL")
+    On Error GoTo EH
+    If gl Is Nothing Then
+        MsgBox "Sheet named 'GL' not found in this workbook." & vbCrLf & _
+               "Existing sheets:" & vbCrLf & _
+               Join(SheetNamesList(), vbCrLf), vbCritical, "RefreshGL"
+        Exit Sub
+    End If
+
+    gl.Range("B12:I1000").ClearContents
+    gl.Range("B11:I11").value = Array("Date", "Day", "Reference", "Explanation", _
+                                      "Account Title", "Debit", "Credit", "Ending Balance")
+
+    ' ---- Write every account × month ----
+    a = GLAccounts()
+    r = 13
+    For i = LBound(a) To UBound(a)
+        bal = 0
+        For m = 1 To 12
+            gl.Cells(r, 2).value = MonthName(m, True)
+            gl.Cells(r, 3).value = Day(DateSerial(yr, m + 1, 0))
+            gl.Cells(r, 5).value = "Ending Balance"
+            gl.Cells(r, 6).value = a(i)
+            x = Array(0#, 0#)
+            If d.Exists(CStr(a(i)) & "|" & m) Then x = d(CStr(a(i)) & "|" & m)
+            gl.Cells(r, 7).value = x(0)
+            gl.Cells(r, 8).value = x(1)
+            bal = bal + x(0) - x(1)
+            gl.Cells(r, 9).value = bal
+            r = r + 1
+        Next m
+    Next i
+
+    gl.Range("G13:I" & r - 1).NumberFormat = "#,##0.00;[Red](#,##0.00);-"
+    aw.Columns("A:C").AutoFit
+    MsgBox "GL refreshed for " & yr & ": 46 accounts x 12 months.", vbInformation
+    Exit Sub
+
+EH:
+    MsgBox "RefreshGL error " & Err.Number & ": " & Err.description, vbCritical, "RefreshGL Error"
+End Sub
+
+Private Function SheetNamesList() As String()
+    Dim arr() As String, i As Long
+    ReDim arr(1 To ThisWorkbook.Sheets.count)
+    For i = 1 To ThisWorkbook.Sheets.count
+        arr(i) = "  • " & ThisWorkbook.Sheets(i).name
+    Next i
+    SheetNamesList = arr
+End Function
+
+' ============================================================
+' Detect the GL reporting year
+'   1. Look for a year in CDJ/CRJ/GJ dates (max date wins)
+'   2. Fall back to the current system year
+' ============================================================
+Private Function DetectGLYear() As Long
+    Dim ws As Worksheet
+    Dim lastRow As Long, i As Long
+    Dim v As Variant
+    Dim maxDate As Date
+    Dim found As Boolean
+    Dim sheetNames As Variant
+    Dim sn As Variant
+
+    sheetNames = Array("CDJ", "CRJ", "GJ")
+    For Each sn In sheetNames
+        On Error Resume Next
+        Set ws = ThisWorkbook.Sheets(CStr(sn))
+        On Error GoTo 0
+        If Not ws Is Nothing Then
+            Select Case CStr(sn)
+                Case "CDJ": lastRow = ws.Cells(ws.Rows.count, 3).End(xlUp).row
+                Case "CRJ": lastRow = ws.Cells(ws.Rows.count, 4).End(xlUp).row
+                Case "GJ":  lastRow = ws.Cells(ws.Rows.count, 2).End(xlUp).row
+            End Select
+            For i = 8 To lastRow
+                Select Case CStr(sn)
+                    Case "CDJ": v = ws.Cells(i, 3).value
+                    Case "CRJ": v = ws.Cells(i, 4).value
+                    Case "GJ":  v = ws.Cells(i, 2).value
+                End Select
+                If IsDate(v) Then
+                    If Not found Or CDate(v) > maxDate Then
+                        maxDate = CDate(v)
+                        found = True
+                    End If
+                End If
+            Next i
+        End If
+        Set ws = Nothing
+    Next sn
+
+    If found Then
+        DetectGLYear = year(maxDate)
+    Else
+        DetectGLYear = year(Date)
+    End If
+End Function
+
+' ============================================================
+' GL HELPERS — public API
+' ============================================================
+Public Function CalculateMonthlyNet(ByVal accountCode As String, ByVal month As Integer, _
+                                    ByVal year As Integer, Optional ByVal sheetName As String = "") As Double
+    Dim d As Object: Set d = CreateObject("Scripting.Dictionary")
+    Dim aw As Worksheet, ar As Long, x As Variant
+    On Error Resume Next
+    Set aw = ThisWorkbook.Sheets("GL_AUDIT")
+    On Error GoTo 0
+    If aw Is Nothing Then
+        Set aw = ThisWorkbook.Worksheets.Add
+        aw.name = "GL_AUDIT"
+        aw.Range("A1:C1").value = Array("Source", "Unmapped Detail", "Amount")
+    End If
+    ar = aw.Cells(aw.Rows.count, 1).End(xlUp).row + 1
+    GLScanCDJ d, aw, ar
+    GLScanCRJ d
+    GLScanGJ d, aw, ar
+    x = Array(0#, 0#)
+    If d.Exists(GLAcct(accountCode) & "|" & month) Then x = d(GLAcct(accountCode) & "|" & month)
+    CalculateMonthlyNet = x(0) - x(1)
+End Function
+
+Public Function CalculateEndingBalanceFull(ByVal accountCode As String, ByVal year As Integer, _
+                                            ByVal startBalance As Double, Optional ByVal targetSheet As String = "") As Variant
+    Dim z(1 To 12) As Double, m As Long
+    z(1) = startBalance + CalculateMonthlyNet(accountCode, 1, year)
+    For m = 2 To 12
+        z(m) = z(m - 1) + CalculateMonthlyNet(accountCode, m, year)
+    Next m
+    CalculateEndingBalanceFull = z
+End Function
+
+Public Function ValidateGLConsistency(Optional ByVal targetSheet As String = "GL") As Boolean
+    Dim w As Worksheet: Set w = ThisWorkbook.Sheets(targetSheet)
+    Dim r As Long, td As Double, tc As Double, last As Long
+    last = w.Cells(w.Rows.count, 6).End(xlUp).row
+    For r = 13 To last
+        If IsNumeric(w.Cells(r, 7).value) Then td = td + w.Cells(r, 7).value
+        If IsNumeric(w.Cells(r, 8).value) Then tc = tc + w.Cells(r, 8).value
+    Next r
+    ValidateGLConsistency = Abs(td - tc) <= GL_AUTO_TOL
+End Function
+
+Public Sub RefreshAllGL(ByVal targetSheet As String, Optional ByVal startBalances As Variant)
+    RefreshGL
+End Sub
+
+Public Sub InitializeCOALookup()
+End Sub
+
+Public Function GetAccountFromCOA(ByVal coaCode As String) As String
+    GetAccountFromCOA = GLAcct(coaCode)
+    If GetAccountFromCOA = "" Then GetAccountFromCOA = coaCode
+End Function
+
+Public Function GetAccountNameFromTIN(ByVal tin As String) As String
+    Dim w As Worksheet: Set w = ThisWorkbook.Sheets("SUPPLIERS DATA")
+    Dim r As Long, last As Long
+    last = w.Cells(w.Rows.count, 3).End(xlUp).row
+    For r = 2 To last
+        If Trim$(CStr(w.Cells(r, 3).value)) = Trim$(tin) Then
+            GetAccountNameFromTIN = CStr(w.Cells(r, 4).value)
+            Exit Function
+        End If
+    Next r
+    GetAccountNameFromTIN = tin
+End Function
+
+Public Function GetFinancialMonth(ByVal dt As Date) As Integer
+    GetFinancialMonth = month(dt)
+End Function
+
+Public Function GetFinancialYear(ByVal dt As Date) As Integer
+    GetFinancialYear = year(dt)
+End Function
+
+
+
+==============================================================================
+== MODULE: Sheet7.cls
+==============================================================================
+Attribute VB_Name = "Sheet7"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+
+
+==============================================================================
+== MODULE: modPJAutomation.bas
+==============================================================================
+Attribute VB_Name = "modPJAutomation"
+Option Explicit
+
+' ============================================================
+' GLOBAL VARIABLES (Cache for speed)
+' ============================================================
+Private dictTIN As Object          ' Scripting.Dictionary
+Private dictName As Object         ' Scripting.Dictionary
+Private gMaxSeq As Long            ' Highest PJ-XXXXX sequence ever assigned
+Private gInitialized As Boolean
+
+' ============================================================
+' INITIALIZE CACHE (Call once on Workbook Open)
+' ============================================================
+Public Sub InitializePJAutomation()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim i As Long
+    Dim tin As String
+    Dim name As String
+    Dim address As String
+    Dim coa As String
+    
+    On Error Resume Next
+    Set dictTIN = CreateObject("Scripting.Dictionary")
+    Set dictName = CreateObject("Scripting.Dictionary")
+    On Error GoTo 0
+    
+    If dictTIN Is Nothing Then
+        MsgBox "Failed to create dictionaries. Please enable Microsoft Scripting Runtime.", vbCritical
+        Exit Sub
+    End If
+    
+    ' Load SUPPLIERS DATA
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("SUPPLIERS DATA")
+    If ws Is Nothing Then
+        MsgBox "SUPPLIERS DATA sheet not found!", vbCritical
+        Exit Sub
+    End If
+    On Error GoTo 0
+    
+    lastRow = ws.Cells(ws.Rows.count, 2).End(xlUp).row  ' Column B = NO
+    If lastRow < 2 Then lastRow = 2
+    
+    ' Load into dictionaries (normalized keys)
+    For i = 2 To lastRow
+        tin = NormalizeString(ws.Cells(i, 3).value)   ' C = TIN#
+        name = NormalizeString(ws.Cells(i, 4).value)  ' D = PARTICULARS
+        address = ws.Cells(i, 5).value                ' E = ADDRESS
+        coa = ws.Cells(i, 6).value                    ' F = CHART OF ACCOUNT
+        
+        If tin <> "" Then
+            ' Store as array: Name, Address, COA
+            dictTIN(tin) = Array(name, address, coa)
+        End If
+        If name <> "" Then
+            dictName(name) = Array(tin, address, coa)
+        End If
+    Next i
+    
+    ' Compute max sequence from PJ column H
+    gMaxSeq = GetMaxSequenceFromPJ()
+    gInitialized = True
+End Sub
+
+' ============================================================
+' GET MAX SEQUENCE FROM PJ (Runs only once)
+' ============================================================
+Private Function GetMaxSequenceFromPJ() As Long
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim i As Long
+    Dim cellVal As String
+    Dim dashPos As Long
+    Dim numPart As String
+    Dim maxSeq As Long
+    
+    Set ws = ThisWorkbook.Sheets("PJ")
+    If ws Is Nothing Then
+        GetMaxSequenceFromPJ = 0
+        Exit Function
+    End If
+    
+    lastRow = ws.Cells(ws.Rows.count, 8).End(xlUp).row  ' Column H
+    maxSeq = 0
+    
+    For i = 8 To lastRow
+        cellVal = ws.Cells(i, 8).value
+        If cellVal <> "" And cellVal <> "TOTAL" Then
+            dashPos = InStrRev(cellVal, "-")
+            If dashPos > 0 Then
+                numPart = Mid(cellVal, dashPos + 1)
+                If IsNumeric(numPart) Then
+                    If CLng(numPart) > maxSeq Then
+                        maxSeq = CLng(numPart)
+                    End If
+                End If
+            End If
+        End If
+    Next i
+    
+    GetMaxSequenceFromPJ = maxSeq
+End Function
+
+' ============================================================
+' NORMALIZE STRING (Fast)
+' ============================================================
+Private Function NormalizeString(ByVal text As String) As String
+    If text = "" Then
+        NormalizeString = ""
+        Exit Function
+    End If
+    NormalizeString = Application.WorksheetFunction.Trim(text)
+End Function
+
+' ============================================================
+' ADD SUPPLIER TO CACHE (Call when adding new supplier)
+' ============================================================
+Public Sub AddSupplierToCache(tin As String, name As String, address As String, coa As String)
+    If Not gInitialized Then Exit Sub
+    tin = NormalizeString(tin)
+    name = NormalizeString(name)
+    If tin <> "" Then
+        dictTIN(tin) = Array(name, address, coa)
+    End If
+    If name <> "" Then
+        dictName(name) = Array(tin, address, coa)
+    End If
+End Sub
+
+' ============================================================
+' GET SUPPLIER BY TIN (Fast)
+' ============================================================
+Public Function GetSupplierByTIN(tin As String) As Variant
+    If Not gInitialized Then
+        InitializePJAutomation
+        If Not gInitialized Then
+            GetSupplierByTIN = False
+            Exit Function
+        End If
+    End If
+    tin = NormalizeString(tin)
+    If dictTIN.Exists(tin) Then
+        GetSupplierByTIN = dictTIN(tin)
+    Else
+        GetSupplierByTIN = False
+    End If
+End Function
+
+' ============================================================
+' GET SUPPLIER BY NAME (Fast)
+' ============================================================
+Public Function GetSupplierByName(name As String) As Variant
+    If Not gInitialized Then
+        InitializePJAutomation
+        If Not gInitialized Then
+            GetSupplierByName = False
+            Exit Function
+        End If
+    End If
+    name = NormalizeString(name)
+    If dictName.Exists(name) Then
+        GetSupplierByName = dictName(name)
+    Else
+        GetSupplierByName = False
+    End If
+End Function
+
+' ============================================================
+' GET NEXT SEQUENCE NUMBER (Fast)
+' ============================================================
+Public Function GetNextSeq() As Long
+    If Not gInitialized Then
+        InitializePJAutomation
+        If Not gInitialized Then
+            GetNextSeq = 1
+            Exit Function
+        End If
+    End If
+    gMaxSeq = gMaxSeq + 1
+    GetNextSeq = gMaxSeq
+End Function
+
+
+
+
+==============================================================================
+== MODULE: Sheet9.cls
+==============================================================================
+Attribute VB_Name = "Sheet9"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+Option Explicit
+
+
+
+Private Const START_ROW As Long = 8
+
+Private Const COL_TIN As Integer = 4
+
+Private Const COL_NAME As Integer = 5
+
+Private Const COL_ADDRESS As Integer = 6
+
+Private Const COL_COA As Integer = 7
+
+Private Const COL_REF As Integer = 8
+
+Private Const COL_DEBIT As Integer = 10
+
+Private Const COL_DEBIT_MIRROR As Integer = 9
+
+Private Const COL_FULL_ID As Integer = 17
+
+
+
+Private gMaxSeq As Long
+
+
+
+' ============================================================
+
+' COA List, SelectCOA, GetMaxSequence, GetNextSequence
+
+' (Same as PJ – copy from PJ sheet)
+
+' ============================================================
+
+
+
+' ============================================================
+
+' FIND REFERENCE IN CDJ
+
+' ============================================================
+
+Private Function FindReferenceInCDJ(ref As String) As Long
+
+    Dim wsCDJ As Worksheet, found As Range
+
+    On Error Resume Next
+
+    Set wsCDJ = ThisWorkbook.Sheets("CDJ")
+
+    On Error GoTo 0
+
+    If wsCDJ Is Nothing Then FindReferenceInCDJ = 0: Exit Function
+
+    
+
+    Set found = wsCDJ.Range("Y:Y").Find(What:=ref, LookIn:=xlValues, LookAt:=xlWhole)
+
+    If found Is Nothing Then Set found = wsCDJ.Range("Z:Z").Find(What:=ref, LookIn:=xlValues, LookAt:=xlWhole)
+
+    If Not found Is Nothing Then FindReferenceInCDJ = found.row Else FindReferenceInCDJ = 0
+
+End Function
+
+
+
+' ============================================================
+
+' SYNC NON-VAT TO CDJ
+
+' ============================================================
+
+Private Sub SyncToCDJ_NonVat(sourceRow As Long)
+
+    ' CDJ values must land where the titles say (C=Date, E=Particulars, F=Cash In
+    ' Bank, G=Input VAT, H=WHT, N-S=category, T=Debit, X/Y/Z=logs) - the engine
+    ' owns that layout now, so delegate instead of writing A-E/M-T here.
+
+    modEngine.SyncPJNonVatToCDJ Me, sourceRow
+
+End Sub
+
+
+
+
+' ============================================================
+
+' HELPER FUNCTIONS (Copy from PJ sheet)
+
+' GetExpenseColumn, CalculateWithholdingTax
+
+' ============================================================
+
+
+
+' ============================================================
+
+' MAIN TRIGGER
+
+' ============================================================
+
+Private Sub Worksheet_Change(ByVal Target As Range)
+
+    Dim rng As Range, cell As Range
+
+    Dim currentTimestamp As String
+
+    
+
+    Set rng = Intersect(Target, Union(Me.Range("D:D"), Me.Range("E:E"), _
+
+                                      Me.Range("F:F"), Me.Range("G:G"), _
+
+                                      Me.Range("I:I")))
+
+    If rng Is Nothing Then Exit Sub
+
+
+
+    Application.EnableEvents = False
+
+    Application.ScreenUpdating = False
+
+    Application.Calculation = xlCalculationManual
+
+
+
+    On Error GoTo Cleanup
+
+    currentTimestamp = Format(Now, "yyyymmdd-HHnnSS")
+
+
+
+    For Each cell In rng
+
+        If cell.row >= START_ROW Then
+
+            
+
+            If cell.Column = COL_TIN Or cell.Column = COL_NAME Then
+
+                Dim tinVal As String, nameVal As String
+
+                tinVal = Trim(Me.Cells(cell.row, COL_TIN).value)
+
+                nameVal = Trim(Me.Cells(cell.row, COL_NAME).value)
+
+                
+
+                If LCase(tinVal) = "total" Or LCase(nameVal) = "total" Then
+
+                    Call CalculateTotals(cell.row): GoTo NextCell
+
+                End If
+
+                
+
+                If tinVal <> "" Then
+
+                    Call LookupByTIN_NonVat(cell.row, tinVal)
+
+                ElseIf nameVal <> "" Then
+
+                    Call LookupByName_NonVat(cell.row, nameVal)
+
+                Else
+
+                    Call ClearSupplierRow(cell.row)
+
+                End If
+
+            End If
+
+            
+
+            ' ---- NON-VAT AMOUNT (No VAT) ----
+
+            If Me.Cells(cell.row, "I").value <> "" _
+
+               And Me.Cells(cell.row, COL_TIN).value <> "TOTAL" _
+
+               And Me.Cells(cell.row, COL_NAME).value <> "TOTAL" Then
+
+                
+
+                Me.Cells(cell.row, COL_DEBIT).value = Me.Cells(cell.row, "I").value
+
+                Me.Cells(cell.row, COL_DEBIT_MIRROR).value = Me.Cells(cell.row, "I").value
+
+                Me.Cells(cell.row, 13).value = 0  ' Credit = 0
+
+                Me.Cells(cell.row, 12).value = 0  ' Credit Mirror = 0
+
+                
+
+                If Me.Cells(cell.row, COL_TIN).value <> "" _
+
+                   And Me.Cells(cell.row, COL_NAME).value <> "" _
+
+                   And Me.Cells(cell.row, COL_COA).value <> "" _
+
+                   And Me.Cells(cell.row, COL_REF).value = "" Then
+
+                    
+
+                    Dim seqNum As Long
+
+                    seqNum = GetNextSequence()
+
+                    Me.Cells(cell.row, COL_REF).value = "PNV-" & Format(seqNum, "00000")
+
+                    Me.Cells(cell.row, COL_FULL_ID).value = "PNVINV-" & currentTimestamp & "-" & Format(seqNum, "00000")
+
+                End If
+
+            End If
+
+        End If
+
+NextCell:
+
+    Next cell
+
+
+
+    ' ---- CDJ SYNCHRONIZATION ----
+
+    For Each cell In rng
+
+        If cell.row >= START_ROW _
+
+           And Me.Cells(cell.row, COL_REF).value <> "" _
+
+           And Me.Cells(cell.row, COL_REF).value <> "TOTAL" Then
+
+            Call SyncToCDJ_NonVat(cell.row)
+
+        End If
+
+    Next cell
+
+
+
+Cleanup:
+
+    Application.EnableEvents = True
+
+    Application.ScreenUpdating = True
+
+    Application.Calculation = xlCalculationAutomatic
+
+End Sub
+
+
+
+' ============================================================
+
+' LOOKUP FUNCTIONS (Copy from PJ sheet – rename to _NonVat)
+
+' ============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==============================================================================
+== MODULE: Sheet10.cls
+==============================================================================
+Attribute VB_Name = "Sheet10"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+Sub CheckDuplicates()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim i As Long
+    Dim j As Long
+    Dim name1 As String, add1 As String
+    Dim name2 As String, add2 As String
+    Dim found As Boolean
+    
+    Set ws = ThisWorkbook.Sheets("SUPPLIERS DATA")
+    lastRow = ws.Cells(ws.Rows.count, "D").End(xlUp).row
+    found = False
+    
+    For i = 2 To lastRow
+        name1 = ws.Cells(i, "D").value
+        add1 = ws.Cells(i, "E").value
+        If name1 <> "" And add1 <> "" And add1 <> "—" Then
+            For j = i + 1 To lastRow
+                name2 = ws.Cells(j, "D").value
+                add2 = ws.Cells(j, "E").value
+                If name1 = name2 And add1 = add2 Then
+                    Debug.Print "DUPLICATE: Row " & i & " and Row " & j & " - " & name1 & " | " & add1
+                    found = True
+                End If
+            Next j
+        End If
+    Next i
+    
+    If Not found Then
+        MsgBox "No duplicates found.", vbInformation
+    Else
+        MsgBox "Duplicates found! Check Immediate Window (Ctrl+G).", vbExclamation
+    End If
+End Sub
+
+
+
+==============================================================================
+== MODULE: ImportSuppliersFromJSON.bas
+==============================================================================
+Attribute VB_Name = "ImportSuppliersFromJSON"
+Option Explicit
+
+Sub ImportSuppliersFromJSON()
+    Dim ws As Worksheet
+    Dim rowNum As Long
+    Dim i As Long
+    Dim lastRow As Long
+    
+    Set ws = ThisWorkbook.Sheets("SUPPLIERS DATA")
+    
+    ' Clear old data (keep headers)
+    ws.Rows("2:" & ws.Rows.count).Clear
+    
+    rowNum = 2
+    
+    ' ============================================================
+    ' COLUMNS: B=NO, C=TIN#, D=PARTICULARS, E=ADDRESS, F=CHART OF ACCOUNT
+    ' ============================================================
+    
+    ' 1
+    ws.Cells(rowNum, "B").value = 1
+    ws.Cells(rowNum, "C").value = "008-888-659"
+    ws.Cells(rowNum, "D").value = "VPHARMA HEALTH AND WELNESS INC"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 2
+    ws.Cells(rowNum, "B").value = 2
+    ws.Cells(rowNum, "C").value = "246-099-058"
+    ws.Cells(rowNum, "D").value = "TRAVELLERS INTL HOTEL INC"
+    ws.Cells(rowNum, "E").value = "NEWPORT, PASAY"
+    ws.Cells(rowNum, "F").value = "Transportation and Travel"
+    rowNum = rowNum + 1
+    
+    ' 3
+    ws.Cells(rowNum, "B").value = 3
+    ws.Cells(rowNum, "C").value = "008-120-744"
+    ws.Cells(rowNum, "D").value = "RUSTAN"
+    ws.Cells(rowNum, "E").value = "SAN LORENZO, MAKATI"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 4
+    ws.Cells(rowNum, "B").value = 4
+    ws.Cells(rowNum, "C").value = "008-625-341"
+    ws.Cells(rowNum, "D").value = "THE MESSHALL"
+    ws.Cells(rowNum, "E").value = "MAGALLANES, MAKATI"
+    ws.Cells(rowNum, "F").value = "Miscellaneous"
+    rowNum = rowNum + 1
+    
+    ' 5
+    ws.Cells(rowNum, "B").value = 5
+    ws.Cells(rowNum, "C").value = "252-126-611"
+    ws.Cells(rowNum, "D").value = "EUROFUEL INC"
+    ws.Cells(rowNum, "E").value = "183 PASAY"
+    ws.Cells(rowNum, "F").value = "Fuel and Oil"
+    rowNum = rowNum + 1
+    
+    ' 6
+    ws.Cells(rowNum, "B").value = 6
+    ws.Cells(rowNum, "C").value = "008-909-992"
+    ws.Cells(rowNum, "D").value = "SOUTHEASTASIA RETAIL INC"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 7
+    ws.Cells(rowNum, "B").value = 7
+    ws.Cells(rowNum, "C").value = "000-388-771"
+    ws.Cells(rowNum, "D").value = "JOLLIBEE 39TH"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 8
+    ws.Cells(rowNum, "B").value = 8
+    ws.Cells(rowNum, "C").value = "207-961-175"
+    ws.Cells(rowNum, "D").value = "SAVEMORE"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 9
+    ws.Cells(rowNum, "B").value = 9
+    ws.Cells(rowNum, "C").value = "001-799-123"
+    ws.Cells(rowNum, "D").value = "UNIGLOBE TRAVELWARE INC"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Transportation and Travel"
+    rowNum = rowNum + 1
+    
+    ' 10
+    ws.Cells(rowNum, "B").value = 10
+    ws.Cells(rowNum, "C").value = "148-855-506"
+    ws.Cells(rowNum, "D").value = "MINDWERKS"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 11
+    ws.Cells(rowNum, "B").value = 11
+    ws.Cells(rowNum, "C").value = "007-851-409"
+    ws.Cells(rowNum, "D").value = "PRIMERA CLASE GAS STATION"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Fuel and Oil"
+    rowNum = rowNum + 1
+    
+    ' 12
+    ws.Cells(rowNum, "B").value = 12
+    ws.Cells(rowNum, "C").value = "200-035-311"
+    ws.Cells(rowNum, "D").value = "ACE HARDWARE"
+    ws.Cells(rowNum, "E").value = "ALMANZA UNO, LAS PIÑAS"
+    ws.Cells(rowNum, "F").value = "Repairs and Maintenance"
+    rowNum = rowNum + 1
+    
+    ' 13
+    ws.Cells(rowNum, "B").value = 13
+    ws.Cells(rowNum, "C").value = "000-388-771"
+    ws.Cells(rowNum, "D").value = "JOLLIBEE BLUEBAY WALK"
+    ws.Cells(rowNum, "E").value = "76 PASAY"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 14
+    ws.Cells(rowNum, "B").value = 14
+    ws.Cells(rowNum, "C").value = "246-969-491"
+    ws.Cells(rowNum, "D").value = "S AND R"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 15
+    ws.Cells(rowNum, "B").value = 15
+    ws.Cells(rowNum, "C").value = "648-700-952"
+    ws.Cells(rowNum, "D").value = "GOOD MORNING FOOD"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 16
+    ws.Cells(rowNum, "B").value = 16
+    ws.Cells(rowNum, "C").value = "008-087-158"
+    ws.Cells(rowNum, "D").value = "PNC GARBROS FOODS INC"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 17
+    ws.Cells(rowNum, "B").value = 17
+    ws.Cells(rowNum, "C").value = "208-006-656"
+    ws.Cells(rowNum, "D").value = "SM STORE"
+    ws.Cells(rowNum, "E").value = "ORANBO, PASIG"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 18
+    ws.Cells(rowNum, "B").value = 18
+    ws.Cells(rowNum, "C").value = "214-706-591"
+    ws.Cells(rowNum, "D").value = "WATSONS"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 19
+    ws.Cells(rowNum, "B").value = 19
+    ws.Cells(rowNum, "C").value = "608-395-184"
+    ws.Cells(rowNum, "D").value = "GIANETO PIZZERIA"
+    ws.Cells(rowNum, "E").value = "ORANBO, PASIG"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 20
+    ws.Cells(rowNum, "B").value = 20
+    ws.Cells(rowNum, "C").value = "010-624-401"
+    ws.Cells(rowNum, "D").value = "MIT SUKOSHI FRESH"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 21
+    ws.Cells(rowNum, "B").value = 21
+    ws.Cells(rowNum, "C").value = "655-591-162"
+    ws.Cells(rowNum, "D").value = "MINISO"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 22
+    ws.Cells(rowNum, "B").value = 22
+    ws.Cells(rowNum, "C").value = "000-405-340"
+    ws.Cells(rowNum, "D").value = "ROBINSONS"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 23
+    ws.Cells(rowNum, "B").value = 23
+    ws.Cells(rowNum, "C").value = "000-123-826"
+    ws.Cells(rowNum, "D").value = "GRAND UNION SUPERMARKET INC"
+    ws.Cells(rowNum, "E").value = "FILINVEST, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 24
+    ws.Cells(rowNum, "B").value = 24
+    ws.Cells(rowNum, "C").value = "008-188-059"
+    ws.Cells(rowNum, "D").value = "KNOXPORT INC"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Miscellaneous"
+    rowNum = rowNum + 1
+    
+    ' 25
+    ws.Cells(rowNum, "B").value = 25
+    ws.Cells(rowNum, "C").value = "009-754-702"
+    ws.Cells(rowNum, "D").value = "GOOD SMALL SHEEP INC"
+    ws.Cells(rowNum, "E").value = "DAANG BAKAL, MANDALUYONG"
+    ws.Cells(rowNum, "F").value = "Miscellaneous"
+    rowNum = rowNum + 1
+    
+    ' 26
+    ws.Cells(rowNum, "B").value = 26
+    ws.Cells(rowNum, "C").value = "163-955-615"
+    ws.Cells(rowNum, "D").value = "725 TAGTEAM FUEL STATION"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Fuel and Oil"
+    rowNum = rowNum + 1
+    
+    ' 27
+    ws.Cells(rowNum, "B").value = 27
+    ws.Cells(rowNum, "C").value = "007-875-333"
+    ws.Cells(rowNum, "D").value = "SOUTHERN ONGVILLE CORP"
+    ws.Cells(rowNum, "E").value = "CANDELARIA, QUEZON"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 28
+    ws.Cells(rowNum, "B").value = 28
+    ws.Cells(rowNum, "C").value = "905-035-955"
+    ws.Cells(rowNum, "D").value = "N MART GENERAL MERCHANDIZE"
+    ws.Cells(rowNum, "E").value = "BAMBANG, NUEVA ECIJA"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 29
+    ws.Cells(rowNum, "B").value = 29
+    ws.Cells(rowNum, "C").value = "241-838-060"
+    ws.Cells(rowNum, "D").value = "FACIAL CARE CENTRE"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 30
+    ws.Cells(rowNum, "B").value = 30
+    ws.Cells(rowNum, "C").value = "009-149--884"
+    ws.Cells(rowNum, "D").value = "LANDMARK SUPERMARKET"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 31
+    ws.Cells(rowNum, "B").value = 31
+    ws.Cells(rowNum, "C").value = "240-940-697"
+    ws.Cells(rowNum, "D").value = "INENGS"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 32
+    ws.Cells(rowNum, "B").value = 32
+    ws.Cells(rowNum, "C").value = "009-271-384"
+    ws.Cells(rowNum, "D").value = "OTADER DENTAL AND MEDICAL"
+    ws.Cells(rowNum, "E").value = "MALATE, MANILA"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 33
+    ws.Cells(rowNum, "B").value = 33
+    ws.Cells(rowNum, "C").value = "000-340-727"
+    ws.Cells(rowNum, "D").value = "ALPHADENT CORPORATION"
+    ws.Cells(rowNum, "E").value = "SAN ANTONIO, QUEZON"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 34
+    ws.Cells(rowNum, "B").value = 34
+    ws.Cells(rowNum, "C").value = "006-614-702"
+    ws.Cells(rowNum, "D").value = "PROS APAC CORP"
+    ws.Cells(rowNum, "E").value = "MALATE, MANILA"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 35
+    ws.Cells(rowNum, "B").value = 35
+    ws.Cells(rowNum, "C").value = "003-935-334"
+    ws.Cells(rowNum, "D").value = "ST PATRICK MEDICAL SYSTEMS INC"
+    ws.Cells(rowNum, "E").value = "SHAW BLVD., MANDALUYONG"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 36
+    ws.Cells(rowNum, "B").value = 36
+    ws.Cells(rowNum, "C").value = "216-037-865"
+    ws.Cells(rowNum, "D").value = "DENTAL DOMAIN CORP"
+    ws.Cells(rowNum, "E").value = "CULIAT, QUEZON CITY"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 37
+    ws.Cells(rowNum, "B").value = 37
+    ws.Cells(rowNum, "C").value = "226-527-915"
+    ws.Cells(rowNum, "D").value = "METRO MARKET MARKET"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 38
+    ws.Cells(rowNum, "B").value = 38
+    ws.Cells(rowNum, "C").value = "010-176-614"
+    ws.Cells(rowNum, "D").value = "GREEN DENTAL LAB"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 39
+    ws.Cells(rowNum, "B").value = 39
+    ws.Cells(rowNum, "C").value = "440-275-225"
+    ws.Cells(rowNum, "D").value = "AAHA GAS RETAILING"
+    ws.Cells(rowNum, "E").value = "PAMPLONA UNO, LAS PIÑAS"
+    ws.Cells(rowNum, "F").value = "Fuel and Oil"
+    rowNum = rowNum + 1
+    
+    ' 40
+    ws.Cells(rowNum, "B").value = 40
+    ws.Cells(rowNum, "C").value = "010-119-810"
+    ws.Cells(rowNum, "D").value = "RJD MERRY HARVEST CORP"
+    ws.Cells(rowNum, "E").value = "SILANG, CAVITE"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 41
+    ws.Cells(rowNum, "B").value = 41
+    ws.Cells(rowNum, "C").value = "000-522-680"
+    ws.Cells(rowNum, "D").value = "ALBA INTERNATIONAL INC"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Fuel and Oil"
+    rowNum = rowNum + 1
+    
+    ' 42
+    ws.Cells(rowNum, "B").value = 42
+    ws.Cells(rowNum, "C").value = "007-551-518"
+    ws.Cells(rowNum, "D").value = "NUTRITION FOR LIFE"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 43
+    ws.Cells(rowNum, "B").value = 43
+    ws.Cells(rowNum, "C").value = "008-664-864"
+    ws.Cells(rowNum, "D").value = "GRANDWEN GAS CORP"
+    ws.Cells(rowNum, "E").value = "BACLARAN, PASAY"
+    ws.Cells(rowNum, "F").value = "Fuel and Oil"
+    rowNum = rowNum + 1
+    
+    ' 44
+    ws.Cells(rowNum, "B").value = 44
+    ws.Cells(rowNum, "C").value = "009-195-748"
+    ws.Cells(rowNum, "D").value = "BIG SKY NATION INC"
+    ws.Cells(rowNum, "E").value = "183 PASAY"
+    ws.Cells(rowNum, "F").value = "Fuel and Oil"
+    rowNum = rowNum + 1
+    
+    ' 45
+    ws.Cells(rowNum, "B").value = 45
+    ws.Cells(rowNum, "C").value = "241-437-266"
+    ws.Cells(rowNum, "D").value = "YELOW CAB PIZZA"
+    ws.Cells(rowNum, "E").value = "STA. ROSA, LAGUNA"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 46
+    ws.Cells(rowNum, "B").value = 46
+    ws.Cells(rowNum, "C").value = "636-985956"
+    ws.Cells(rowNum, "D").value = "WILSON MOA"
+    ws.Cells(rowNum, "E").value = "MOA, PASAY"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 47
+    ws.Cells(rowNum, "B").value = 47
+    ws.Cells(rowNum, "C").value = "206-114-170"
+    ws.Cells(rowNum, "D").value = "PETRON EXPRESS CENTER"
+    ws.Cells(rowNum, "E").value = "BALAGTAS, BULACAN"
+    ws.Cells(rowNum, "F").value = "Fuel and Oil"
+    rowNum = rowNum + 1
+    
+    ' 48
+    ws.Cells(rowNum, "B").value = 48
+    ws.Cells(rowNum, "C").value = "005-148-299"
+    ws.Cells(rowNum, "D").value = "ERNA TRADINGCORP"
+    ws.Cells(rowNum, "E").value = "TALON 4, LAS PIÑAS"
+    ws.Cells(rowNum, "F").value = "Repairs and Maintenance"
+    rowNum = rowNum + 1
+    
+    ' 49
+    ws.Cells(rowNum, "B").value = 49
+    ws.Cells(rowNum, "C").value = "008-367-582"
+    ws.Cells(rowNum, "D").value = "JAVELLANA ADVANCED AESTHETICS CLINIC"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 50
+    ws.Cells(rowNum, "B").value = 50
+    ws.Cells(rowNum, "C").value = "226-784-068-000"
+    ws.Cells(rowNum, "D").value = "MDI Group Holdings Inc"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG CITY"
+    ws.Cells(rowNum, "F").value = "Rental"
+    rowNum = rowNum + 1
+    
+    ' 51
+    ws.Cells(rowNum, "B").value = 51
+    ws.Cells(rowNum, "C").value = "000-405-340"
+    ws.Cells(rowNum, "D").value = "ROBINSONS"
+    ws.Cells(rowNum, "E").value = "TALON UNO, LAS PIÑAS"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 52
+    ws.Cells(rowNum, "B").value = 52
+    ws.Cells(rowNum, "C").value = "007-189-834"
+    ws.Cells(rowNum, "D").value = "KENNY ROGERS"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 53
+    ws.Cells(rowNum, "B").value = 53
+    ws.Cells(rowNum, "C").value = "001-096-140"
+    ws.Cells(rowNum, "D").value = "ALMON MARINA INC"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 54
+    ws.Cells(rowNum, "B").value = 54
+    ws.Cells(rowNum, "C").value = "236-414-781"
+    ws.Cells(rowNum, "D").value = "YOKI FARM"
+    ws.Cells(rowNum, "E").value = "PALOCPOC, CAVITE"
+    ws.Cells(rowNum, "F").value = "Miscellaneous"
+    rowNum = rowNum + 1
+    
+    ' 55
+    ws.Cells(rowNum, "B").value = 55
+    ws.Cells(rowNum, "C").value = "203-301-457"
+    ws.Cells(rowNum, "D").value = "CINNABON"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 56
+    ws.Cells(rowNum, "B").value = 56
+    ws.Cells(rowNum, "C").value = "000-388-474"
+    ws.Cells(rowNum, "D").value = "MERCURY"
+    ws.Cells(rowNum, "E").value = "TALON 5, LAS PIÑAS"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 57
+    ws.Cells(rowNum, "B").value = 57
+    ws.Cells(rowNum, "C").value = "000-123-826"
+    ws.Cells(rowNum, "D").value = "SOUTH SUPERMARKET"
+    ws.Cells(rowNum, "E").value = "FILINVEST, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 58
+    ws.Cells(rowNum, "B").value = 58
+    ws.Cells(rowNum, "C").value = "241-498-356"
+    ws.Cells(rowNum, "D").value = "HONEYBON"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 59
+    ws.Cells(rowNum, "B").value = 59
+    ws.Cells(rowNum, "C").value = "000-388-771"
+    ws.Cells(rowNum, "D").value = "JOLLIBEE"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 60
+    ws.Cells(rowNum, "B").value = 60
+    ws.Cells(rowNum, "C").value = "610-884-579"
+    ws.Cells(rowNum, "D").value = "T RIPLE MLD CORP"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Transportation and Travel"
+    rowNum = rowNum + 1
+    
+    ' 61
+    ws.Cells(rowNum, "B").value = 61
+    ws.Cells(rowNum, "C").value = "607-237-567"
+    ws.Cells(rowNum, "D").value = "RUSTIC PIZZA PASTA RESTAURANT INC"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 62
+    ws.Cells(rowNum, "B").value = 62
+    ws.Cells(rowNum, "C").value = "005-148-299"
+    ws.Cells(rowNum, "D").value = "ERNA TRADING CORP"
+    ws.Cells(rowNum, "E").value = "TALON 4, LAS PIÑAS"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 63
+    ws.Cells(rowNum, "B").value = 63
+    ws.Cells(rowNum, "C").value = "010-892-033"
+    ws.Cells(rowNum, "D").value = "ELEVATE PILATES COMPANY LIMITED INC"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 64
+    ws.Cells(rowNum, "B").value = 64
+    ws.Cells(rowNum, "C").value = "200-005-881"
+    ws.Cells(rowNum, "D").value = "ARISTOCRAT BAKESHOP"
+    ws.Cells(rowNum, "E").value = "ALMANZA UNO, LAS PIÑAS"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 65
+    ws.Cells(rowNum, "B").value = 65
+    ws.Cells(rowNum, "C").value = "000-060-696"
+    ws.Cells(rowNum, "D").value = "RUSTANS"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Representation"
+    rowNum = rowNum + 1
+    
+    ' 66
+    ws.Cells(rowNum, "B").value = 66
+    ws.Cells(rowNum, "C").value = "909-079-780"
+    ws.Cells(rowNum, "D").value = "INGUSAN GASOLINE STATION"
+    ws.Cells(rowNum, "E").value = "TALON UNO, LAS PIÑAS"
+    ws.Cells(rowNum, "F").value = "Fuel and Oil"
+    rowNum = rowNum + 1
+    
+    ' 67
+    ws.Cells(rowNum, "B").value = 67
+    ws.Cells(rowNum, "C").value = "000-299-299"
+    ws.Cells(rowNum, "D").value = "ABACUS BOOK AND CARD CORP"
+    ws.Cells(rowNum, "E").value = "POBLACION, MAKATI"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 68
+    ws.Cells(rowNum, "B").value = 68
+    ws.Cells(rowNum, "C").value = "003-058-789"
+    ws.Cells(rowNum, "D").value = "SM PRIME HOLDINGS INC"
+    ws.Cells(rowNum, "E").value = "ALMANZA UNO, LAS PIÑAS"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 69
+    ws.Cells(rowNum, "B").value = 69
+    ws.Cells(rowNum, "C").value = "183-378-131"
+    ws.Cells(rowNum, "D").value = "MG PETRON CORDON SERVICE STATION"
+    ws.Cells(rowNum, "E").value = "CORDON, ISABELA"
+    ws.Cells(rowNum, "F").value = "Fuel and Oil"
+    rowNum = rowNum + 1
+    
+    ' 70
+    ws.Cells(rowNum, "B").value = 70
+    ws.Cells(rowNum, "C").value = "630-167-414"
+    ws.Cells(rowNum, "D").value = "NAIL GARDEN"
+    ws.Cells(rowNum, "E").value = "76 PASAY"
+    ws.Cells(rowNum, "F").value = "Miscellaneous"
+    rowNum = rowNum + 1
+    
+    ' 71
+    ws.Cells(rowNum, "B").value = 71
+    ws.Cells(rowNum, "C").value = "230-577-870"
+    ws.Cells(rowNum, "D").value = "LALONG FUEL STATION"
+    ws.Cells(rowNum, "E").value = "SAN PABLO, LAGUNA"
+    ws.Cells(rowNum, "F").value = "Fuel and Oil"
+    rowNum = rowNum + 1
+    
+    ' 72
+    ws.Cells(rowNum, "B").value = 72
+    ws.Cells(rowNum, "C").value = "008-909-992"
+    ws.Cells(rowNum, "D").value = "LANDERS"
+    ws.Cells(rowNum, "E").value = "TAMBO, PARAÑAQUE"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 73
+    ws.Cells(rowNum, "B").value = 73
+    ws.Cells(rowNum, "C").value = "207-961-175"
+    ws.Cells(rowNum, "D").value = "FESTIVAL MALL"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 74
+    ws.Cells(rowNum, "B").value = 74
+    ws.Cells(rowNum, "C").value = "010-262-979"
+    ws.Cells(rowNum, "D").value = "LIN ET VIE PELLE MERCHANDISING"
+    ws.Cells(rowNum, "E").value = "ALABANG, MUNTINLUPA"
+    ws.Cells(rowNum, "F").value = "Miscellaneous"
+    rowNum = rowNum + 1
+    
+    ' 75
+    ws.Cells(rowNum, "B").value = 75
+    ws.Cells(rowNum, "C").value = "005-695-758"
+    ws.Cells(rowNum, "D").value = "UNICITY"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Miscellaneous"
+    rowNum = rowNum + 1
+    
+    ' 76
+    ws.Cells(rowNum, "B").value = 76
+    ws.Cells(rowNum, "C").value = "010-176-614"
+    ws.Cells(rowNum, "D").value = "GREEN DELTA LAB PHILIPPINES INC"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 77
+    ws.Cells(rowNum, "B").value = 77
+    ws.Cells(rowNum, "C").value = "260-019-682"
+    ws.Cells(rowNum, "D").value = "BURDA MEDICAL APPAREL"
+    ws.Cells(rowNum, "E").value = "SANTA CRUZ, MANILA"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 78
+    ws.Cells(rowNum, "B").value = 78
+    ws.Cells(rowNum, "C").value = "278-353-148"
+    ws.Cells(rowNum, "D").value = "D AND L MEDICAL APPAREL"
+    ws.Cells(rowNum, "E").value = "SANTA CRUZ, MANILA"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 79
+    ws.Cells(rowNum, "B").value = 79
+    ws.Cells(rowNum, "C").value = "778-866-700"
+    ws.Cells(rowNum, "D").value = "GREEN WAVE COMPUTER SYSTEM"
+    ws.Cells(rowNum, "E").value = "SANTA CRUZ, MANILA"
+    ws.Cells(rowNum, "F").value = "Repairs and Maintenance"
+    rowNum = rowNum + 1
+    
+    ' 80
+    ws.Cells(rowNum, "B").value = 80
+    ws.Cells(rowNum, "C").value = "010-559-959"
+    ws.Cells(rowNum, "D").value = "FRONTIER DENTAL PRODUCTS CORP"
+    ws.Cells(rowNum, "E").value = "SAN ANTONIO, MAKATI"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 81
+    ws.Cells(rowNum, "B").value = 81
+    ws.Cells(rowNum, "C").value = "000-324-286"
+    ws.Cells(rowNum, "D").value = "GOLDEN PEAK SALES CORP"
+    ws.Cells(rowNum, "E").value = "SAN NICOLAS, MANILA"
+    ws.Cells(rowNum, "F").value = "Miscellaneous"
+    rowNum = rowNum + 1
+    
+    ' 82
+    ws.Cells(rowNum, "B").value = 82
+    ws.Cells(rowNum, "C").value = "225-527-914"
+    ws.Cells(rowNum, "D").value = "METRO RETAIL STORES GROUP INC"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 83
+    ws.Cells(rowNum, "B").value = 83
+    ws.Cells(rowNum, "C").value = "208-544-458"
+    ws.Cells(rowNum, "D").value = "MKYR TRANSPORT SERVICES"
+    ws.Cells(rowNum, "E").value = "BATASAN HILLS, QUEZON CITY"
+    ws.Cells(rowNum, "F").value = "Transportation and Travel"
+    rowNum = rowNum + 1
+    
+    ' 84
+    ws.Cells(rowNum, "B").value = 84
+    ws.Cells(rowNum, "C").value = "006-614-702"
+    ws.Cells(rowNum, "D").value = "PROS-APAC CORP"
+    ws.Cells(rowNum, "E").value = "MALATE, MANILA"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' 85
+    ws.Cells(rowNum, "B").value = 85
+    ws.Cells(rowNum, "C").value = "201-619-152"
+    ws.Cells(rowNum, "D").value = "VILLACORTA DENTAL LABORATY INC"
+    ws.Cells(rowNum, "E").value = "SANTA ROSA, LAGUNA"
+    ws.Cells(rowNum, "F").value = "Clinic Materials and Supplies"
+    rowNum = rowNum + 1
+    
+    ' ROW 86 REMOVED - DUPLICATE
+    
+    ' 87
+    ws.Cells(rowNum, "B").value = 87
+    ws.Cells(rowNum, "C").value = "120-568-073"
+    ws.Cells(rowNum, "D").value = "7-ELEVEN"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Miscellaneous"
+    rowNum = rowNum + 1
+    
+    ' 88
+    ws.Cells(rowNum, "B").value = 88
+    ws.Cells(rowNum, "C").value = "000-388-474"
+    ws.Cells(rowNum, "D").value = "MERCURY DRUG"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 89
+    ws.Cells(rowNum, "B").value = 89
+    ws.Cells(rowNum, "C").value = "233-251-708"
+    ws.Cells(rowNum, "D").value = "FEDERAL BRENT RETAIL INC"
+    ws.Cells(rowNum, "E").value = "076 PASAY"
+    ws.Cells(rowNum, "F").value = "Supplies"
+    rowNum = rowNum + 1
+    
+    ' 90
+    ws.Cells(rowNum, "B").value = 90
+    ws.Cells(rowNum, "C").value = "214-706-591"
+    ws.Cells(rowNum, "D").value = "WATSONS"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Miscellaneous"
+    rowNum = rowNum + 1
+    
+    ' 91
+    ws.Cells(rowNum, "B").value = 91
+    ws.Cells(rowNum, "C").value = "226-784-068"
+    ws.Cells(rowNum, "D").value = "MDI Group Holdings Inc 2"
+    ws.Cells(rowNum, "E").value = "BGC, TAGUIG"
+    ws.Cells(rowNum, "F").value = "Association Dues"
+    rowNum = rowNum + 1
+    
+    ' 92
+    ws.Cells(rowNum, "B").value = 92
+    ws.Cells(rowNum, "C").value = "TIN NOT FOUND"
+    ws.Cells(rowNum, "D").value = "Rosalina Ignacio"
+    ws.Cells(rowNum, "E").value = "—"
+    ws.Cells(rowNum, "F").value = "Clinician's Fee-Corporators"
+    rowNum = rowNum + 1
+    
+    ' 93
+    ws.Cells(rowNum, "B").value = 93
+    ws.Cells(rowNum, "C").value = "TIN NOT FOUND"
+    ws.Cells(rowNum, "D").value = "Daisy Cornejo"
+    ws.Cells(rowNum, "E").value = "—"
+    ws.Cells(rowNum, "F").value = "Clinician's Fee-Corporators"
+    rowNum = rowNum + 1
+    
+    ' 94
+    ws.Cells(rowNum, "B").value = 94
+    ws.Cells(rowNum, "C").value = "TIN NOT FOUND"
+    ws.Cells(rowNum, "D").value = "Janina Tayag"
+    ws.Cells(rowNum, "E").value = "—"
+    ws.Cells(rowNum, "F").value = "Clinician's Fee-Corporators"
+    rowNum = rowNum + 1
+    
+    ' 95
+    ws.Cells(rowNum, "B").value = 95
+    ws.Cells(rowNum, "C").value = "TIN NOT FOUND"
+    ws.Cells(rowNum, "D").value = "Jasper Tago"
+    ws.Cells(rowNum, "E").value = "—"
+    ws.Cells(rowNum, "F").value = "Clinician's Fee-Corporators"
+    rowNum = rowNum + 1
+    
+    ' 96
+    ws.Cells(rowNum, "B").value = 96
+    ws.Cells(rowNum, "C").value = "TIN NOT FOUND"
+    ws.Cells(rowNum, "D").value = "Ana Ramona Locsin"
+    ws.Cells(rowNum, "E").value = "—"
+    ws.Cells(rowNum, "F").value = "Clinician's Fee-Visiting"
+    rowNum = rowNum + 1
+    
+    ' 97
+    ws.Cells(rowNum, "B").value = 97
+    ws.Cells(rowNum, "C").value = "TIN NOT FOUND"
+    ws.Cells(rowNum, "D").value = "Virgilio Malenab Jr"
+    ws.Cells(rowNum, "E").value = "—"
+    ws.Cells(rowNum, "F").value = "Clinician's Fee-Visiting"
+    rowNum = rowNum + 1
+    
+    ' 98
+    ws.Cells(rowNum, "B").value = 98
+    ws.Cells(rowNum, "C").value = "TIN NOT FOUND"
+    ws.Cells(rowNum, "D").value = "SBM Consulting Inc"
+    ws.Cells(rowNum, "E").value = "—"
+    ws.Cells(rowNum, "F").value = "Professional Fee"
+    rowNum = rowNum + 1
+    
+    ' 99
+    ws.Cells(rowNum, "B").value = 99
+    ws.Cells(rowNum, "C").value = "TIN NOT FOUND"
+    ws.Cells(rowNum, "D").value = "Christian Anthony Ermita"
+    ws.Cells(rowNum, "E").value = "—"
+    ws.Cells(rowNum, "F").value = "Clinician's Fee-Visiting"
+    rowNum = rowNum + 1
+    
+    ' 100
+    ws.Cells(rowNum, "B").value = 100
+    ws.Cells(rowNum, "C").value = "TIN NOT FOUND"
+    ws.Cells(rowNum, "D").value = "Vergilyn Montales"
+    ws.Cells(rowNum, "E").value = "—"
+    ws.Cells(rowNum, "F").value = "Clinician's Fee-Visiting"
+    rowNum = rowNum + 1
+    
+    ' ---- VALIDATE FOR DUPLICATES ----
+    ' Check: Same Name + Same Address = NOT ALLOWED
+    lastRow = ws.Cells(ws.Rows.count, "D").End(xlUp).row
+    Dim duplicateFound As Boolean
+    duplicateFound = False
+    
+    For i = 2 To lastRow
+        Dim name As String
+        Dim address As String
+        Dim j As Long
+        
+        name = ws.Cells(i, "D").value
+        address = ws.Cells(i, "E").value
+        
+        If name <> "" And address <> "" And address <> "—" Then
+            For j = i + 1 To lastRow
+                Dim name2 As String
+                Dim address2 As String
+                
+                name2 = ws.Cells(j, "D").value
+                address2 = ws.Cells(j, "E").value
+                
+                If name = name2 And address = address2 Then
+                    MsgBox "DUPLICATE FOUND:" & vbCrLf & _
+                           "Row " & i & ": " & name & " | " & address & vbCrLf & _
+                           "Row " & j & ": " & name2 & " | " & address2 & vbCrLf & vbCrLf & _
+                           "Same Name + Address is NOT allowed!", vbCritical
+                    duplicateFound = True
+                    Exit Sub
+                End If
+            Next j
+        End If
+    Next i
+    
+    If Not duplicateFound Then
+        MsgBox "Import complete! " & (rowNum - 2) & " suppliers imported." & vbCrLf & _
+               "All suppliers have unique Name + Address combinations.", vbInformation
+    End If
+End Sub
+
+
+
+
+
+==============================================================================
+== MODULE: modGraphify.bas
+==============================================================================
+Attribute VB_Name = "modGraphify"
+Option Explicit
+
+'==============================================================================
+' Graphify (v7.9, fixed) - charts one numeric column of the active sheet as a
+' clustered column chart named "GraphifyChart" (reused on every re-run).
+'
+' Where the values come from (first match wins):
+'   1. A multi-cell RANGE selected before running -> its first column
+'   2. The configured column (CHART_COLUMN = "A", per the v7.8 spec)
+'   3. Auto: the used-range column with the most numeric cells (leftmost on
+'      tie) - this is what makes the macro work on the journal sheets, whose
+'      data starts in column B ("Amount" is column I on PJ, DEBIT is F on GJ)
+'   4. Otherwise: "No numeric data found" message
+'
+' Categories are R1..Rn (same labels as the graphify.html mock).
+'
+' Fixes over the broken v7.8 listing:
+'   - A Worksheet has no .Charts collection -> use ChartObjects (embedded
+'     chart); ws.Charts.Add would have added a chart SHEET and crashed first
+'   - ws.Worksheets does not exist on a Worksheet object -> .Move removed
+'   - Shape name "GraphifyChart.chart.8" never exists -> the ChartObject
+'     itself is docked via .Left/.Top
+'   - dataArr was read but never used -> removed; the source Range is bound
+'     to the series directly (blank cells stay gaps instead of zeros)
+'   - The Sub was never closed (End Sub missing in the listing)
+'   - New: single-cell / no-numeric-data / chart-sheet edge cases handled;
+'     errors surface through a handler that still restores ScreenUpdating
+'==============================================================================
+
+Private Const CHART_NAME As String = "GraphifyChart"
+Private Const CHART_COLUMN As String = "A"   ' source column per the v7.8 spec
+Private Const MIN_NUMERIC As Long = 2        ' auto-pick needs at least this many numbers
+Private Const CHART_WIDTH As Double = 640    ' points
+Private Const CHART_HEIGHT As Double = 360   ' points
+
+Sub Graphify()
+    Dim ws As Worksheet
+    Dim co As ChartObject
+    Dim srs As Series
+    Dim dataRng As Range
+    Dim srcCol As Long          ' resolved source column index
+    Dim colTop As Long          ' first row to consider in the source column
+    Dim selBottom As Long       ' bottom row of the selection (0 = none)
+    Dim firstDataRow As Long
+    Dim lastRow As Long
+    Dim nPts As Long
+    Dim i As Long
+    Dim cats() As String
+    Dim srcDesc As String
+
+    If Not TypeOf ActiveSheet Is Worksheet Then
+        MsgBox "Run Graphify from a worksheet (not a chart sheet).", vbExclamation, "Graphify"
+        Exit Sub
+    End If
+    Set ws = ActiveSheet
+
+    On Error GoTo Fail
+    Application.ScreenUpdating = False
+
+    colTop = 1
+    srcCol = 0
+    srcDesc = ""
+
+    '--- 1. a multi-cell selection wins ---------------------------------------
+    If TypeName(Selection) = "Range" Then
+        If Selection.Cells.CountLarge > 1 Then
+            srcCol = Selection.Columns(1).Column
+            colTop = Selection.row
+            selBottom = Selection.row + Selection.Rows.count - 1
+            srcDesc = "selection"
+        End If
+    End If
+
+    '--- 2. configured column (v7.8 spec: column A) ----------------------------
+    If srcCol = 0 Then
+        If Application.count(ws.Columns(CHART_COLUMN)) >= MIN_NUMERIC Then
+            srcCol = ws.Columns(CHART_COLUMN).Column
+            srcDesc = "column " & CHART_COLUMN
+        End If
+    End If
+
+    '--- 3. auto-pick the busiest numeric column -------------------------------
+    If srcCol = 0 Then
+        srcCol = PickNumericColumn(ws)
+        If srcCol > 0 Then srcDesc = "column " & ColumnLetter(ws, srcCol) & " (auto)"
+    End If
+
+    If srcCol = 0 Then
+        MsgBox "No numeric data found on sheet '" & ws.name & "'." & vbCrLf & _
+               "Select a column and run Graphify again.", vbExclamation, "Graphify"
+        GoTo Bye
+    End If
+
+    '--- locate the numeric block within the resolved column -------------------
+    firstDataRow = FirstNumericRow(ws, srcCol, colTop)
+    lastRow = ws.Cells(ws.Rows.count, srcCol).End(xlUp).row
+    If selBottom > 0 And lastRow > selBottom Then lastRow = selBottom
+
+    If firstDataRow = 0 Or lastRow < firstDataRow Then
+        MsgBox "No numeric data found in " & srcDesc & " on sheet '" & ws.name & "'.", _
+               vbExclamation, "Graphify"
+        GoTo Bye
+    End If
+
+    Set dataRng = ws.Range(ws.Cells(firstDataRow, srcCol), ws.Cells(lastRow, srcCol))
+    nPts = dataRng.Rows.count
+
+    '--- category labels R1..Rn ------------------------------------------------
+    ReDim cats(1 To nPts)
+    For i = 1 To nPts
+        cats(i) = "R" & i
+    Next i
+
+    '--- reuse the chart if it exists, otherwise create it ---------------------
+    Set co = Nothing
+    On Error Resume Next
+    Set co = ws.ChartObjects(CHART_NAME)
+    On Error GoTo Fail
+
+    If co Is Nothing Then
+        Set co = ws.ChartObjects.Add(ws.Range("E2").Left, ws.Range("E2").Top, _
+                                     CHART_WIDTH, CHART_HEIGHT)
+        co.name = CHART_NAME
+    End If
+
+    '--- rebuild the series from the resolved source ----------------------------
+    With co.Chart
+        Do While .SeriesCollection.count > 0
+            .SeriesCollection(1).Delete
+        Loop
+        Set srs = .SeriesCollection.NewSeries
+        srs.name = "Values"
+        srs.Values = dataRng
+        srs.XValues = cats
+
+        .ChartType = xlColumnClustered     'change if you prefer xlLine, xlPie, etc.
+        .HasTitle = True
+        .ChartTitle.text = "Graphify - Column " & ColumnLetter(ws, srcCol)
+        With .Axes(xlValue)
+            .HasTitle = True
+            .AxisTitle.Caption = "Values"
+        End With
+        With .Axes(xlCategory)
+            .HasTitle = True
+            .AxisTitle.Caption = "Row"
+        End With
+        .HasLegend = False
+    End With
+
+    '--- dock the chart at E2 ---------------------------------------------------
+    co.Left = ws.Range("E2").Left
+    co.Top = ws.Range("E2").Top
+
+Bye:
+    Application.ScreenUpdating = True
+    Set srs = Nothing
+    Set co = Nothing
+    Set dataRng = Nothing
+    Set ws = Nothing
+    Exit Sub
+
+Fail:
+    MsgBox "Graphify failed (" & Err.Number & "): " & Err.description, _
+           vbExclamation, "Graphify"
+    Resume Bye
+End Sub
+
+'------------------------------------------------------------------------------
+' Column with the most numeric cells in the used range (leftmost on tie).
+' Returns 0 when no column holds at least MIN_NUMERIC numbers.
+'------------------------------------------------------------------------------
+Private Function PickNumericColumn(ws As Worksheet) As Long
+    Dim ur As Range
+    Dim c As Long
+    Dim best As Long
+    Dim bestN As Long
+    Dim n As Long
+    Dim lastUsedRow As Long
+
+    Set ur = ws.UsedRange
+    lastUsedRow = ur.row + ur.Rows.count - 1
+
+    best = 0
+    bestN = 0
+    For c = ur.Column To ur.Column + ur.Columns.count - 1
+        n = Application.count(ws.Range(ws.Cells(1, c), ws.Cells(lastUsedRow, c)))
+        If n > bestN Then
+            best = c
+            bestN = n
+        End If
+    Next c
+
+    If bestN >= MIN_NUMERIC Then
+        PickNumericColumn = best
+    Else
+        PickNumericColumn = 0
+    End If
+End Function
+
+'------------------------------------------------------------------------------
+' First row at or below fromRow whose cell holds a real number
+' (dates, booleans, text and blanks do not count). Returns 0 when none.
+'------------------------------------------------------------------------------
+Private Function FirstNumericRow(ws As Worksheet, colIdx As Long, fromRow As Long) As Long
+    Dim r As Long
+    Dim lastUsedRow As Long
+    Dim v As Variant
+
+    lastUsedRow = ws.UsedRange.row + ws.UsedRange.Rows.count - 1
+    For r = fromRow To lastUsedRow
+        v = ws.Cells(r, colIdx).value
+        Select Case VarType(v)
+            Case vbDouble, vbLong, vbInteger, vbSingle, vbCurrency
+                FirstNumericRow = r
+                Exit Function
+        End Select
+    Next r
+    FirstNumericRow = 0
+End Function
+
+'------------------------------------------------------------------------------
+' Column index -> letter ("I").
+'------------------------------------------------------------------------------
+Private Function ColumnLetter(ws As Worksheet, colIdx As Long) As String
+    Dim a As String
+    a = ws.Columns(colIdx).address(False, False)   ' e.g. "I:I"
+    ColumnLetter = Left$(a, InStr(a, ":") - 1)
+End Function
+
+
+==============================================================================
+== MODULE: Sheet12.cls
+==============================================================================
+Attribute VB_Name = "Sheet12"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+Option Explicit
+
+Private Const START_ROW As Long = 8
+Private Const COL_TIN As Integer = 4
+Private Const COL_NAME As Integer = 5
+Private Const COL_ADDRESS As Integer = 6
+Private Const COL_COA As Integer = 7
+Private Const COL_REF As Integer = 8
+Private Const COL_DEBIT_MIRROR As Integer = 9
+Private Const COL_DEBIT As Integer = 10
+Private Const COL_CREDIT_MIRROR As Integer = 12
+Private Const COL_CREDIT As Integer = 13
+Private Const COL_GROSS As Integer = 14
+Private Const COL_FULL_ID As Integer = 17
+
+' ============================================================
+' COA LIST & SELECT (used only when adding new supplier)
+' ============================================================
+Private Function GetCOAList() As Variant
+    Static coaArray As Variant
+    If IsEmpty(coaArray) Then
+        coaArray = Array( _
+            "Representation", "Clinicians Fee - Corporators", "Value Added Tax Payable", _
+            "Pantry Supplies", "Taxes and Licences", "Miscellaneous", "Advances to Employee", _
+            "Government ER Share Cont", "Delivery", "Repairs and Maintenance", _
+            "Clinicians Fee - Visiting", "Association Dues", "Advertisement", _
+            "Clinic Materials and Supplies", "Transportation and Travel", "Fuel and Oil", _
+            "Supplies", "Rental", "Communication", "Professional Fees" _
+        )
+    End If
+    GetCOAList = coaArray
+End Function
+
+Private Function SelectCOA() As String
+    Dim coaList As Variant, i As Integer, inputStr As String, userInput As String, idx As Integer
+    coaList = GetCOAList()
+    inputStr = "Select Chart of Account:" & vbCrLf
+    For i = LBound(coaList) To UBound(coaList)
+        inputStr = inputStr & (i + 1) & ". " & coaList(i) & vbCrLf
+    Next i
+    inputStr = inputStr & "Enter number (1-" & UBound(coaList) + 1 & "):"
+    userInput = InputBox(inputStr, "Chart of Account Selection")
+    If userInput = "" Then SelectCOA = "": Exit Function
+    If IsNumeric(userInput) Then
+        idx = CInt(userInput) - 1
+        If idx >= LBound(coaList) And idx <= UBound(coaList) Then SelectCOA = coaList(idx): Exit Function
+    End If
+    MsgBox "Invalid selection.", vbExclamation
+    SelectCOA = SelectCOA()
+End Function
+
+' ============================================================
+' LOOKUP (uses modEngine)
+' ============================================================
+Private Sub LookupByTIN(rowNum As Long, tin As String)
+    Dim data As Variant
+    tin = Trim(tin): If tin = "" Then Exit Sub
+    data = modEngine.GetSupplierByTIN(tin)
+    If IsArray(data) Then
+        Me.Cells(rowNum, COL_NAME).value = data(0)
+        Me.Cells(rowNum, COL_ADDRESS).value = data(1)
+        Me.Cells(rowNum, COL_COA).value = data(2)
+    Else
+        If MsgBox("TIN '" & tin & "' not found. Add?", vbYesNo + vbQuestion) = vbYes Then
+            Dim name As String, address As String, coa As String
+            name = Trim(Me.Cells(rowNum, COL_NAME).value): If name = "" Then name = InputBox("Supplier Name:")
+            If name = "" Then Exit Sub
+            address = Trim(Me.Cells(rowNum, COL_ADDRESS).value): If address = "" Then address = InputBox("Address:")
+            coa = Trim(Me.Cells(rowNum, COL_COA).value): If coa = "" Then coa = SelectCOA()
+            If coa = "" Then Exit Sub
+            Call AddSupplierToMaster(tin, name, coa, address)
+            Call LookupByTIN(rowNum, tin)
+        End If
+    End If
+End Sub
+
+Private Sub LookupByName(rowNum As Long, name As String)
+    Dim data As Variant
+    name = Trim(name): If name = "" Then Exit Sub
+    data = modEngine.GetSupplierByName(name)
+    If IsArray(data) Then
+        Me.Cells(rowNum, COL_TIN).value = data(0)
+        Me.Cells(rowNum, COL_ADDRESS).value = data(1)
+        Me.Cells(rowNum, COL_COA).value = data(2)
+    Else
+        If MsgBox("Supplier '" & name & "' not found. Add?", vbYesNo + vbQuestion) = vbYes Then
+            Dim tin As String, address As String, coa As String
+            tin = Trim(Me.Cells(rowNum, COL_TIN).value): If tin = "" Then tin = InputBox("TIN:")
+            If tin = "" Then Exit Sub
+            address = Trim(Me.Cells(rowNum, COL_ADDRESS).value): If address = "" Then address = InputBox("Address:")
+            coa = Trim(Me.Cells(rowNum, COL_COA).value): If coa = "" Then coa = SelectCOA()
+            If coa = "" Then Exit Sub
+            Call AddSupplierToMaster(tin, name, coa, address)
+            Call LookupByName(rowNum, name)
+        End If
+    End If
+End Sub
+
+' ============================================================
+' ADD SUPPLIER TO MASTER + UPDATE CACHE
+' ============================================================
+Private Sub AddSupplierToMaster(tin As String, name As String, coa As String, address As String)
+    Dim ws As Worksheet, lastRow As Long, nextNo As Long, i As Long
+    Set ws = ThisWorkbook.Sheets("SUPPLIERS DATA")
+    If ws Is Nothing Then Exit Sub
+
+    lastRow = ws.Cells(ws.Rows.count, 3).End(xlUp).row
+    For i = 2 To lastRow
+        If ws.Cells(i, 3).value = tin Then
+            MsgBox "TIN already exists!", vbExclamation: Exit Sub
+        End If
+    Next i
+
+    lastRow = ws.Cells(ws.Rows.count, 2).End(xlUp).row
+    If lastRow < 2 Then lastRow = 2
+    nextNo = Application.WorksheetFunction.Max(ws.Range(ws.Cells(2, 2), ws.Cells(lastRow, 2))) + 1
+    If IsError(nextNo) Then nextNo = 1
+
+    Dim newRow As Long: newRow = lastRow + 1
+    With ws
+        .Cells(newRow, 2).value = nextNo
+        .Cells(newRow, 3).value = tin
+        .Cells(newRow, 4).value = UCase(name)
+        .Cells(newRow, 5).value = address
+        .Cells(newRow, 6).value = coa
+    End With
+    Call modEngine.AddSupplierToCache(tin, name, address, coa)
+    MsgBox "Supplier added.", vbInformation
+End Sub
+
+' ============================================================
+' HELPERS (Totals, Block Start)
+' ============================================================
+Private Sub ClearSupplierRow(rowNum As Long)
+    Me.Cells(rowNum, COL_NAME).value = ""
+    Me.Cells(rowNum, COL_ADDRESS).value = ""
+    Me.Cells(rowNum, COL_COA).value = ""
+End Sub
+
+Private Sub CalculateTotals(rowNum As Long)
+    Dim startRow As Long, endRow As Long, debitSum As Double, creditSum As Double
+    startRow = FindBlockStart(rowNum): endRow = rowNum - 1
+    If endRow < startRow Then Exit Sub
+    debitSum = Application.WorksheetFunction.Sum(Me.Range(Me.Cells(startRow, COL_DEBIT), Me.Cells(endRow, COL_DEBIT)))
+    creditSum = Application.WorksheetFunction.Sum(Me.Range(Me.Cells(startRow, COL_CREDIT), Me.Cells(endRow, COL_CREDIT)))
+    Me.Cells(rowNum, COL_DEBIT).value = debitSum
+    Me.Cells(rowNum, COL_CREDIT).value = creditSum
+    Me.Cells(rowNum, COL_DEBIT_MIRROR).value = debitSum
+    Me.Cells(rowNum, COL_CREDIT_MIRROR).value = creditSum
+End Sub
+
+Private Function FindBlockStart(rowNum As Long) As Long
+    Dim i As Long, val As String
+    For i = rowNum - 1 To START_ROW Step -1
+        val = Trim(Me.Cells(i, COL_TIN).value)
+        If LCase(val) = "total" Then FindBlockStart = i + 1: Exit Function
+    Next i
+    FindBlockStart = START_ROW
+End Function
+
+' ============================================================
+' MANUAL SYNC MACRO (optional)
+' ============================================================
+Sub ManualSyncToCDJ()
+    Dim rowNum As Long
+    rowNum = ActiveCell.row
+    If rowNum < START_ROW Then
+        MsgBox "Select a row below row 8.", vbExclamation
+        Exit Sub
+    End If
+    If Me.Cells(rowNum, COL_REF).value = "" Then
+        MsgBox "No reference ID (PJ-XXXXX) in column H. Enter Gross Amount first.", vbExclamation
+        Exit Sub
+    End If
+    Call modEngine.SyncPJToCDJ(Me, rowNum)
+    MsgBox "Sync attempted for row " & rowNum & ". Check target sheet.", vbInformation
+End Sub
+
+' ============================================================
+' MAIN TRIGGER
+' ============================================================
+Private Sub Worksheet_Change(ByVal Target As Range)
+    Dim rngLookup As Range, rngSync As Range, cell As Range
+    Dim currentTimestamp As String, newRef As String
+
+    ' ---- PART 1: LOOKUP, VAT, ID STAMPING ----
+    Set rngLookup = Intersect(Target, Union(Me.Range("D:D"), Me.Range("E:E"), _
+                                            Me.Range("F:F"), Me.Range("G:G"), _
+                                            Me.Range("N:N")))
+    If Not rngLookup Is Nothing Then
+        Application.EnableEvents = False
+        Application.ScreenUpdating = False
+        Application.Calculation = xlCalculationManual
+        On Error GoTo CleanupLookup
+        currentTimestamp = Format(Now, "yyyymmdd-HHnnSS")
+
+        For Each cell In rngLookup
+            If cell.row >= START_ROW Then
+                If cell.Column = COL_TIN Or cell.Column = COL_NAME Then
+                    Dim tinVal As String, nameVal As String
+                    tinVal = Trim(Me.Cells(cell.row, COL_TIN).value)
+                    nameVal = Trim(Me.Cells(cell.row, COL_NAME).value)
+                    If LCase(tinVal) = "total" Or LCase(nameVal) = "total" Then
+                        Call CalculateTotals(cell.row)
+                        GoTo NextLookup
+                    End If
+                    If tinVal <> "" Then
+                        Call LookupByTIN(cell.row, tinVal)
+                    ElseIf nameVal <> "" Then
+                        Call LookupByName(cell.row, nameVal)
+                    Else
+                        Call ClearSupplierRow(cell.row)
+                    End If
+                End If
+
+                If Me.Cells(cell.row, COL_GROSS).value <> "" And _
+                   Me.Cells(cell.row, COL_TIN).value <> "TOTAL" And _
+                   Me.Cells(cell.row, COL_NAME).value <> "TOTAL" Then
+                    Me.Cells(cell.row, COL_DEBIT).Formula = "=N" & cell.row & "/1.12"
+                    Me.Cells(cell.row, COL_CREDIT).Formula = "=N" & cell.row & "-J" & cell.row
+                    Me.Cells(cell.row, COL_DEBIT_MIRROR).Formula = "=J" & cell.row
+                    Me.Cells(cell.row, COL_CREDIT_MIRROR).Formula = "=M" & cell.row
+
+                    ' ---- ID STAMPING ----
+                    If Me.Cells(cell.row, COL_TIN).value <> "" And _
+                       Me.Cells(cell.row, COL_NAME).value <> "" And _
+                       Me.Cells(cell.row, COL_COA).value <> "" And _
+                       Me.Cells(cell.row, COL_REF).value = "" Then
+                        newRef = modEngine.GetNextPJNumber()
+                        Me.Cells(cell.row, COL_REF).value = newRef
+                        Me.Cells(cell.row, COL_FULL_ID).value = "PJINV-" & currentTimestamp & "-" & Right(newRef, 5)
+
+                        ' ====== FIX: SYNC IMMEDIATELY ======
+                        Call modEngine.SyncPJToCDJ(Me, cell.row)
+                    End If
+                End If
+            End If
+NextLookup:
+        Next cell
+
+CleanupLookup:
+        Application.EnableEvents = True
+        Application.ScreenUpdating = True
+        Application.Calculation = xlCalculationAutomatic
+    End If
+
+    ' ---- PART 2: SYNC (Triggered by Column H) ----
+    ' Kept as a safety fallback (will do nothing if already synced)
+    Set rngSync = Intersect(Target, Me.Range("H:H"))
+    If Not rngSync Is Nothing Then
+        Application.EnableEvents = False
+        Application.ScreenUpdating = False
+        Application.Calculation = xlCalculationManual
+        On Error GoTo CleanupSync
+
+        For Each cell In rngSync
+            If cell.row >= START_ROW Then
+                newRef = Trim(Me.Cells(cell.row, COL_REF).value)
+                If newRef <> "" And newRef <> "TOTAL" Then
+                    If Me.Cells(cell.row, COL_TIN).value <> "" And _
+                       Me.Cells(cell.row, COL_NAME).value <> "" And _
+                       Me.Cells(cell.row, COL_COA).value <> "" And _
+                       Me.Cells(cell.row, COL_GROSS).value <> "" Then
+                        Call modEngine.SyncPJToCDJ(Me, cell.row)
+                    End If
+                End If
+            End If
+        Next cell
+
+CleanupSync:
+        Application.EnableEvents = True
+        Application.ScreenUpdating = True
+        Application.Calculation = xlCalculationAutomatic
+    End If
+End Sub
+
+
+
+==============================================================================
+== MODULE: Sheet11.cls
+==============================================================================
+Attribute VB_Name = "Sheet11"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+Option Explicit
+
+Private Const START_ROW As Long = 8
+Private Const COL_TIN As Integer = 4
+Private Const COL_NAME As Integer = 5
+Private Const COL_ADDRESS As Integer = 6
+Private Const COL_COA As Integer = 7
+Private Const COL_REF As Integer = 8
+Private Const COL_DEBIT_MIRROR As Integer = 9
+Private Const COL_DEBIT As Integer = 10
+Private Const COL_CREDIT_MIRROR As Integer = 12
+Private Const COL_CREDIT As Integer = 13
+Private Const COL_GROSS As Integer = 14          ' N = Amount (Net, no VAT)
+Private Const COL_FULL_ID As Integer = 17
+
+' ============================================================
+' COA LIST & SELECT
+' ============================================================
+Private Function GetCOAList() As Variant
+    Static coaArray As Variant
+    If IsEmpty(coaArray) Then
+        coaArray = Array( _
+            "Representation", "Clinicians Fee - Corporators", "Value Added Tax Payable", _
+            "Pantry Supplies", "Taxes and Licences", "Miscellaneous", "Advances to Employee", _
+            "Government ER Share Cont", "Delivery", "Repairs and Maintenance", _
+            "Clinicians Fee - Visiting", "Association Dues", "Advertisement", _
+            "Clinic Materials and Supplies", "Transportation and Travel", "Fuel and Oil", _
+            "Supplies", "Rental", "Communication", "Professional Fees" _
+        )
+    End If
+    GetCOAList = coaArray
+End Function
+
+Private Function SelectCOA() As String
+    Dim coaList As Variant, i As Integer, inputStr As String, userInput As String, idx As Integer
+    coaList = GetCOAList()
+    inputStr = "Select Chart of Account:" & vbCrLf
+    For i = LBound(coaList) To UBound(coaList)
+        inputStr = inputStr & (i + 1) & ". " & coaList(i) & vbCrLf
+    Next i
+    inputStr = inputStr & "Enter number (1-" & UBound(coaList) + 1 & "):"
+    userInput = InputBox(inputStr, "Chart of Account Selection")
+    If userInput = "" Then SelectCOA = "": Exit Function
+    If IsNumeric(userInput) Then
+        idx = CInt(userInput) - 1
+        If idx >= LBound(coaList) And idx <= UBound(coaList) Then SelectCOA = coaList(idx): Exit Function
+    End If
+    MsgBox "Invalid selection.", vbExclamation
+    SelectCOA = SelectCOA()
+End Function
+
+' ============================================================
+' LOOKUP (uses modEngine)
+' ============================================================
+Private Sub LookupByTIN(rowNum As Long, tin As String)
+    Dim data As Variant
+    tin = Trim(tin): If tin = "" Then Exit Sub
+    data = modEngine.GetSupplierByTIN(tin)
+    If IsArray(data) Then
+        Me.Cells(rowNum, COL_NAME).value = data(0)
+        Me.Cells(rowNum, COL_ADDRESS).value = data(1)
+        Me.Cells(rowNum, COL_COA).value = data(2)
+    Else
+        If MsgBox("TIN '" & tin & "' not found. Add?", vbYesNo + vbQuestion) = vbYes Then
+            Dim name As String, address As String, coa As String
+            name = Trim(Me.Cells(rowNum, COL_NAME).value): If name = "" Then name = InputBox("Supplier Name:")
+            If name = "" Then Exit Sub
+            address = Trim(Me.Cells(rowNum, COL_ADDRESS).value): If address = "" Then address = InputBox("Address:")
+            coa = Trim(Me.Cells(rowNum, COL_COA).value): If coa = "" Then coa = SelectCOA()
+            If coa = "" Then Exit Sub
+            Call AddSupplierToMaster(tin, name, coa, address)
+            Call LookupByTIN(rowNum, tin)
+        End If
+    End If
+End Sub
+
+Private Sub LookupByName(rowNum As Long, name As String)
+    Dim data As Variant
+    name = Trim(name): If name = "" Then Exit Sub
+    data = modEngine.GetSupplierByName(name)
+    If IsArray(data) Then
+        Me.Cells(rowNum, COL_TIN).value = data(0)
+        Me.Cells(rowNum, COL_ADDRESS).value = data(1)
+        Me.Cells(rowNum, COL_COA).value = data(2)
+    Else
+        If MsgBox("Supplier '" & name & "' not found. Add?", vbYesNo + vbQuestion) = vbYes Then
+            Dim tin As String, address As String, coa As String
+            tin = Trim(Me.Cells(rowNum, COL_TIN).value): If tin = "" Then tin = InputBox("TIN:")
+            If tin = "" Then Exit Sub
+            address = Trim(Me.Cells(rowNum, COL_ADDRESS).value): If address = "" Then address = InputBox("Address:")
+            coa = Trim(Me.Cells(rowNum, COL_COA).value): If coa = "" Then coa = SelectCOA()
+            If coa = "" Then Exit Sub
+            Call AddSupplierToMaster(tin, name, coa, address)
+            Call LookupByName(rowNum, name)
+        End If
+    End If
+End Sub
+
+' ============================================================
+' ADD SUPPLIER TO MASTER + UPDATE CACHE
+' ============================================================
+Private Sub AddSupplierToMaster(tin As String, name As String, coa As String, address As String)
+    Dim ws As Worksheet, lastRow As Long, nextNo As Long, i As Long
+    Set ws = ThisWorkbook.Sheets("SUPPLIERS DATA")
+    If ws Is Nothing Then Exit Sub
+
+    lastRow = ws.Cells(ws.Rows.count, 3).End(xlUp).row
+    For i = 2 To lastRow
+        If ws.Cells(i, 3).value = tin Then
+            MsgBox "TIN already exists!", vbExclamation: Exit Sub
+        End If
+    Next i
+
+    lastRow = ws.Cells(ws.Rows.count, 2).End(xlUp).row
+    If lastRow < 2 Then lastRow = 2
+    nextNo = Application.WorksheetFunction.Max(ws.Range(ws.Cells(2, 2), ws.Cells(lastRow, 2))) + 1
+    If IsError(nextNo) Then nextNo = 1
+
+    Dim newRow As Long: newRow = lastRow + 1
+    With ws
+        .Cells(newRow, 2).value = nextNo
+        .Cells(newRow, 3).value = tin
+        .Cells(newRow, 4).value = UCase(name)
+        .Cells(newRow, 5).value = address
+        .Cells(newRow, 6).value = coa
+    End With
+    Call modEngine.AddSupplierToCache(tin, name, address, coa)
+    MsgBox "Supplier added.", vbInformation
+End Sub
+
+' ============================================================
+' CLEAR SUPPLIER ROW
+' ============================================================
+Private Sub ClearSupplierRow(rowNum As Long)
+    Me.Cells(rowNum, COL_NAME).value = ""
+    Me.Cells(rowNum, COL_ADDRESS).value = ""
+    Me.Cells(rowNum, COL_COA).value = ""
+End Sub
+
+' ============================================================
+' CALCULATE TOTALS
+' ============================================================
+Private Sub CalculateTotals(rowNum As Long)
+    Dim startRow As Long, endRow As Long, debitSum As Double, creditSum As Double
+    startRow = FindBlockStart(rowNum): endRow = rowNum - 1
+    If endRow < startRow Then Exit Sub
+    debitSum = Application.WorksheetFunction.Sum(Me.Range(Me.Cells(startRow, COL_DEBIT), Me.Cells(endRow, COL_DEBIT)))
+    creditSum = Application.WorksheetFunction.Sum(Me.Range(Me.Cells(startRow, COL_CREDIT), Me.Cells(endRow, COL_CREDIT)))
+    Me.Cells(rowNum, COL_DEBIT).value = debitSum
+    Me.Cells(rowNum, COL_CREDIT).value = creditSum
+    Me.Cells(rowNum, COL_DEBIT_MIRROR).value = debitSum
+    Me.Cells(rowNum, COL_CREDIT_MIRROR).value = creditSum
+End Sub
+
+Private Function FindBlockStart(rowNum As Long) As Long
+    Dim i As Long, val As String
+    For i = rowNum - 1 To START_ROW Step -1
+        val = Trim(Me.Cells(i, COL_TIN).value)
+        If LCase(val) = "total" Then FindBlockStart = i + 1: Exit Function
+    Next i
+    FindBlockStart = START_ROW
+End Function
+
+' ============================================================
+' MANUAL SYNC MACRO
+' ============================================================
+Sub ManualSyncToCDJ()
+    Dim rowNum As Long
+    rowNum = ActiveCell.row
+    If rowNum < START_ROW Then
+        MsgBox "Select a row below row 8.", vbExclamation
+        Exit Sub
+    End If
+    If Me.Cells(rowNum, COL_REF).value = "" Then
+        MsgBox "No reference ID (PNV-XXXXX) in column H. Enter Amount first.", vbExclamation
+        Exit Sub
+    End If
+    Call modEngine.SyncPJNonVatToCDJ(Me, rowNum)
+    MsgBox "Sync attempted for row " & rowNum & ". Check target sheet.", vbInformation
+End Sub
+
+' ============================================================
+' MAIN TRIGGER
+' ============================================================
+Private Sub Worksheet_Change(ByVal Target As Range)
+    Dim rngLookup As Range, rngSync As Range, cell As Range
+    Dim currentTimestamp As String, newRef As String
+
+    ' ---- PART 1: LOOKUP, AMOUNT (NO VAT), ID STAMPING ----
+    Set rngLookup = Intersect(Target, Union(Me.Range("D:D"), Me.Range("E:E"), _
+                                            Me.Range("F:F"), Me.Range("G:G"), _
+                                            Me.Range("N:N")))    ' Column N = Net Amount
+    If Not rngLookup Is Nothing Then
+        Application.EnableEvents = False
+        Application.ScreenUpdating = False
+        Application.Calculation = xlCalculationManual
+        On Error GoTo CleanupLookup
+        currentTimestamp = Format(Now, "yyyymmdd-HHnnSS")
+
+        For Each cell In rngLookup
+            If cell.row >= START_ROW Then
+                If cell.Column = COL_TIN Or cell.Column = COL_NAME Then
+                    Dim tinVal As String, nameVal As String
+                    tinVal = Trim(Me.Cells(cell.row, COL_TIN).value)
+                    nameVal = Trim(Me.Cells(cell.row, COL_NAME).value)
+                    If LCase(tinVal) = "total" Or LCase(nameVal) = "total" Then
+                        Call CalculateTotals(cell.row)
+                        GoTo NextLookup
+                    End If
+                    If tinVal <> "" Then
+                        Call LookupByTIN(cell.row, tinVal)
+                    ElseIf nameVal <> "" Then
+                        Call LookupByName(cell.row, nameVal)
+                    Else
+                        Call ClearSupplierRow(cell.row)
+                    End If
+                End If
+
+                ' ---- NON-VAT AMOUNT (NO VAT) ----
+                If Me.Cells(cell.row, COL_GROSS).value <> "" And _
+                   Me.Cells(cell.row, COL_TIN).value <> "TOTAL" And _
+                   Me.Cells(cell.row, COL_NAME).value <> "TOTAL" Then
+
+                    ' Set J = N, M = 0
+                    Me.Cells(cell.row, COL_DEBIT).value = Me.Cells(cell.row, COL_GROSS).value
+                    Me.Cells(cell.row, COL_CREDIT).value = 0
+                    Me.Cells(cell.row, COL_DEBIT_MIRROR).value = Me.Cells(cell.row, COL_GROSS).value
+                    Me.Cells(cell.row, COL_CREDIT_MIRROR).value = 0
+
+                    ' ---- ID STAMPING (PNV-XXXXX) ----
+                    If Me.Cells(cell.row, COL_TIN).value <> "" And _
+                       Me.Cells(cell.row, COL_NAME).value <> "" And _
+                       Me.Cells(cell.row, COL_COA).value <> "" And _
+                       Me.Cells(cell.row, COL_REF).value = "" Then
+                        newRef = modEngine.GetNextPJNumber()       ' Uses sequence from AA13
+                        newRef = "PNV-" & Right(newRef, 5)         ' Change prefix to PNV
+                        Me.Cells(cell.row, COL_REF).value = newRef
+                        Me.Cells(cell.row, COL_FULL_ID).value = "PNVINV-" & currentTimestamp & "-" & Right(newRef, 5)
+
+                        ' ---- SYNC IMMEDIATELY ----
+                        Call modEngine.SyncPJNonVatToCDJ(Me, cell.row)
+                    End If
+                End If
+            End If
+NextLookup:
+        Next cell
+
+CleanupLookup:
+        Application.EnableEvents = True
+        Application.ScreenUpdating = True
+        Application.Calculation = xlCalculationAutomatic
+    End If
+
+    ' ---- PART 2: SYNC (Triggered by Column H) ----
+    Set rngSync = Intersect(Target, Me.Range("H:H"))
+    If Not rngSync Is Nothing Then
+        Application.EnableEvents = False
+        Application.ScreenUpdating = False
+        Application.Calculation = xlCalculationManual
+        On Error GoTo CleanupSync
+
+        For Each cell In rngSync
+            If cell.row >= START_ROW Then
+                newRef = Trim(Me.Cells(cell.row, COL_REF).value)
+                If newRef <> "" And newRef <> "TOTAL" Then
+                    If Me.Cells(cell.row, COL_TIN).value <> "" And _
+                       Me.Cells(cell.row, COL_NAME).value <> "" And _
+                       Me.Cells(cell.row, COL_COA).value <> "" And _
+                       Me.Cells(cell.row, COL_GROSS).value <> "" Then
+                        Call modEngine.SyncPJNonVatToCDJ(Me, cell.row)
+                    End If
+                End If
+            End If
+        Next cell
+
+CleanupSync:
+        Application.EnableEvents = True
+        Application.ScreenUpdating = True
+        Application.Calculation = xlCalculationAutomatic
+    End If
+End Sub
+
+
+
+==============================================================================
+== MODULE: Sheet8.cls
+==============================================================================
+Attribute VB_Name = "Sheet8"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+Option Explicit
+
+' ============================================================
+' SJ — Worksheet module
+' Delegates CRJ sync + invoice numbering to modEngine
+' ============================================================
+
+Private Const START_ROW As Long = 10
+
+' --- Column layout (must match modEngine.SJ_COL_* constants) ---
+Private Const COL_DATE As Integer = 3           ' C
+Private Const COL_CUSTOMER As Integer = 6       ' F
+Private Const COL_INVOICE As Integer = 9        ' I
+Private Const COL_AMOUNT As Integer = 10        ' J
+Private Const COL_DISCOUNT As Integer = 11      ' K
+Private Const COL_OUTPUTVAT As Integer = 13     ' M
+Private Const COL_NETSALES As Integer = 15      ' O
+Private Const COL_REFERENCE As Integer = 21     ' U
+
+' ============================================================
+' Sync one SJ row to CRJ (via modEngine)
+' ============================================================
+Private Sub SyncToCRJ(ByVal sourceRow As Long)
+    modEngine.SyncSJToCRJ Me, sourceRow
+End Sub
+
+' ============================================================
+' MAIN TRIGGER
+' ============================================================
+Private Sub Worksheet_Change(ByVal Target As Range)
+    Dim rng As Range, cell As Range
+
+    ' Watch customer (F), amount (J), discount (K) edits
+    Set rng = Intersect(Target, Union(Me.Range("F:F"), Me.Range("J:K")))
+    If rng Is Nothing Then Exit Sub
+
+    Application.EnableEvents = False
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+    On Error GoTo Cleanup
+
+    For Each cell In rng
+        If cell.row >= START_ROW _
+           And UCase$(Trim(CStr(Me.Cells(cell.row, 1).value))) <> "TOTAL" Then
+
+            ' ---- Number formats ----
+            Me.Cells(cell.row, COL_AMOUNT).NumberFormat = _
+                "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            Me.Cells(cell.row, COL_DISCOUNT).NumberFormat = _
+                "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            Me.Cells(cell.row, COL_OUTPUTVAT).NumberFormat = _
+                "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            Me.Cells(cell.row, COL_NETSALES).NumberFormat = _
+                "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+
+            ' ---- Formulas (J and K are the amount columns) ----
+            ' Output VAT = (Amount - Discount) * 0.107142857
+            Me.Cells(cell.row, COL_OUTPUTVAT).Formula = _
+                "=IF(J" & cell.row & "-K" & cell.row & "=0,0," & _
+                "(J" & cell.row & "-K" & cell.row & ")*0.107142857)"
+
+            ' Net Sales = Amount - Discount - Output VAT
+            Me.Cells(cell.row, COL_NETSALES).Formula = _
+                "=J" & cell.row & "-K" & cell.row & "-M" & cell.row
+
+            ' ---- Auto-assign invoice number (via engine) ----
+            If Me.Cells(cell.row, COL_INVOICE).value = "" _
+               And Me.Cells(cell.row, COL_DATE).value <> "" _
+               And Me.Cells(cell.row, COL_AMOUNT).value <> "" Then
+                Me.Cells(cell.row, COL_INVOICE).value = modEngine.GetNextInvoiceNumber()
+            End If
+        End If
+    Next cell
+
+    ' ---- CRJ SYNCHRONIZATION ----
+    For Each cell In rng
+        If cell.row >= START_ROW _
+           And Me.Cells(cell.row, COL_INVOICE).value <> "" _
+           And Me.Cells(cell.row, COL_AMOUNT).value <> "" Then
+            Call SyncToCRJ(cell.row)
+        End If
+    Next cell
+
+Cleanup:
+    Application.EnableEvents = True
+    Application.ScreenUpdating = True
+    Application.Calculation = xlCalculationAutomatic
+End Sub
+
+
+
+==============================================================================
+== MODULE: Sheet13.cls
+==============================================================================
+Attribute VB_Name = "Sheet13"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+
+
+==============================================================================
+== MODULE: Module1.bas
+==============================================================================
+Attribute VB_Name = "Module1"
+
+
+==============================================================================
+== MODULE: Sheet14.cls
+==============================================================================
+Attribute VB_Name = "Sheet14"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+
+
+==============================================================================
+== MODULE: Sheet15.cls
+==============================================================================
+Attribute VB_Name = "Sheet15"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+
+
+==============================================================================
+== MODULE: Sheet16.cls
+==============================================================================
+Attribute VB_Name = "Sheet16"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+
+
+==============================================================================
+== MODULE: Sheet17.cls
+==============================================================================
+Attribute VB_Name = "Sheet17"
+Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+
+

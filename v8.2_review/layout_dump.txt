@@ -1,0 +1,89 @@
+﻿==============================================================================================================
+SHEET CDJ  dims=A1:AG1004  max_row=1004 max_col=33
+==============================================================================================================
+  C13=Date | E13=Particulars | F13=Cash In  | G13=Input | H13=Withholding Tax | I13=Petty Cash  | J13=EE Government  | K13=EE Government | L13=De Minimis | M13=Salaries and | N13=Clinic Material  | O13=Rent | P13=Gas, Oil, Fuel, Toll | Q13=Communication, Light  | R13=Professional  | S13=Sundry
+  C14=2025 | F14=Bank | G14=VAT | H14=Expanded | I14=Fund | J14=Contributions | K14=Loans | L14=Other Benefits | M14=Wages | N14=Supplies | O14=Expense | P14=Parking | Q14=and Water | R14=Fees | S14=Account | T14=Debit | U14=Credit
+  C15=JAN | E15=FEDERAL BRENT RETAIL INC | F15=-3000 | G15=321.43 | H15=0 | N15=2678.57 | T15=3000
+  C16=JAN | E16=FEDERAL BRENT RETAIL INC | F16=-1500 | G16=0 | H16=0 | N16=1500 | T16=1500
+  E17=KNOXPORT INC | F17=-1025.25 | G17=109.85 | H17=0 | S17=Miscellaneous | T17=1025.25
+  E18=FEDERAL BRENT RETAIL INC | F18=-1500 | G18=0 | H18=0 | N18=1500 | T18=1500
+  C60=FEB
+  MERGED (7): C13:D13, C14:D14, C3:U3, E13:E14, E7:F7, E8:R8, Y13:Z13
+
+==============================================================================================================
+SHEET CRJ  dims=A1:AB719  max_row=719 max_col=28
+==============================================================================================================
+  D8=Date | F8=Particulars | G8=Service Invoice No. | H8=Debit | K8=   Credit | O8=Entry Logs | P8=Sales Journal
+  D9=2025 | H9=Cash in Bank | I9=CWT/IT | J9=Output Vat | K9=Exempt Sales | L9=Sales | P9=No.
+  F10=Tan, Theodore | G10=1819 | H10=2700 | J10=289.29 | K10=0 | L10=2410.71 | O10=Inserted from SJ Row 11 | Invoice: 1819 | 8/2/2026 6:35:49 PM | P10=SJ-00001
+  D25=JAN | E25=31 | F25=TOTAL | H25=13240 | I25=0 | J25=1418.57 | K25=0 | L25=11821.43
+  D36=FEB | E36=28 | F36=TOTAL | H36=0 | I36=0 | J36=0 | K36=0 | L36=0
+  D61=MAY | E61=31 | F61=TOTAL | H61=0 | I61=0 | J61=0 | K61=0 | L61=0
+  MERGED (10): D8:E8, D9:E9, F2:I2, F4:G4, F5:I5, F8:F9, G8:G9, H8:I8, O8:O9, P6:P7
+
+==============================================================================================================
+SHEET GJ  dims=A1:Z1000  max_row=1000 max_col=26
+==============================================================================================================
+  B9=Date | D9=Ref | E9=Explanation | F9=DEBIT  | G9=CREDIT
+  B10=2026
+  B11=JAN | C11=31 | D11=GJ2601-001 | E11=Dep'n Expense-Leasehold Improvements | F11=2164.33
+  E12=Dep'n Expense-Dental Equipment | F12=997.50
+  E13=Leasehold Improvements | G13=2164.33
+  E14=   Medical Equipment | G14=997.50
+  E15=       Recording Depreciation for the month
+  E20=Supplies | F20=2000
+  E21=Pantry Supplies | F21=218
+  E22=Office Supplies | F22=350
+  E30=Dep'n Expense-Dental Equipment | F30=997.50
+  E31=Leasehold Improvements | G31=2164.33
+  E32=   Medical Equipment | G32=997.50
+  E40=Repairs and Maintenance | F40=3500
+  E41=Petty Cash Fund | G41=8699
+  E42=   Liquidation of PCF for the Month
+  D50=GJ2603-002 | E50=Pantry Supplies | F50=2118
+  E51=Office Supplies | F51=2733
+  E52=Charges | F52=7.50
+  MERGED (8): B10:C10, B2:G2, B9:C9, D9:D10, E5:F5, E9:E10, F9:F10, G9:G10
+
+==============================================================================================================
+SHEET GL  dims=A1:AA1000  max_row=1000 max_col=27
+==============================================================================================================
+  B2=GENERAL LEDGER 
+  B6=Name:      | D6=Global City Smiles Dental and Medical Wellness Inc.
+  B7=Address:   | D7=Unit 1501 15th Floor MDI Corporate Center 39th St. Cor 10th Ave. Fort Bonifacio Taguig City
+  B8=VAT Reg .TIN: | D8=613-594-172-000
+  B9=RDO:       | D9=044
+  B11=Date | D11= Reference | E11=Explanation | F11=Account Title  | G11=Debit  | H11=Credit | I11=Credit
+  B12=2026
+  B13=JAN | C13=31 | E13=Ending Balance | F13=Cash in Bank | G13=13240 | H13=7025.25 | I13=-7025.25
+  B14=FEB | C14=28 | E14=Ending Balance | F14=Cash in Bank | G14=0 | H14=0 | I14=0
+  B24=DEC | C24=31 | F24=Cash in Bank | G24=0 | H24=0 | I24=0
+  B26=JAN | C26=31 | F26=Petty Cash Fund
+  B208=JAN | C208=31 | F208=Paid-Up Capital
+  B221=JAN | C221=31 | F221=Paid-Up Capital
+  B598=JAN | C598=31 | F598=Insurance
+  B608=NOV | C608=30 | F608=Insurance
+  B609=DEC | C609=31 | F609=Insurance
+  MERGED (12): B11:C11, B12:C12, B2:I2, B3:J3, B4:J4, D11:D12, D7:I7, E11:E12, F11:F12, G11:G12, H11:H12, I11:I12
+
+==============================================================================================================
+SHEET GL_V8_CALC  dims=A1:E553  max_row=553 max_col=5
+==============================================================================================================
+  A1=Account Title | B1=Month | C1=Debit | D1=Credit | E1=Ending Balance
+  A2=Cash in Bank | B2=1 | C2=0 | D2=7025.25 | E2=-7025.25
+  A3=Cash in Bank | B3=2 | C3=0 | D3=0 | E3=-7025.25
+  A4=Cash in Bank | B4=3 | C4=0 | D4=0 | E4=-7025.25
+  A5=Cash in Bank | B5=4 | C5=0 | D5=0 | E5=-7025.25
+  A6=Cash in Bank | B6=5 | C6=0 | D6=0 | E6=-7025.25
+  MERGED (0): 
+
+==============================================================================================================
+SHEET GL_AUDIT  dims=A1:D6  max_row=6 max_col=4
+==============================================================================================================
+  A1=GL_AUDIT ΓÇö engine appends one row per ValidateGLConsistency run
+  A3=Timestamp | B3=Status | C3=Summary | D3=Detail
+  A4=2026-09-28 19:09:43Z | B4=v8.0 BASELINE | C4=v8.0 | CDJ+CRJ+GJ | Debit=256,145.75 | Credit=256,145.75 | Unmapped=6,154.00 | HOLD | D4=5 GJ labels on HOLD per fix-plan Part A F7 (pre-v8.1 state)
+  A5=2026-09-28 19:09:43Z | B5=v8.1 MAPPED | C5=v8.1b | 5 labels mapped (6,154.00) | Unmapped=0.00 expected | run RefreshAllGL(2026) | D5=Medical Equipment->Dental Equipment; Cost of Revenue/Supplies->Clinic Material and Supplies; Bank Charge/Charges->Miscellaneous
+  A6=2026-09-29 | B6=v8.2 STATIC PRECHECK | C6=v8.2 | CDJ+CRJ+GJ | Debit=258671.00 | Credit=258671.00 | Difference=0.00 | Unmapped=0.00 | Invalid=0 | D6=Expected result from the v8.2 corrected engine against the uploaded v8.1-rebuild workbook; not Excel runtime evidence.
+  MERGED (0): 
+

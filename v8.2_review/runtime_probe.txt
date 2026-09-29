@@ -1,0 +1,27 @@
+﻿workbook sha256 before: CA7303CFB4737AAC981FDD9E106BAC5C547F073837DA2E6305402C791EAB3EDB
+opened read-only: Global-Smile_2026-v8.2-final-review.xlsm  sheet count=17
+ValidateGLConsistency('GL') as shipped  -> False
+SUM of all 552 CalculateMonthlyNet(debit-credit) values = -1,139.00
+account-month cells with activity = 35 of 552
+accounts with zero activity in all 12 months = 30
+  Account Receivables; Excess CWT Over IT; Due To Clinicians; Due to Clinicians- Visiting; EWT Payable; Government Contributions (EE); Government Loans (EE); Income Tax Payable; Paid-Up Capital; Retained Earnings (Deficit); Rent; Clinician's Fee-Corporators; Clinician's Fee-Visiting; Common Use Service Area; Light and Water Expense; Salaries and Wages; De Minimis; Government Contributions ER Share; Professional Fees; Meals, Gifts & Entertainment Expense; Communication ; Printing and Duplication; Taxes and Licences; Delivery; Software Subscription; Advertisement; Marketing Expense; Gas, Oil, Parking, Toll Fees; Other Penalties and Charges; Insurance
+accounts with activity (account : net for year : months with activity):
+   Cash in Bank                             net=    8,740.00  months=1
+   Petty Cash Fund                          net=  -31,283.50  months=3
+   Advances to Employees                    net=    3,000.00  months=1
+   Input VAT                                net= -197,315.33  months=2
+   Leasehold Improvements                   net=   -6,492.99  months=3
+   Dental Equipment                         net=   -2,992.50  months=3
+   VAT Payable                              net=  196,218.19  months=2
+   Sales                                    net=  -11,821.43  months=1
+   Clinic Material and Supplies             net=    6,428.57  months=1
+   Dep'n Expense-Leasehold Improvements     net=    6,492.99  months=3
+   Dep'n Expense-Dental Equipment           net=    2,992.50  months=3
+   Repair and Maintenance                   net=    3,500.00  months=1
+   Pantry Supplies                          net=    2,524.00  months=3
+   Office Supplies                          net=   14,932.00  months=3
+   Miscellaneous                            net=    2,072.50  months=2
+   Transportation and Travel                net=    1,866.00  months=3
+Final ValidateGLConsistency() after probes -> False
+workbook sha256 after : CA7303CFB4737AAC981FDD9E106BAC5C547F073837DA2E6305402C791EAB3EDB
+source unchanged: True

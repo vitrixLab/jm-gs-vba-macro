@@ -1,0 +1,2609 @@
+{
+  "total_debit": 255006.75,
+  "total_credit": 256145.75,
+  "difference": -1139.0,
+  "accounts": 46,
+  "rows_written": 552,
+  "zero_cells": 517,
+  "total_cells": 552,
+  "accounts_with_no_activity": [
+    "Account Receivables",
+    "Excess CWT Over IT",
+    "Due To Clinicians",
+    "Due to Clinicians- Visiting",
+    "EWT Payable",
+    "Government Contributions (EE)",
+    "Government Loans (EE)",
+    "Income Tax Payable",
+    "Paid-Up Capital",
+    "Retained Earnings (Deficit)",
+    "Rent",
+    "Clinician's Fee-Corporators",
+    "Clinician's Fee-Visiting",
+    "Common Use Service Area",
+    "Light and Water Expense",
+    "Salaries and Wages",
+    "De Minimis",
+    "Government Contributions ER Share",
+    "Professional Fees",
+    "Meals, Gifts & Entertainment Expense",
+    "Communication ",
+    "Printing and Duplication",
+    "Taxes and Licences",
+    "Delivery",
+    "Software Subscription",
+    "Advertisement",
+    "Marketing Expense",
+    "Gas, Oil, Parking, Toll Fees",
+    "Other Penalties and Charges",
+    "Insurance"
+  ],
+  "month_totals": {
+    "1": [
+      37188.83,
+      38327.83
+    ],
+    "2": [
+      11860.83,
+      11860.83
+    ],
+    "3": [
+      205957.09,
+      205957.09
+    ],
+    "4": [
+      0.0,
+      0.0
+    ],
+    "5": [
+      0.0,
+      0.0
+    ],
+    "6": [
+      0.0,
+      0.0
+    ],
+    "7": [
+      0.0,
+      0.0
+    ],
+    "8": [
+      0.0,
+      0.0
+    ],
+    "9": [
+      0.0,
+      0.0
+    ],
+    "10": [
+      0.0,
+      0.0
+    ],
+    "11": [
+      0.0,
+      0.0
+    ],
+    "12": [
+      0.0,
+      0.0
+    ]
+  },
+  "grid": {
+    "Cash in Bank|1": [
+      13240.0,
+      4500.0
+    ],
+    "Cash in Bank|2": [
+      0.0,
+      0.0
+    ],
+    "Cash in Bank|3": [
+      0.0,
+      0.0
+    ],
+    "Cash in Bank|4": [
+      0.0,
+      0.0
+    ],
+    "Cash in Bank|5": [
+      0.0,
+      0.0
+    ],
+    "Cash in Bank|6": [
+      0.0,
+      0.0
+    ],
+    "Cash in Bank|7": [
+      0.0,
+      0.0
+    ],
+    "Cash in Bank|8": [
+      0.0,
+      0.0
+    ],
+    "Cash in Bank|9": [
+      0.0,
+      0.0
+    ],
+    "Cash in Bank|10": [
+      0.0,
+      0.0
+    ],
+    "Cash in Bank|11": [
+      0.0,
+      0.0
+    ],
+    "Cash in Bank|12": [
+      0.0,
+      0.0
+    ],
+    "Petty Cash Fund|1": [
+      0.0,
+      17426.0
+    ],
+    "Petty Cash Fund|2": [
+      0.0,
+      8699.0
+    ],
+    "Petty Cash Fund|3": [
+      0.0,
+      5158.5
+    ],
+    "Petty Cash Fund|4": [
+      0.0,
+      0.0
+    ],
+    "Petty Cash Fund|5": [
+      0.0,
+      0.0
+    ],
+    "Petty Cash Fund|6": [
+      0.0,
+      0.0
+    ],
+    "Petty Cash Fund|7": [
+      0.0,
+      0.0
+    ],
+    "Petty Cash Fund|8": [
+      0.0,
+      0.0
+    ],
+    "Petty Cash Fund|9": [
+      0.0,
+      0.0
+    ],
+    "Petty Cash Fund|10": [
+      0.0,
+      0.0
+    ],
+    "Petty Cash Fund|11": [
+      0.0,
+      0.0
+    ],
+    "Petty Cash Fund|12": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|1": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|2": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|3": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|4": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|5": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|6": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|7": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|8": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|9": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|10": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|11": [
+      0.0,
+      0.0
+    ],
+    "Account Receivables|12": [
+      0.0,
+      0.0
+    ],
+    "Advances to Employees|1": [
+      0.0,
+      0.0
+    ],
+    "Advances to Employees|2": [
+      3000.0,
+      0.0
+    ],
+    "Advances to Employees|3": [
+      0.0,
+      0.0
+    ],
+    "Advances to Employees|4": [
+      0.0,
+      0.0
+    ],
+    "Advances to Employees|5": [
+      0.0,
+      0.0
+    ],
+    "Advances to Employees|6": [
+      0.0,
+      0.0
+    ],
+    "Advances to Employees|7": [
+      0.0,
+      0.0
+    ],
+    "Advances to Employees|8": [
+      0.0,
+      0.0
+    ],
+    "Advances to Employees|9": [
+      0.0,
+      0.0
+    ],
+    "Advances to Employees|10": [
+      0.0,
+      0.0
+    ],
+    "Advances to Employees|11": [
+      0.0,
+      0.0
+    ],
+    "Advances to Employees|12": [
+      0.0,
+      0.0
+    ],
+    "Input VAT|1": [
+      321.4285714285716,
+      0.0
+    ],
+    "Input VAT|2": [
+      0.0,
+      0.0
+    ],
+    "Input VAT|3": [
+      0.0,
+      197636.76
+    ],
+    "Input VAT|4": [
+      0.0,
+      0.0
+    ],
+    "Input VAT|5": [
+      0.0,
+      0.0
+    ],
+    "Input VAT|6": [
+      0.0,
+      0.0
+    ],
+    "Input VAT|7": [
+      0.0,
+      0.0
+    ],
+    "Input VAT|8": [
+      0.0,
+      0.0
+    ],
+    "Input VAT|9": [
+      0.0,
+      0.0
+    ],
+    "Input VAT|10": [
+      0.0,
+      0.0
+    ],
+    "Input VAT|11": [
+      0.0,
+      0.0
+    ],
+    "Input VAT|12": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|1": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|2": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|3": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|4": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|5": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|6": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|7": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|8": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|9": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|10": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|11": [
+      0.0,
+      0.0
+    ],
+    "Excess CWT Over IT|12": [
+      0.0,
+      0.0
+    ],
+    "Leasehold Improvements|1": [
+      0.0,
+      2164.33
+    ],
+    "Leasehold Improvements|2": [
+      0.0,
+      2164.33
+    ],
+    "Leasehold Improvements|3": [
+      0.0,
+      2164.33
+    ],
+    "Leasehold Improvements|4": [
+      0.0,
+      0.0
+    ],
+    "Leasehold Improvements|5": [
+      0.0,
+      0.0
+    ],
+    "Leasehold Improvements|6": [
+      0.0,
+      0.0
+    ],
+    "Leasehold Improvements|7": [
+      0.0,
+      0.0
+    ],
+    "Leasehold Improvements|8": [
+      0.0,
+      0.0
+    ],
+    "Leasehold Improvements|9": [
+      0.0,
+      0.0
+    ],
+    "Leasehold Improvements|10": [
+      0.0,
+      0.0
+    ],
+    "Leasehold Improvements|11": [
+      0.0,
+      0.0
+    ],
+    "Leasehold Improvements|12": [
+      0.0,
+      0.0
+    ],
+    "Dental Equipment|1": [
+      0.0,
+      997.5
+    ],
+    "Dental Equipment|2": [
+      0.0,
+      997.5
+    ],
+    "Dental Equipment|3": [
+      0.0,
+      997.5
+    ],
+    "Dental Equipment|4": [
+      0.0,
+      0.0
+    ],
+    "Dental Equipment|5": [
+      0.0,
+      0.0
+    ],
+    "Dental Equipment|6": [
+      0.0,
+      0.0
+    ],
+    "Dental Equipment|7": [
+      0.0,
+      0.0
+    ],
+    "Dental Equipment|8": [
+      0.0,
+      0.0
+    ],
+    "Dental Equipment|9": [
+      0.0,
+      0.0
+    ],
+    "Dental Equipment|10": [
+      0.0,
+      0.0
+    ],
+    "Dental Equipment|11": [
+      0.0,
+      0.0
+    ],
+    "Dental Equipment|12": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|1": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|2": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|3": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|4": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|5": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|6": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|7": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|8": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|9": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|10": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|11": [
+      0.0,
+      0.0
+    ],
+    "Due To Clinicians|12": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|1": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|2": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|3": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|4": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|5": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|6": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|7": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|8": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|9": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|10": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|11": [
+      0.0,
+      0.0
+    ],
+    "Due to Clinicians- Visiting|12": [
+      0.0,
+      0.0
+    ],
+    "VAT Payable|1": [
+      0.0,
+      1418.57142668
+    ],
+    "VAT Payable|2": [
+      0.0,
+      0.0
+    ],
+    "VAT Payable|3": [
+      197636.76,
+      0.0
+    ],
+    "VAT Payable|4": [
+      0.0,
+      0.0
+    ],
+    "VAT Payable|5": [
+      0.0,
+      0.0
+    ],
+    "VAT Payable|6": [
+      0.0,
+      0.0
+    ],
+    "VAT Payable|7": [
+      0.0,
+      0.0
+    ],
+    "VAT Payable|8": [
+      0.0,
+      0.0
+    ],
+    "VAT Payable|9": [
+      0.0,
+      0.0
+    ],
+    "VAT Payable|10": [
+      0.0,
+      0.0
+    ],
+    "VAT Payable|11": [
+      0.0,
+      0.0
+    ],
+    "VAT Payable|12": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|1": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|2": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|3": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|4": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|5": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|6": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|7": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|8": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|9": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|10": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|11": [
+      0.0,
+      0.0
+    ],
+    "EWT Payable|12": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|1": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|2": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|3": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|4": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|5": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|6": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|7": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|8": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|9": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|10": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|11": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions (EE)|12": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|1": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|2": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|3": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|4": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|5": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|6": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|7": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|8": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|9": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|10": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|11": [
+      0.0,
+      0.0
+    ],
+    "Government Loans (EE)|12": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|1": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|2": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|3": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|4": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|5": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|6": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|7": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|8": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|9": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|10": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|11": [
+      0.0,
+      0.0
+    ],
+    "Income Tax Payable|12": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|1": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|2": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|3": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|4": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|5": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|6": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|7": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|8": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|9": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|10": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|11": [
+      0.0,
+      0.0
+    ],
+    "Paid-Up Capital|12": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|1": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|2": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|3": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|4": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|5": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|6": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|7": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|8": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|9": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|10": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|11": [
+      0.0,
+      0.0
+    ],
+    "Retained Earnings (Deficit)|12": [
+      0.0,
+      0.0
+    ],
+    "Sales|1": [
+      0.0,
+      11821.42857332
+    ],
+    "Sales|2": [
+      0.0,
+      0.0
+    ],
+    "Sales|3": [
+      0.0,
+      0.0
+    ],
+    "Sales|4": [
+      0.0,
+      0.0
+    ],
+    "Sales|5": [
+      0.0,
+      0.0
+    ],
+    "Sales|6": [
+      0.0,
+      0.0
+    ],
+    "Sales|7": [
+      0.0,
+      0.0
+    ],
+    "Sales|8": [
+      0.0,
+      0.0
+    ],
+    "Sales|9": [
+      0.0,
+      0.0
+    ],
+    "Sales|10": [
+      0.0,
+      0.0
+    ],
+    "Sales|11": [
+      0.0,
+      0.0
+    ],
+    "Sales|12": [
+      0.0,
+      0.0
+    ],
+    "Rent|1": [
+      0.0,
+      0.0
+    ],
+    "Rent|2": [
+      0.0,
+      0.0
+    ],
+    "Rent|3": [
+      0.0,
+      0.0
+    ],
+    "Rent|4": [
+      0.0,
+      0.0
+    ],
+    "Rent|5": [
+      0.0,
+      0.0
+    ],
+    "Rent|6": [
+      0.0,
+      0.0
+    ],
+    "Rent|7": [
+      0.0,
+      0.0
+    ],
+    "Rent|8": [
+      0.0,
+      0.0
+    ],
+    "Rent|9": [
+      0.0,
+      0.0
+    ],
+    "Rent|10": [
+      0.0,
+      0.0
+    ],
+    "Rent|11": [
+      0.0,
+      0.0
+    ],
+    "Rent|12": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|1": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|2": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|3": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|4": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|5": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|6": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|7": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|8": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|9": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|10": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|11": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Corporators|12": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|1": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|2": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|3": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|4": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|5": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|6": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|7": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|8": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|9": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|10": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|11": [
+      0.0,
+      0.0
+    ],
+    "Clinician's Fee-Visiting|12": [
+      0.0,
+      0.0
+    ],
+    "Clinic Material and Supplies|1": [
+      6428.5714285714275,
+      0.0
+    ],
+    "Clinic Material and Supplies|2": [
+      0.0,
+      0.0
+    ],
+    "Clinic Material and Supplies|3": [
+      0.0,
+      0.0
+    ],
+    "Clinic Material and Supplies|4": [
+      0.0,
+      0.0
+    ],
+    "Clinic Material and Supplies|5": [
+      0.0,
+      0.0
+    ],
+    "Clinic Material and Supplies|6": [
+      0.0,
+      0.0
+    ],
+    "Clinic Material and Supplies|7": [
+      0.0,
+      0.0
+    ],
+    "Clinic Material and Supplies|8": [
+      0.0,
+      0.0
+    ],
+    "Clinic Material and Supplies|9": [
+      0.0,
+      0.0
+    ],
+    "Clinic Material and Supplies|10": [
+      0.0,
+      0.0
+    ],
+    "Clinic Material and Supplies|11": [
+      0.0,
+      0.0
+    ],
+    "Clinic Material and Supplies|12": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|1": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|2": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|3": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|4": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|5": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|6": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|7": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|8": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|9": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|10": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|11": [
+      0.0,
+      0.0
+    ],
+    "Common Use Service Area|12": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|1": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|2": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|3": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|4": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|5": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|6": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|7": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|8": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|9": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|10": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|11": [
+      0.0,
+      0.0
+    ],
+    "Light and Water Expense|12": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|1": [
+      2164.33,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|2": [
+      2164.33,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|3": [
+      2164.33,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|4": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|5": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|6": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|7": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|8": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|9": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|10": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|11": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Leasehold Improvements|12": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|1": [
+      997.5,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|2": [
+      997.5,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|3": [
+      997.5,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|4": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|5": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|6": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|7": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|8": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|9": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|10": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|11": [
+      0.0,
+      0.0
+    ],
+    "Dep'n Expense-Dental Equipment|12": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|1": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|2": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|3": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|4": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|5": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|6": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|7": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|8": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|9": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|10": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|11": [
+      0.0,
+      0.0
+    ],
+    "Salaries and Wages|12": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|1": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|2": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|3": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|4": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|5": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|6": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|7": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|8": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|9": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|10": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|11": [
+      0.0,
+      0.0
+    ],
+    "De Minimis|12": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|1": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|2": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|3": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|4": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|5": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|6": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|7": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|8": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|9": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|10": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|11": [
+      0.0,
+      0.0
+    ],
+    "Government Contributions ER Share|12": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|1": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|2": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|3": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|4": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|5": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|6": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|7": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|8": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|9": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|10": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|11": [
+      0.0,
+      0.0
+    ],
+    "Professional Fees|12": [
+      0.0,
+      0.0
+    ],
+    "Repair and Maintenance|1": [
+      0.0,
+      0.0
+    ],
+    "Repair and Maintenance|2": [
+      3500.0,
+      0.0
+    ],
+    "Repair and Maintenance|3": [
+      0.0,
+      0.0
+    ],
+    "Repair and Maintenance|4": [
+      0.0,
+      0.0
+    ],
+    "Repair and Maintenance|5": [
+      0.0,
+      0.0
+    ],
+    "Repair and Maintenance|6": [
+      0.0,
+      0.0
+    ],
+    "Repair and Maintenance|7": [
+      0.0,
+      0.0
+    ],
+    "Repair and Maintenance|8": [
+      0.0,
+      0.0
+    ],
+    "Repair and Maintenance|9": [
+      0.0,
+      0.0
+    ],
+    "Repair and Maintenance|10": [
+      0.0,
+      0.0
+    ],
+    "Repair and Maintenance|11": [
+      0.0,
+      0.0
+    ],
+    "Repair and Maintenance|12": [
+      0.0,
+      0.0
+    ],
+    "Pantry Supplies|1": [
+      218.0,
+      0.0
+    ],
+    "Pantry Supplies|2": [
+      188.0,
+      0.0
+    ],
+    "Pantry Supplies|3": [
+      2118.0,
+      0.0
+    ],
+    "Pantry Supplies|4": [
+      0.0,
+      0.0
+    ],
+    "Pantry Supplies|5": [
+      0.0,
+      0.0
+    ],
+    "Pantry Supplies|6": [
+      0.0,
+      0.0
+    ],
+    "Pantry Supplies|7": [
+      0.0,
+      0.0
+    ],
+    "Pantry Supplies|8": [
+      0.0,
+      0.0
+    ],
+    "Pantry Supplies|9": [
+      0.0,
+      0.0
+    ],
+    "Pantry Supplies|10": [
+      0.0,
+      0.0
+    ],
+    "Pantry Supplies|11": [
+      0.0,
+      0.0
+    ],
+    "Pantry Supplies|12": [
+      0.0,
+      0.0
+    ],
+    "Office Supplies|1": [
+      11063.0,
+      0.0
+    ],
+    "Office Supplies|2": [
+      1136.0,
+      0.0
+    ],
+    "Office Supplies|3": [
+      2733.0,
+      0.0
+    ],
+    "Office Supplies|4": [
+      0.0,
+      0.0
+    ],
+    "Office Supplies|5": [
+      0.0,
+      0.0
+    ],
+    "Office Supplies|6": [
+      0.0,
+      0.0
+    ],
+    "Office Supplies|7": [
+      0.0,
+      0.0
+    ],
+    "Office Supplies|8": [
+      0.0,
+      0.0
+    ],
+    "Office Supplies|9": [
+      0.0,
+      0.0
+    ],
+    "Office Supplies|10": [
+      0.0,
+      0.0
+    ],
+    "Office Supplies|11": [
+      0.0,
+      0.0
+    ],
+    "Office Supplies|12": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|1": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|2": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|3": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|4": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|5": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|6": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|7": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|8": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|9": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|10": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|11": [
+      0.0,
+      0.0
+    ],
+    "Meals, Gifts & Entertainment Expense|12": [
+      0.0,
+      0.0
+    ],
+    "Communication |1": [
+      0.0,
+      0.0
+    ],
+    "Communication |2": [
+      0.0,
+      0.0
+    ],
+    "Communication |3": [
+      0.0,
+      0.0
+    ],
+    "Communication |4": [
+      0.0,
+      0.0
+    ],
+    "Communication |5": [
+      0.0,
+      0.0
+    ],
+    "Communication |6": [
+      0.0,
+      0.0
+    ],
+    "Communication |7": [
+      0.0,
+      0.0
+    ],
+    "Communication |8": [
+      0.0,
+      0.0
+    ],
+    "Communication |9": [
+      0.0,
+      0.0
+    ],
+    "Communication |10": [
+      0.0,
+      0.0
+    ],
+    "Communication |11": [
+      0.0,
+      0.0
+    ],
+    "Communication |12": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|1": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|2": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|3": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|4": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|5": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|6": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|7": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|8": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|9": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|10": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|11": [
+      0.0,
+      0.0
+    ],
+    "Printing and Duplication|12": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|1": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|2": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|3": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|4": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|5": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|6": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|7": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|8": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|9": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|10": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|11": [
+      0.0,
+      0.0
+    ],
+    "Taxes and Licences|12": [
+      0.0,
+      0.0
+    ],
+    "Delivery|1": [
+      0.0,
+      0.0
+    ],
+    "Delivery|2": [
+      0.0,
+      0.0
+    ],
+    "Delivery|3": [
+      0.0,
+      0.0
+    ],
+    "Delivery|4": [
+      0.0,
+      0.0
+    ],
+    "Delivery|5": [
+      0.0,
+      0.0
+    ],
+    "Delivery|6": [
+      0.0,
+      0.0
+    ],
+    "Delivery|7": [
+      0.0,
+      0.0
+    ],
+    "Delivery|8": [
+      0.0,
+      0.0
+    ],
+    "Delivery|9": [
+      0.0,
+      0.0
+    ],
+    "Delivery|10": [
+      0.0,
+      0.0
+    ],
+    "Delivery|11": [
+      0.0,
+      0.0
+    ],
+    "Delivery|12": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|1": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|2": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|3": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|4": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|5": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|6": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|7": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|8": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|9": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|10": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|11": [
+      0.0,
+      0.0
+    ],
+    "Software Subscription|12": [
+      0.0,
+      0.0
+    ],
+    "Miscellaneous|1": [
+      2065.0,
+      0.0
+    ],
+    "Miscellaneous|2": [
+      0.0,
+      0.0
+    ],
+    "Miscellaneous|3": [
+      7.5,
+      0.0
+    ],
+    "Miscellaneous|4": [
+      0.0,
+      0.0
+    ],
+    "Miscellaneous|5": [
+      0.0,
+      0.0
+    ],
+    "Miscellaneous|6": [
+      0.0,
+      0.0
+    ],
+    "Miscellaneous|7": [
+      0.0,
+      0.0
+    ],
+    "Miscellaneous|8": [
+      0.0,
+      0.0
+    ],
+    "Miscellaneous|9": [
+      0.0,
+      0.0
+    ],
+    "Miscellaneous|10": [
+      0.0,
+      0.0
+    ],
+    "Miscellaneous|11": [
+      0.0,
+      0.0
+    ],
+    "Miscellaneous|12": [
+      0.0,
+      0.0
+    ],
+    "Transportation and Travel|1": [
+      691.0,
+      0.0
+    ],
+    "Transportation and Travel|2": [
+      875.0,
+      0.0
+    ],
+    "Transportation and Travel|3": [
+      300.0,
+      0.0
+    ],
+    "Transportation and Travel|4": [
+      0.0,
+      0.0
+    ],
+    "Transportation and Travel|5": [
+      0.0,
+      0.0
+    ],
+    "Transportation and Travel|6": [
+      0.0,
+      0.0
+    ],
+    "Transportation and Travel|7": [
+      0.0,
+      0.0
+    ],
+    "Transportation and Travel|8": [
+      0.0,
+      0.0
+    ],
+    "Transportation and Travel|9": [
+      0.0,
+      0.0
+    ],
+    "Transportation and Travel|10": [
+      0.0,
+      0.0
+    ],
+    "Transportation and Travel|11": [
+      0.0,
+      0.0
+    ],
+    "Transportation and Travel|12": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|1": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|2": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|3": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|4": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|5": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|6": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|7": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|8": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|9": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|10": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|11": [
+      0.0,
+      0.0
+    ],
+    "Advertisement|12": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|1": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|2": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|3": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|4": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|5": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|6": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|7": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|8": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|9": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|10": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|11": [
+      0.0,
+      0.0
+    ],
+    "Marketing Expense|12": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|1": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|2": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|3": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|4": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|5": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|6": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|7": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|8": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|9": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|10": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|11": [
+      0.0,
+      0.0
+    ],
+    "Gas, Oil, Parking, Toll Fees|12": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|1": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|2": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|3": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|4": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|5": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|6": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|7": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|8": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|9": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|10": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|11": [
+      0.0,
+      0.0
+    ],
+    "Other Penalties and Charges|12": [
+      0.0,
+      0.0
+    ],
+    "Insurance|1": [
+      0.0,
+      0.0
+    ],
+    "Insurance|2": [
+      0.0,
+      0.0
+    ],
+    "Insurance|3": [
+      0.0,
+      0.0
+    ],
+    "Insurance|4": [
+      0.0,
+      0.0
+    ],
+    "Insurance|5": [
+      0.0,
+      0.0
+    ],
+    "Insurance|6": [
+      0.0,
+      0.0
+    ],
+    "Insurance|7": [
+      0.0,
+      0.0
+    ],
+    "Insurance|8": [
+      0.0,
+      0.0
+    ],
+    "Insurance|9": [
+      0.0,
+      0.0
+    ],
+    "Insurance|10": [
+      0.0,
+      0.0
+    ],
+    "Insurance|11": [
+      0.0,
+      0.0
+    ],
+    "Insurance|12": [
+      0.0,
+      0.0
+    ]
+  },
+  "evidence": {
+    "cdj_skipped_no_month": [
+      {
+        "row": 17,
+        "C": null,
+        "E": "KNOXPORT INC",
+        "S": "Miscellaneous",
+        "T": 1025.25,
+        "U": null,
+        "F": -1025.25
+      },
+      {
+        "row": 18,
+        "C": null,
+        "E": "FEDERAL BRENT RETAIL INC",
+        "S": "",
+        "T": 1500,
+        "U": null,
+        "F": -1500
+      }
+    ],
+    "cdj_rows": 4,
+    "crj_blocks": [
+      {
+        "row": 25,
+        "label": "JAN"
+      },
+      {
+        "row": 36,
+        "label": "FEB"
+      },
+      {
+        "row": 44,
+        "label": "MAR"
+      },
+      {
+        "row": 53,
+        "label": "APR"
+      },
+      {
+        "row": 61,
+        "label": "MAY"
+      },
+      {
+        "row": 69,
+        "label": "JUN"
+      },
+      {
+        "row": 78,
+        "label": "JUL"
+      },
+      {
+        "row": 87,
+        "label": "AUG"
+      },
+      {
+        "row": 95,
+        "label": "SEP"
+      },
+      {
+        "row": 103,
+        "label": "OCT"
+      },
+      {
+        "row": 111,
+        "label": "NOV"
+      },
+      {
+        "row": 118,
+        "label": "DEC"
+      }
+    ],
+    "crj_rows": [
+      {
+        "gl_month": 1,
+        "row": 10,
+        "col": 8,
+        "acct": "Cash in Bank",
+        "amt": 2700.0,
+        "log": "Inserted from SJ Row 11 | Invoice: 1819 | 8/2/2026 6:35:49 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 10,
+        "col": 10,
+        "acct": "VAT Payable",
+        "amt": 289.2857139,
+        "log": "Inserted from SJ Row 11 | Invoice: 1819 | 8/2/2026 6:35:49 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 10,
+        "col": 11,
+        "acct": "Sales",
+        "amt": 0.0,
+        "log": "Inserted from SJ Row 11 | Invoice: 1819 | 8/2/2026 6:35:49 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 10,
+        "col": 12,
+        "acct": "Sales",
+        "amt": 2410.7142861,
+        "log": "Inserted from SJ Row 11 | Invoice: 1819 | 8/2/2026 6:35:49 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 11,
+        "col": 8,
+        "acct": "Cash in Bank",
+        "amt": 5360.0,
+        "log": "Updated from SJ Row 12 | Invoice: 1820 | 8/31/2026 1:50:49 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 11,
+        "col": 10,
+        "acct": "VAT Payable",
+        "amt": 574.28571352,
+        "log": "Updated from SJ Row 12 | Invoice: 1820 | 8/31/2026 1:50:49 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 11,
+        "col": 11,
+        "acct": "Sales",
+        "amt": 0.0,
+        "log": "Updated from SJ Row 12 | Invoice: 1820 | 8/31/2026 1:50:49 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 11,
+        "col": 12,
+        "acct": "Sales",
+        "amt": 4785.71428648,
+        "log": "Updated from SJ Row 12 | Invoice: 1820 | 8/31/2026 1:50:49 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 12,
+        "col": 8,
+        "acct": "Cash in Bank",
+        "amt": 2100.0,
+        "log": "Inserted from SJ Row 14 | Invoice: 1821 | 8/31/2026 1:50:40 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 12,
+        "col": 10,
+        "acct": "VAT Payable",
+        "amt": 224.9999997,
+        "log": "Inserted from SJ Row 14 | Invoice: 1821 | 8/31/2026 1:50:40 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 12,
+        "col": 11,
+        "acct": "Sales",
+        "amt": 0.0,
+        "log": "Inserted from SJ Row 14 | Invoice: 1821 | 8/31/2026 1:50:40 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 12,
+        "col": 12,
+        "acct": "Sales",
+        "amt": 1875.0000003,
+        "log": "Inserted from SJ Row 14 | Invoice: 1821 | 8/31/2026 1:50:40 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 13,
+        "col": 8,
+        "acct": "Cash in Bank",
+        "amt": 1000.0,
+        "log": "Inserted from SJ Row 14 | Invoice: 1822 | 8/31/2026 1:51:23 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 13,
+        "col": 10,
+        "acct": "VAT Payable",
+        "amt": 107.142857,
+        "log": "Inserted from SJ Row 14 | Invoice: 1822 | 8/31/2026 1:51:23 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 13,
+        "col": 11,
+        "acct": "Sales",
+        "amt": 0.0,
+        "log": "Inserted from SJ Row 14 | Invoice: 1822 | 8/31/2026 1:51:23 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 13,
+        "col": 12,
+        "acct": "Sales",
+        "amt": 892.857143,
+        "log": "Inserted from SJ Row 14 | Invoice: 1822 | 8/31/2026 1:51:23 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 14,
+        "col": 8,
+        "acct": "Cash in Bank",
+        "amt": 1000.0,
+        "log": "Inserted from SJ Row 15 | Invoice: 1823 | 8/31/2026 1:51:48 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 14,
+        "col": 10,
+        "acct": "VAT Payable",
+        "amt": 107.142857,
+        "log": "Inserted from SJ Row 15 | Invoice: 1823 | 8/31/2026 1:51:48 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 14,
+        "col": 11,
+        "acct": "Sales",
+        "amt": 0.0,
+        "log": "Inserted from SJ Row 15 | Invoice: 1823 | 8/31/2026 1:51:48 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 14,
+        "col": 12,
+        "acct": "Sales",
+        "amt": 892.857143,
+        "log": "Inserted from SJ Row 15 | Invoice: 1823 | 8/31/2026 1:51:48 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 15,
+        "col": 8,
+        "acct": "Cash in Bank",
+        "amt": 0.0,
+        "log": "Inserted from SJ Row 16 | Invoice: 1826 | 9/10/2026 6:18:09 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 15,
+        "col": 10,
+        "acct": "VAT Payable",
+        "amt": 0.0,
+        "log": "Inserted from SJ Row 16 | Invoice: 1826 | 9/10/2026 6:18:09 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 15,
+        "col": 11,
+        "acct": "Sales",
+        "amt": 0.0,
+        "log": "Inserted from SJ Row 16 | Invoice: 1826 | 9/10/2026 6:18:09 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 15,
+        "col": 12,
+        "acct": "Sales",
+        "amt": 0.0,
+        "log": "Inserted from SJ Row 16 | Invoice: 1826 | 9/10/2026 6:18:09 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 16,
+        "col": 8,
+        "acct": "Cash in Bank",
+        "amt": 1080.0,
+        "log": "Inserted from SJ Row 17 | Invoice: 1831 | 9/10/2026 6:18:53 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 16,
+        "col": 10,
+        "acct": "VAT Payable",
+        "amt": 115.71428556,
+        "log": "Inserted from SJ Row 17 | Invoice: 1831 | 9/10/2026 6:18:53 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 16,
+        "col": 11,
+        "acct": "Sales",
+        "amt": 0.0,
+        "log": "Inserted from SJ Row 17 | Invoice: 1831 | 9/10/2026 6:18:53 PM"
+      },
+      {
+        "gl_month": 1,
+        "row": 16,
+        "col": 12,
+        "acct": "Sales",
+        "amt": 964.28571444,
+        "log": "Inserted from SJ Row 17 | Invoice: 1831 | 9/10/2026 6:18:53 PM"
+      }
+    ],
+    "gj_rows": 43,
+    "audit": [
+      [
+        "GJ",
+        "Cost of Revenue",
+        1139.0
+      ]
+    ],
+    "cdj_cash_out_mismatch": []
+  }
+}

@@ -1,0 +1,35 @@
+﻿original sha256 before: CA7303CFB4737AAC981FDD9E106BAC5C547F073837DA2E6305402C791EAB3EDB
+unmerged on scratch copy: B11:C11, D11:D12, E11:E12, F11:F12, G11:G12, H11:H12, I11:I12, B12:C12
+MSGBOX CAPTION: [Microsoft Excel]
+   text: OK
+   text: GL refreshed for 2026: 46 accounts x 12 months.
+RefreshGL returned after 1 s
+--- GL after refresh ---
+   row   11  B=Date   C=Day  E=Explanation      F=Account Title                      G=Debit        H=Credit       I=Ending Balance
+   row   12  B=       C=     E=                 F=                                   G=             H=             I=
+   row   13  B=Jan    C=31   E=Ending Balance   F=Cash in Bank                       G=13240        H=4500         I=8740
+   row   14  B=Feb    C=28   E=Ending Balance   F=Cash in Bank                       G=0            H=0            I=8740
+   row   24  B=Dec    C=31   E=Ending Balance   F=Cash in Bank                       G=0            H=0            I=8740
+   row   25  B=Jan    C=31   E=Ending Balance   F=Petty Cash Fund                    G=0            H=17426        I=-17426
+   row   26  B=Feb    C=28   E=Ending Balance   F=Petty Cash Fund                    G=0            H=8699         I=-26125
+   row  205  B=Jan    C=31   E=Ending Balance   F=Retained Earnings (Deficit)        G=0            H=0            I=0
+   row  553  B=Jan    C=31   E=Ending Balance   F=Insurance                          G=0            H=0            I=0
+   row  564  B=Dec    C=31   E=Ending Balance   F=Insurance                          G=0            H=0            I=0
+   row  565  B=       C=     E=                 F=                                   G=             H=             I=
+   row  566  B=       C=     E=                 F=                                   G=             H=             I=
+   row  577  B=       C=     E=                 F=                                   G=             H=             I=
+   row  609  B=       C=     E=                 F=                                   G=             H=             I=
+   row  610  B=       C=     E=                 F=                                   G=             H=             I=
+title rows written = 552; first=13; last=564
+first 6 title rows: 13, 14, 15, 16, 17, 18  -> step=1
+GL totals: debit=255,006.75 credit=256,145.75 difference=-1,139.00 active cells=35
+GL_AUDIT after refresh (rows 1-4):
+   Source | Unmapped Detail | Amount | 
+   GJ | Cost of Revenue | 1139 | 
+    |  |  | 
+    |  |  | 
+GL_V8_CALC rows 2 and 553 after refresh: Cash in Bank|1|0|7025.25|-7025.25   Insurance|12|0|0|0
+ValidateGLConsistency after refresh = False
+original sha256 after: CA7303CFB4737AAC981FDD9E106BAC5C547F073837DA2E6305402C791EAB3EDB
+original unchanged: True
+done

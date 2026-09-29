@@ -1,0 +1,36 @@
+﻿GL rows 13..609: total G(debit)=907749.86  total H(credit)=7025.25  difference=900724.61
+non-zero GL cells: 7
+   row 13   Cash in Bank         JAN   G=13240      H=7025.25    I(ending)=-7025.25
+   row 247  Rent                 JAN   G=158734.51  H=None       I(ending)=None
+   row 249  Rent                 MAR   G=317469.03  H=None       I(ending)=None
+   row 260  Clinician's Fee-Corporators JAN   G=81658.93   H=None       I(ending)=None
+   row 261  Clinician's Fee-Corporators FEB   G=134107.67  H=None       I(ending)=None
+   row 262  Clinician's Fee-Corporators MAR   G=73700.91   H=None       I(ending)=None
+   row 273  Clinician's Fee-Visiting JAN   G=128838.81  H=None       I(ending)=None
+
+GL col A (row label) sample: [(11, None), (12, None), (13, None), (14, None), (25, None), (26, None)]
+GL row 610..620: [(610, None), (611, None), (612, None), (613, None), (614, None), (615, None), (616, None), (617, None), (618, None), (619, None), (620, None)]
+GL formulas? sample G13 type: int
+formula sample F13/G13/I13: 'Cash in Bank' 13240 -7025.25
+GL merged/ranges that reference F13:F609? checked separately
+
+CRJ rows 575-590:
+   row 575  [(13, 0)]
+   row 576  [(13, 0)]
+   row 577  [(13, 0)]
+   row 578  [(13, 0)]
+   row 579  [(13, 0)]
+   row 581  [(8, 26480), (9, 0), (10, 2837.14285336), (12, 23642.85714664), (13, 0)]
+   row 582  [(8, 26480), (9, 0), (10, 26480)]
+CRJ rows 26-35 (FEB block, should be empty data):
+   row 26   []
+   row 27   []
+   row 28   []
+   row 29   []
+   row 30   []
+   row 31   []
+   row 32   []
+   row 33   []
+   row 34   []
+   row 35   []
+CRJ rows 710-719:

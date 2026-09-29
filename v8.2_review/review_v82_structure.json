@@ -1,0 +1,3884 @@
+{
+  "workbook": "Global-Smile_2026-v8.2-final-review.xlsm",
+  "workbook_sha256": "ca7303cfb4737aac981fdd9e106bac5c547f073837da2e6305402c791eab3edb",
+  "vbaProject_bin_sha256": "1b08983245845427f3ba729cd06ddc4176bbe9eb1f66c47acc967f1d963e110a",
+  "modules": [
+    {
+      "name": "ThisWorkbook.cls",
+      "chars": 723,
+      "lines": 19
+    },
+    {
+      "name": "Sheet1.cls",
+      "chars": 299,
+      "lines": 8
+    },
+    {
+      "name": "Sheet2.cls",
+      "chars": 299,
+      "lines": 8
+    },
+    {
+      "name": "Sheet3.cls",
+      "chars": 7664,
+      "lines": 184
+    },
+    {
+      "name": "Sheet4.cls",
+      "chars": 299,
+      "lines": 8
+    },
+    {
+      "name": "Sheet5.cls",
+      "chars": 299,
+      "lines": 8
+    },
+    {
+      "name": "Sheet6.cls",
+      "chars": 299,
+      "lines": 8
+    },
+    {
+      "name": "modEngine.bas",
+      "chars": 56215,
+      "lines": 1244
+    },
+    {
+      "name": "Sheet7.cls",
+      "chars": 299,
+      "lines": 8
+    },
+    {
+      "name": "modPJAutomation.bas",
+      "chars": 6075,
+      "lines": 185
+    },
+    {
+      "name": "Sheet9.cls",
+      "chars": 6186,
+      "lines": 283
+    },
+    {
+      "name": "Sheet10.cls",
+      "chars": 1423,
+      "lines": 43
+    },
+    {
+      "name": "ImportSuppliersFromJSON.bas",
+      "chars": 30963,
+      "lines": 856
+    },
+    {
+      "name": "modGraphify.bas",
+      "chars": 8689,
+      "lines": 229
+    },
+    {
+      "name": "Sheet12.cls",
+      "chars": 12714,
+      "lines": 284
+    },
+    {
+      "name": "Sheet11.cls",
+      "chars": 13020,
+      "lines": 290
+    },
+    {
+      "name": "Sheet8.cls",
+      "chars": 3971,
+      "lines": 97
+    },
+    {
+      "name": "Sheet13.cls",
+      "chars": 300,
+      "lines": 8
+    },
+    {
+      "name": "Module1.bas",
+      "chars": 31,
+      "lines": 1
+    },
+    {
+      "name": "Sheet14.cls",
+      "chars": 300,
+      "lines": 8
+    },
+    {
+      "name": "Sheet15.cls",
+      "chars": 300,
+      "lines": 8
+    },
+    {
+      "name": "Sheet16.cls",
+      "chars": 300,
+      "lines": 8
+    },
+    {
+      "name": "Sheet17.cls",
+      "chars": 300,
+      "lines": 8
+    }
+  ],
+  "sheets": [
+    "PJ",
+    "PJ Non-Vat",
+    "CDJ",
+    "SJ",
+    "CRJ",
+    "GJ",
+    "GL",
+    "GL_V8_CALC",
+    "SUPPLIERS DATA",
+    "CRJ2",
+    "PJ2",
+    "PJ Non-Vat2",
+    "CDJ old",
+    "SJ2",
+    "COA_MAP",
+    "GL_AUDIT",
+    "V8.2_FINAL_REVIEW"
+  ],
+  "gl_blocks": [
+    {
+      "block": 0,
+      "anchor_row": 13,
+      "title": "Cash in Bank",
+      "title_norm": "CASH IN BANK",
+      "months": [
+        {
+          "row": 13,
+          "B": "JAN",
+          "G": 13240,
+          "H": 7025.25
+        },
+        {
+          "row": 14,
+          "B": "FEB",
+          "G": 0,
+          "H": 0
+        },
+        {
+          "row": 15,
+          "B": "MAR",
+          "G": 0,
+          "H": 0
+        },
+        {
+          "row": 16,
+          "B": "APR",
+          "G": 0,
+          "H": 0
+        },
+        {
+          "row": 17,
+          "B": "MAY",
+          "G": 0,
+          "H": 0
+        },
+        {
+          "row": 18,
+          "B": "JUN",
+          "G": 0,
+          "H": 0
+        },
+        {
+          "row": 19,
+          "B": "JUL",
+          "G": 0,
+          "H": 0
+        },
+        {
+          "row": 20,
+          "B": "AUG",
+          "G": 0,
+          "H": 0
+        },
+        {
+          "row": 21,
+          "B": "SEP",
+          "G": 0,
+          "H": 0
+        },
+        {
+          "row": 22,
+          "B": "OCT",
+          "G": 0,
+          "H": 0
+        },
+        {
+          "row": 23,
+          "B": "NOV",
+          "G": 0,
+          "H": 0
+        },
+        {
+          "row": 24,
+          "B": "DEC",
+          "G": 0,
+          "H": 0
+        }
+      ]
+    },
+    {
+      "block": 1,
+      "anchor_row": 26,
+      "title": "Petty Cash Fund",
+      "title_norm": "PETTY CASH FUND",
+      "months": [
+        {
+          "row": 26,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 27,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 28,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 29,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 30,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 31,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 32,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 33,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 34,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 35,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 36,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 37,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 2,
+      "anchor_row": 39,
+      "title": "Account Receivables",
+      "title_norm": "ACCOUNT RECEIVABLES",
+      "months": [
+        {
+          "row": 39,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 40,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 41,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 42,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 43,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 44,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 45,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 46,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 47,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 48,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 49,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 50,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 3,
+      "anchor_row": 52,
+      "title": "Advances to Employees",
+      "title_norm": "ADVANCES TO EMPLOYEES",
+      "months": [
+        {
+          "row": 52,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 53,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 54,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 55,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 56,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 57,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 58,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 59,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 60,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 61,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 62,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 63,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 4,
+      "anchor_row": 65,
+      "title": "Input VAT",
+      "title_norm": "INPUT VAT",
+      "months": [
+        {
+          "row": 65,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 66,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 67,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 68,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 69,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 70,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 71,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 72,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 73,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 74,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 75,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 76,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 5,
+      "anchor_row": 78,
+      "title": "Excess CWT Over IT",
+      "title_norm": "EXCESS CWT OVER IT",
+      "months": [
+        {
+          "row": 78,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 79,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 80,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 81,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 82,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 83,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 84,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 85,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 86,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 87,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 88,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 89,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 6,
+      "anchor_row": 91,
+      "title": "Leasehold Improvements",
+      "title_norm": "LEASEHOLD IMPROVEMENTS",
+      "months": [
+        {
+          "row": 91,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 92,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 93,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 94,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 95,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 96,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 97,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 98,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 99,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 100,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 101,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 102,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 7,
+      "anchor_row": 104,
+      "title": "Dental Equipment",
+      "title_norm": "DENTAL EQUIPMENT",
+      "months": [
+        {
+          "row": 104,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 105,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 106,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 107,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 108,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 109,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 110,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 111,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 112,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 113,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 114,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 115,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 8,
+      "anchor_row": 117,
+      "title": "Due To Clinicians",
+      "title_norm": "DUE TO CLINICIANS",
+      "months": [
+        {
+          "row": 117,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 118,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 119,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 120,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 121,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 122,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 123,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 124,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 125,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 126,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 127,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 128,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 9,
+      "anchor_row": 130,
+      "title": "Due to Clinicians- Visiting",
+      "title_norm": "DUE TO CLINICIANS- VISITING",
+      "months": [
+        {
+          "row": 130,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 131,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 132,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 133,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 134,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 135,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 136,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 137,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 138,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 139,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 140,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 141,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 10,
+      "anchor_row": 143,
+      "title": "VAT Payable",
+      "title_norm": "VAT PAYABLE",
+      "months": [
+        {
+          "row": 143,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 144,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 145,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 146,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 147,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 148,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 149,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 150,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 151,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 152,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 153,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 154,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 11,
+      "anchor_row": 156,
+      "title": "EWT Payable",
+      "title_norm": "EWT PAYABLE",
+      "months": [
+        {
+          "row": 156,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 157,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 158,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 159,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 160,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 161,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 162,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 163,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 164,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 165,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 166,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 167,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 12,
+      "anchor_row": 169,
+      "title": "Government Contributions (EE)",
+      "title_norm": "GOVERNMENT CONTRIBUTIONS (EE)",
+      "months": [
+        {
+          "row": 169,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 170,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 171,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 172,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 173,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 174,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 175,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 176,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 177,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 178,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 179,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 180,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 13,
+      "anchor_row": 182,
+      "title": "Government Loans (EE)",
+      "title_norm": "GOVERNMENT LOANS (EE)",
+      "months": [
+        {
+          "row": 182,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 183,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 184,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 185,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 186,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 187,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 188,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 189,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 190,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 191,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 192,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 193,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 14,
+      "anchor_row": 195,
+      "title": "Income Tax Payable",
+      "title_norm": "INCOME TAX PAYABLE",
+      "months": [
+        {
+          "row": 195,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 196,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 197,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 198,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 199,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 200,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 201,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 202,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 203,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 204,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 205,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 206,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 15,
+      "anchor_row": 208,
+      "title": "Paid-Up Capital",
+      "title_norm": "PAID-UP CAPITAL",
+      "months": [
+        {
+          "row": 208,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 209,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 210,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 211,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 212,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 213,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 214,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 215,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 216,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 217,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 218,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 219,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 16,
+      "anchor_row": 221,
+      "title": "Paid-Up Capital",
+      "title_norm": "PAID-UP CAPITAL",
+      "months": [
+        {
+          "row": 221,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 222,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 223,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 224,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 225,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 226,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 227,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 228,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 229,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 230,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 231,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 232,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 17,
+      "anchor_row": 234,
+      "title": "Sales",
+      "title_norm": "SALES",
+      "months": [
+        {
+          "row": 234,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 235,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 236,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 237,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 238,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 239,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 240,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 241,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 242,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 243,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 244,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 245,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 18,
+      "anchor_row": 247,
+      "title": "Rent",
+      "title_norm": "RENT",
+      "months": [
+        {
+          "row": 247,
+          "B": "JAN",
+          "G": 158734.51,
+          "H": null
+        },
+        {
+          "row": 248,
+          "B": "FEB",
+          "G": 0,
+          "H": null
+        },
+        {
+          "row": 249,
+          "B": "MAR",
+          "G": 317469.03,
+          "H": null
+        },
+        {
+          "row": 250,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 251,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 252,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 253,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 254,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 255,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 256,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 257,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 258,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 19,
+      "anchor_row": 260,
+      "title": "Clinician's Fee-Corporators",
+      "title_norm": "CLINICIAN'S FEE-CORPORATORS",
+      "months": [
+        {
+          "row": 260,
+          "B": "JAN",
+          "G": 81658.93,
+          "H": null
+        },
+        {
+          "row": 261,
+          "B": "FEB",
+          "G": 134107.67,
+          "H": null
+        },
+        {
+          "row": 262,
+          "B": "MAR",
+          "G": 73700.91,
+          "H": null
+        },
+        {
+          "row": 263,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 264,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 265,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 266,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 267,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 268,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 269,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 270,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 271,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 20,
+      "anchor_row": 273,
+      "title": "Clinician's Fee-Visiting",
+      "title_norm": "CLINICIAN'S FEE-VISITING",
+      "months": [
+        {
+          "row": 273,
+          "B": "JAN",
+          "G": 128838.81,
+          "H": null
+        },
+        {
+          "row": 274,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 275,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 276,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 277,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 278,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 279,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 280,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 281,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 282,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 283,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 284,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 21,
+      "anchor_row": 286,
+      "title": "Clinic Material and Supplies",
+      "title_norm": "CLINIC MATERIAL AND SUPPLIES",
+      "months": [
+        {
+          "row": 286,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 287,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 288,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 289,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 290,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 291,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 292,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 293,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 294,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 295,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 296,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 297,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 22,
+      "anchor_row": 299,
+      "title": "Common Use Service Area",
+      "title_norm": "COMMON USE SERVICE AREA",
+      "months": [
+        {
+          "row": 299,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 300,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 301,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 302,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 303,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 304,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 305,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 306,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 307,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 308,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 309,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 310,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 23,
+      "anchor_row": 312,
+      "title": "Light and Water Expense",
+      "title_norm": "LIGHT AND WATER EXPENSE",
+      "months": [
+        {
+          "row": 312,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 313,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 314,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 315,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 316,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 317,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 318,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 319,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 320,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 321,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 322,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 323,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 24,
+      "anchor_row": 325,
+      "title": "Dep'n Expense-Leasehold Improvements",
+      "title_norm": "DEP'N EXPENSE-LEASEHOLD IMPROVEMENTS",
+      "months": [
+        {
+          "row": 325,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 326,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 327,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 328,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 329,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 330,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 331,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 332,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 333,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 334,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 335,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 336,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 25,
+      "anchor_row": 338,
+      "title": "Dep'n Expense-Dental Equipment",
+      "title_norm": "DEP'N EXPENSE-DENTAL EQUIPMENT",
+      "months": [
+        {
+          "row": 338,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 339,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 340,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 341,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 342,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 343,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 344,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 345,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 346,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 347,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 348,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 349,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 26,
+      "anchor_row": 351,
+      "title": "Salaries and Wages",
+      "title_norm": "SALARIES AND WAGES",
+      "months": [
+        {
+          "row": 351,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 352,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 353,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 354,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 355,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 356,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 357,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 358,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 359,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 360,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 361,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 362,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 27,
+      "anchor_row": 364,
+      "title": "De Minimis",
+      "title_norm": "DE MINIMIS",
+      "months": [
+        {
+          "row": 364,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 365,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 366,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 367,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 368,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 369,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 370,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 371,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 372,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 373,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 374,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 375,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 28,
+      "anchor_row": 377,
+      "title": "Government Contributions ER Share",
+      "title_norm": "GOVERNMENT CONTRIBUTIONS ER SHARE",
+      "months": [
+        {
+          "row": 377,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 378,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 379,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 380,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 381,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 382,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 383,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 384,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 385,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 386,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 387,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 388,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 29,
+      "anchor_row": 390,
+      "title": "Professional Fees",
+      "title_norm": "PROFESSIONAL FEES",
+      "months": [
+        {
+          "row": 390,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 391,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 392,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 393,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 394,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 395,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 396,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 397,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 398,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 399,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 400,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 401,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 30,
+      "anchor_row": 403,
+      "title": "Repair and Maintenance",
+      "title_norm": "REPAIR AND MAINTENANCE",
+      "months": [
+        {
+          "row": 403,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 404,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 405,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 406,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 407,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 408,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 409,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 410,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 411,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 412,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 413,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 414,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 31,
+      "anchor_row": 416,
+      "title": "Pantry Supplies",
+      "title_norm": "PANTRY SUPPLIES",
+      "months": [
+        {
+          "row": 416,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 417,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 418,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 419,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 420,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 421,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 422,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 423,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 424,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 425,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 426,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 427,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 32,
+      "anchor_row": 429,
+      "title": "Office Supplies",
+      "title_norm": "OFFICE SUPPLIES",
+      "months": [
+        {
+          "row": 429,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 430,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 431,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 432,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 433,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 434,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 435,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 436,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 437,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 438,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 439,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 440,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 33,
+      "anchor_row": 442,
+      "title": "Meals, Gifts & Entertainment Expense",
+      "title_norm": "MEALS, GIFTS & ENTERTAINMENT EXPENSE",
+      "months": [
+        {
+          "row": 442,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 443,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 444,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 445,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 446,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 447,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 448,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 449,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 450,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 451,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 452,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 453,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 34,
+      "anchor_row": 455,
+      "title": "Communication ",
+      "title_norm": "COMMUNICATION",
+      "months": [
+        {
+          "row": 455,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 456,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 457,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 458,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 459,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 460,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 461,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 462,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 463,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 464,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 465,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 466,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 35,
+      "anchor_row": 468,
+      "title": "Printing and Duplication",
+      "title_norm": "PRINTING AND DUPLICATION",
+      "months": [
+        {
+          "row": 468,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 469,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 470,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 471,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 472,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 473,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 474,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 475,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 476,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 477,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 478,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 479,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 36,
+      "anchor_row": 481,
+      "title": "Taxes and Licences",
+      "title_norm": "TAXES AND LICENCES",
+      "months": [
+        {
+          "row": 481,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 482,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 483,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 484,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 485,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 486,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 487,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 488,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 489,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 490,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 491,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 492,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 37,
+      "anchor_row": 494,
+      "title": "Delivery",
+      "title_norm": "DELIVERY",
+      "months": [
+        {
+          "row": 494,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 495,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 496,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 497,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 498,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 499,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 500,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 501,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 502,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 503,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 504,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 505,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 38,
+      "anchor_row": 507,
+      "title": "Software Subscription",
+      "title_norm": "SOFTWARE SUBSCRIPTION",
+      "months": [
+        {
+          "row": 507,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 508,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 509,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 510,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 511,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 512,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 513,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 514,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 515,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 516,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 517,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 518,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 39,
+      "anchor_row": 520,
+      "title": "Miscellaneous",
+      "title_norm": "MISCELLANEOUS",
+      "months": [
+        {
+          "row": 520,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 521,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 522,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 523,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 524,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 525,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 526,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 527,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 528,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 529,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 530,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 531,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 40,
+      "anchor_row": 533,
+      "title": "Transportation and Travel",
+      "title_norm": "TRANSPORTATION AND TRAVEL",
+      "months": [
+        {
+          "row": 533,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 534,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 535,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 536,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 537,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 538,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 539,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 540,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 541,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 542,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 543,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 544,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 41,
+      "anchor_row": 546,
+      "title": "Advertisement",
+      "title_norm": "ADVERTISEMENT",
+      "months": [
+        {
+          "row": 546,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 547,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 548,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 549,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 550,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 551,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 552,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 553,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 554,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 555,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 556,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 557,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 42,
+      "anchor_row": 559,
+      "title": "Marketing Expense",
+      "title_norm": "MARKETING EXPENSE",
+      "months": [
+        {
+          "row": 559,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 560,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 561,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 562,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 563,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 564,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 565,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 566,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 567,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 568,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 569,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 570,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 43,
+      "anchor_row": 572,
+      "title": "Gas, Oil, Parking, Toll Fees",
+      "title_norm": "GAS, OIL, PARKING, TOLL FEES",
+      "months": [
+        {
+          "row": 572,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 573,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 574,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 575,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 576,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 577,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 578,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 579,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 580,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 581,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 582,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 583,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 44,
+      "anchor_row": 585,
+      "title": "Other Penalties and Charges",
+      "title_norm": "OTHER PENALTIES AND CHARGES",
+      "months": [
+        {
+          "row": 585,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 586,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 587,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 588,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 589,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 590,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 591,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 592,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 593,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 594,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 595,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 596,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    },
+    {
+      "block": 45,
+      "anchor_row": 598,
+      "title": "Insurance",
+      "title_norm": "INSURANCE",
+      "months": [
+        {
+          "row": 598,
+          "B": "JAN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 599,
+          "B": "FEB",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 600,
+          "B": "MAR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 601,
+          "B": "APR",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 602,
+          "B": "MAY",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 603,
+          "B": "JUN",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 604,
+          "B": "JUL",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 605,
+          "B": "AUG",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 606,
+          "B": "SEP",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 607,
+          "B": "OCT",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 608,
+          "B": "NOV",
+          "G": null,
+          "H": null
+        },
+        {
+          "row": 609,
+          "B": "DEC",
+          "G": null,
+          "H": null
+        }
+      ]
+    }
+  ],
+  "gl_max_row": 1000,
+  "gl_max_col": 27,
+  "gl_rows_below_block45": [],
+  "gl_title_count": 46,
+  "gl_titles": [
+    "Cash in Bank",
+    "Petty Cash Fund",
+    "Account Receivables",
+    "Advances to Employees",
+    "Input VAT",
+    "Excess CWT Over IT",
+    "Leasehold Improvements",
+    "Dental Equipment",
+    "Due To Clinicians",
+    "Due to Clinicians- Visiting",
+    "VAT Payable",
+    "EWT Payable",
+    "Government Contributions (EE)",
+    "Government Loans (EE)",
+    "Income Tax Payable",
+    "Paid-Up Capital",
+    "Paid-Up Capital",
+    "Sales",
+    "Rent",
+    "Clinician's Fee-Corporators",
+    "Clinician's Fee-Visiting",
+    "Clinic Material and Supplies",
+    "Common Use Service Area",
+    "Light and Water Expense",
+    "Dep'n Expense-Leasehold Improvements",
+    "Dep'n Expense-Dental Equipment",
+    "Salaries and Wages",
+    "De Minimis",
+    "Government Contributions ER Share",
+    "Professional Fees",
+    "Repair and Maintenance",
+    "Pantry Supplies",
+    "Office Supplies",
+    "Meals, Gifts & Entertainment Expense",
+    "Communication ",
+    "Printing and Duplication",
+    "Taxes and Licences",
+    "Delivery",
+    "Software Subscription",
+    "Miscellaneous",
+    "Transportation and Travel",
+    "Advertisement",
+    "Marketing Expense",
+    "Gas, Oil, Parking, Toll Fees",
+    "Other Penalties and Charges",
+    "Insurance"
+  ],
+  "gl_title_duplicates": [
+    "Paid-Up Capital"
+  ],
+  "CDJ_max_row": 1004,
+  "CDJ_max_col": 33,
+  "CRJ_max_row": 719,
+  "CRJ_max_col": 28,
+  "GJ_max_row": 1000,
+  "GJ_max_col": 26
+}
