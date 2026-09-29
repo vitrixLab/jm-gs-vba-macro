@@ -1,11 +1,11 @@
 {
   "v81_variant": "v8.1b (HOLD lifted by documented mapping)",
-  "built_utc": "2026-09-28T09:14:28.942675+00:00",
+  "built_utc": "2026-09-28T19:09:48.211665+00:00",
   "source_workbook": "Global-Smile_2026-v8.0.xlsm",
   "source_sha256": "76a783ad0dce60ef3e27b52c78632555541d529442ddd6b015aad944fa22e327",
   "source_unmodified": true,
   "output_workbook": "Global-Smile_2026-v8.1.xlsm",
-  "output_sha256": "32132e5f356b4154460295d760870814e8434aefb9f495849855af6e3c25d89b",
+  "output_sha256": "bdcc38fae5ce52d626b0192cb6793b47ae23b48281d36a34f0f1c7d0c303f78b",
   "vba_preserved_via": "openpyxl keep_vba=True (vbaProject.bin byte-preserved)",
   "sheets_added": [
     "COA_MAP",
