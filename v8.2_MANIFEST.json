@@ -1,0 +1,37 @@
+{
+  "version": "v8.2",
+  "purpose": "GL automation final review",
+  "base_commit": "380f229451a17071771d67e7bf4bf73b9a945454",
+  "source_workbook": "Global-Smile_2026-v8.1-rebuild.xlsm",
+  "source_sha256": "1a7919d14f9dab272f9f74d17d91a282125c63df1e25b43123903983c5cba205",
+  "posting_sources": [
+    "CDJ",
+    "CRJ",
+    "GJ"
+  ],
+  "feeder_journals_excluded": [
+    "PJ",
+    "PJ Non-Vat",
+    "SJ"
+  ],
+  "gl_accounts": 46,
+  "months": 12,
+  "expected_matrix_rows": 552,
+  "static_precheck": {
+    "debit": 258671,
+    "credit": 258671,
+    "difference": 0,
+    "unmapped": 0,
+    "invalid": 0,
+    "rows": 552
+  },
+  "fixes": [
+    "Single canonical RefreshGL/RefreshAllGL in modGLRefresh",
+    "CDJ+CRJ+GJ consolidated into one posting matrix",
+    "Five v8.1 GJ mappings made executable",
+    "CDJ sundry residual corrected to -signed; cash-out retained as control check",
+    "GL_V8_CALC ending balance made cumulative debit-credit"
+  ],
+  "runtime_status": "NOT CERTIFIED — uploaded workbook VBA binary remains v8.1-rebuild; import v8.2 BAS modules into desktop Excel and run RefreshAllGL(2026)",
+  "branch": "v8.2-gl-final-review"
+}

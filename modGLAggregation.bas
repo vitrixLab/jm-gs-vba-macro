@@ -1,7 +1,7 @@
 Attribute VB_Name = "modGLAggregation"
 Option Explicit
 
-' v8.0 deterministic GL engine for the actual workbook layout.
+' v8.2 deterministic GL engine for the actual workbook layout.
 ' Posting sources are CDJ, CRJ and GJ. PJ/PJ Non-Vat/SJ are feeder journals
 ' and are not posted a second time.
 
@@ -26,14 +26,33 @@ Private Function Matrix(ByVal yr As Long,ByRef gd As Double,ByRef gc As Double,B
     For r=15 To ws.Cells(ws.Rows.Count,3).End(xlUp).Row
         m=V8_Month(ws.Cells(r,3).Value2): If m>0 Then cur=m
         If cur>0 And Len(Trim$(CStr(ws.Cells(r,5).Value2)))>0 And V8_Norm(ws.Cells(r,5).Value2)<>"TOTAL" Then
-            For c=6 To 19
+            ' F:R are signed mapped postings. S is a sundry account label, not a posting amount.
+            signed=0#
+            For c=6 To 18
                 ok=True:v=V8_Number(ws.Cells(r,c).Value2,ok):If Not ok Then inv=inv+1
                 If ok And Abs(v)>TOLERANCE Then
                     a=V8_CDJMap(c)
                     If Len(a)=0 Then um=um+Abs(v):detail=detail&"CDJ!"&ws.Cells(r,c).Address(False,False)&" ambiguous mapping"&vbCrLf
-                    ElseIf v>=0 Then Put d,a,cur,v,0#:gd=gd+v Else Put d,a,cur,0#,-v:gc=gc-v
+                    ElseIf v>=0 Then Put d,a,cur,v,0#:gd=gd+v:signed=signed+v Else Put d,a,cur,0#,-v:gc=gc-v:signed=signed+v
                 End If
             Next c
+            a=Trim$(CStr(ws.Cells(r,19).Value2))
+            If Len(a)>0 And UCase$(a)<>"TOTAL" And UCase$(a)<>"SUNDRY ACCOUNT" And Abs(signed)>TOLERANCE Then
+                Dim cashOut As Double, cashOK As Boolean, target As String
+                cashOK=True:cashOut=V8_Number(ws.Cells(r,20).Value2,cashOK):If Not cashOK Then inv=inv+1
+                ok=True:v=V8_Number(ws.Cells(r,6).Value2,ok):If Not ok Then inv=inv+1
+                If cashOK And ok And Abs(cashOut-Abs(v))>TOLERANCE Then
+                    inv=inv+1:detail=detail&"CDJ!"&ws.Cells(r,20).Address(False,False)&" cash-out control mismatch"&vbCrLf
+                End If
+                target=V8_GJMap(a):If Len(target)=0 And GLTitleExists(a) Then target=GLTitleOf(a)
+                If Len(target)=0 Then
+                    um=um+Abs(signed):detail=detail&"CDJ!"&ws.Cells(r,19).Address(False,False)&" -> "&a&vbCrLf
+                ElseIf signed<0 Then
+                    Put d,target,cur,-signed,0#:gd=gd-signed
+                Else
+                    Put d,target,cur,0#,signed:gc=gc+signed
+                End If
+            End If
         End If
     Next r
 
@@ -121,11 +140,3 @@ Public Function BuildV8CalcSheet(Optional ByVal yearNumber As Long=2026) As Bool
     Next a
     ws.Columns("A:E").AutoFit:BuildV8CalcSheet=(r-2=46*12)
 End Function
-
-Public Sub RefreshGL(Optional ByVal yearNumber As Long=2026)
-    If Not ValidateGLConsistency(yearNumber) Then MsgBox "v8.0 HOLD: unmapped/invalid posting activity. Existing GL was not overwritten.",vbExclamation:Exit Sub
-    If Not BuildV8CalcSheet(yearNumber) Then MsgBox "v8.0 HOLD: 46x12 matrix failed.",vbExclamation:Exit Sub
-    MsgBox "v8.0 46x12 matrix built. Existing GL remains protected pending zero-unmapped certification.",vbInformation
-End Sub
-
-Public Sub RefreshAllGL(Optional ByVal yearNumber As Long=2026):RefreshGL yearNumber:End Sub

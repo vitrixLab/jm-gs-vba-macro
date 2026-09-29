@@ -1,7 +1,7 @@
 Attribute VB_Name = "modGLWorkbookMap"
 Option Explicit
 
-' v8.0 exact mapping for Global-Smile_2026-v7.9.
+' v8.2 exact mapping for Global-Smile_2026 workbook layout.
 ' Posting sources: CDJ, CRJ, GJ. Feeder journals are not posted twice.
 
 Public Const AUDIT_SHEET As String = "GL_AUDIT"
@@ -50,6 +50,12 @@ Public Function V8_GJMap(ByVal raw As String) As String
         Case "REPAIRS AND MAINTENANCE": V8_GJMap = "Repair and Maintenance"
         Case "OUTPUT VAT PAYABLE": V8_GJMap = "VAT Payable"
         Case "CLINIC SUPPLIES": V8_GJMap = "Clinic Material and Supplies"
+        ' v8.1 HOLD mappings are now executable runtime mappings.
+        Case "MEDICAL EQUIPMENT": V8_GJMap = "Dental Equipment"
+        Case "COST OF REVENUE": V8_GJMap = "Clinic Material and Supplies"
+        Case "SUPPLIES": V8_GJMap = "Clinic Material and Supplies"
+        Case "BANK CHARGE": V8_GJMap = "Miscellaneous"
+        Case "CHARGES": V8_GJMap = "Miscellaneous"
         Case Else: If d.Exists(k) Then V8_GJMap = d(k)
     End Select
 End Function
