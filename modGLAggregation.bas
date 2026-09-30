@@ -18,7 +18,7 @@ Private Function LogDate(ByVal s As String) As Date
 End Function
 
 Private Function Matrix(ByVal yr As Long,ByRef gd As Double,ByRef gc As Double,ByRef um As Double,ByRef inv As Long,ByRef detail As String) As Object
-    Dim d As Object,ws As Worksheet,r As Long,c As Long,m As Long,cur As Long,a As String,raw As String,v As Double,ok As Boolean,dt As Date
+    Dim d As Object,ws As Worksheet,r As Long,c As Long,m As Long,cur As Long,a As String,raw As String,v As Double,ok As Boolean,dt As Date,signed As Double
     Set d=CreateObject("Scripting.Dictionary"): d.CompareMode=vbTextCompare
 
     ' CDJ: F:S are signed account postings; positive=debit, negative=credit.
@@ -125,18 +125,32 @@ Public Function ValidateGLConsistency(Optional ByVal yearNumber As Long=2026) As
 End Function
 
 Public Function BuildV8CalcSheet(Optional ByVal yearNumber As Long=2026) As Boolean
-    Dim d As Object,gd As Double,gc As Double,um As Double,inv As Long,detail As String,ws As Worksheet,accounts As Object,a As Variant,m As Long,r As Long,k As String,x As Variant,bal As Double
-    Set d=Matrix(yearNumber,gd,gc,um,inv,detail):Set accounts=V8_GLAccounts()
+    Dim d As Object,gd As Double,gc As Double,um As Double,inv As Long,detail As String,ws As Worksheet,gl As Worksheet
+    Dim b As Long,m As Long,r As Long,k As String,x As Variant,bal As Double,title As String
+    Set d=Matrix(yearNumber,gd,gc,um,inv,detail)
+    Set gl=ThisWorkbook.Worksheets(GL_SHEET)
     On Error Resume Next:Set ws=ThisWorkbook.Worksheets(CALC_SHEET)
     If ws Is Nothing Then Set ws=ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Worksheets(ThisWorkbook.Worksheets.Count)):ws.Name=CALC_SHEET
-    On Error GoTo 0:ws.Cells.Clear:ws.Range("A1:E1").Value=Array("Account Title","Month","Debit","Credit","Ending Balance"):r=2
-    For Each a In accounts.Items
-        bal=0
+    On Error GoTo 0
+    ws.Cells.Clear
+    ws.Range("A1:E1").Value=Array("Account Title","Month","Debit","Credit","Ending Balance")
+    r=2
+    For b=0 To 45
+        title=CStr(gl.Cells(13+b*13,6).Value2)
+        If Len(Trim$(title))=0 Then BuildV8CalcSheet=False:Exit Function
+        bal=0#
         For m=1 To 12
-            k=V8_Norm(CStr(a))&"|"&m:If d.Exists(k) Then x=d(k) Else x=Array(0#,0#)
+            k=V8_Norm(title)&"|"&m
+            If d.Exists(k) Then x=d(k) Else x=Array(0#,0#)
             bal=bal+CDbl(x(0))-CDbl(x(1))
-            ws.Cells(r,1).Value=a:ws.Cells(r,2).Value=m:ws.Cells(r,3).Value=x(0):ws.Cells(r,4).Value=x(1):ws.Cells(r,5).Value=bal:r=r+1
+            ws.Cells(r,1).Value2=title
+            ws.Cells(r,2).Value2=m
+            ws.Cells(r,3).Value2=CDbl(x(0))
+            ws.Cells(r,4).Value2=CDbl(x(1))
+            ws.Cells(r,5).Value2=bal
+            r=r+1
         Next m
-    Next a
-    ws.Columns("A:E").AutoFit:BuildV8CalcSheet=(r-2=46*12)
+    Next b
+    ws.Columns("A:E").AutoFit
+    BuildV8CalcSheet=(r-2=46*12)
 End Function
