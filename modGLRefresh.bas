@@ -13,6 +13,8 @@ Private Const GL_FIRST_ROW As Long = 13
 Private Const GL_BLOCK_STRIDE As Long = 13
 Private Const GL_DEBIT_COL As Long = 7
 Private Const GL_CREDIT_COL As Long = 8
+Private Const GL_ACCOUNT_BLOCKS As Long = 46
+Private Const GL_MONTHS As Long = 12
 
 Public Sub RefreshGLIntoSheet(Optional ByVal yearNumber As Long = 2026)
     Dim d As Object, gd As Double, gc As Double, um As Double, inv As Long, detail As String
@@ -48,9 +50,11 @@ End Sub
 Private Sub WriteGLSheet(ByVal d As Object)
     Dim ws As Worksheet, b As Long, m As Long, r As Long, k As String, x As Variant
     Set ws = ThisWorkbook.Worksheets(GL_SHEET)
+    If Not ValidateGLWriteGrid(ws) Then Err.Raise vbObjectError + 832, "RefreshGL", "GL write grid is not the expected 46 x 12 layout."
     Application.ScreenUpdating = False
-    For b = 0 To 45
-        For m = 1 To 12
+    On Error GoTo CleanFail
+    For b = 0 To GL_ACCOUNT_BLOCKS - 1
+        For m = 1 To GL_MONTHS
             r = GL_FIRST_ROW + b * GL_BLOCK_STRIDE + (m - 1)
             k = V8_Norm(CStr(ws.Cells(r, 6).Value2)) & "|" & m
             If d.Exists(k) Then x = d(k) Else x = Array(0#, 0#)
@@ -58,8 +62,27 @@ Private Sub WriteGLSheet(ByVal d As Object)
             ws.Cells(r, GL_CREDIT_COL).Value2 = CDbl(x(1))
         Next m
     Next b
+    Application.Calculate
+CleanExit:
     Application.ScreenUpdating = True
+    Exit Sub
+CleanFail:
+    Application.ScreenUpdating = True
+    Err.Raise Err.Number, Err.Source, Err.Description
 End Sub
+
+Private Function ValidateGLWriteGrid(ByVal ws As Worksheet) As Boolean
+    Dim b As Long, m As Long, r As Long
+    For b = 0 To GL_ACCOUNT_BLOCKS - 1
+        r = GL_FIRST_ROW + b * GL_BLOCK_STRIDE
+        If Len(Trim$(CStr(ws.Cells(r, 6).Value2))) = 0 Then Exit Function
+        For m = 1 To GL_MONTHS
+            r = GL_FIRST_ROW + b * GL_BLOCK_STRIDE + (m - 1)
+            If ws.Cells(r, GL_DEBIT_COL).MergeCells Or ws.Cells(r, GL_CREDIT_COL).MergeCells Then Exit Function
+        Next m
+    Next b
+    ValidateGLWriteGrid = True
+End Function
 
 ' --- refresh the kept GL_V8_CALC skeleton from the same matrix
 Private Sub RefreshCalcFromMatrix(ByVal d As Object)
@@ -69,6 +92,7 @@ Private Sub RefreshCalcFromMatrix(ByVal d As Object)
     Set ws = ThisWorkbook.Worksheets(CALC_SHEET)
     On Error GoTo 0
     If ws Is Nothing Then Exit Sub
+    If ws.Range("A4:E555").MergeCells Then Err.Raise vbObjectError + 833, "RefreshGL", "GL_V8_CALC contains merged cells in the 552-row output range."
     ws.Range("A4:E555").ClearContents
     r = 4
     For b = 0 To 45
