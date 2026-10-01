@@ -68,7 +68,7 @@ Private Sub ScanCDJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByR
         If m > 0 Then cur = m
         If cur = 0 Then GoTo NextRow
         title = Trim$(CStr(ws.Cells(r, 5).Value2))
-        If Len(title) = 0 Or V8_Norm(title) = "TOTAL" Then GoTo NextRow
+        If Len(title) = 0 Or InStr(1, V8_Norm(title), "TOTAL", vbTextCompare) > 0 Then GoTo NextRow
 
         ' Cash is column F: negative = credit, positive = debit.
         ok = True: cash = V8_Number(ws.Cells(r, 6).Value2, ok)
@@ -184,7 +184,7 @@ Private Sub ScanGJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByRe
         m = V8_Month(ws.Cells(r, 2).Value2)
         If m > 0 Then cur = m
         raw = Trim$(CStr(ws.Cells(r, 5).Value2))
-        If cur = 0 Or Len(raw) = 0 Then GoTo NextRow
+        If cur = 0 Or Len(raw) = 0 Or InStr(1, V8_Norm(raw), "TOTAL", vbTextCompare) > 0 Then GoTo NextRow
         If V8_Norm(raw) = "RECORDING DEPRECIATION FOR THE MONTH" Or _
            V8_Norm(raw) = "LIQUIDATION OF PCF FOR THE MONTH" Or _
            V8_Norm(raw) = "CLOSING OF INPUT VAT FOR Q1 2026" Then GoTo NextRow
