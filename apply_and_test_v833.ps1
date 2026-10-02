@@ -76,11 +76,13 @@ try {
     $comp11.CodeModule.AddFromString($s11CleanCode)
     Write-Host "  Updated Sheet11 CodeModule."
 
-    # Save
+    # Save and reopen workbook so Excel registers all new/modified VBA procedures
     $wb.Save()
-    Write-Host "Workbook saved with all updated components."
+    $wb.Close($true)
+    Write-Host "Workbook saved and closed to refresh VBA registration."
 
-    # Enable events for testing
+    Write-Host "Reopening workbook..."
+    $wb = $xl.Workbooks.Open($xlsmPath, 0, $false)
     $xl.EnableEvents = $true
 
     # 5. Test InitializeEngine
