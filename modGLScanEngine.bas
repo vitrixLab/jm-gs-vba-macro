@@ -33,13 +33,15 @@ Public Sub ScanGL(Optional ByVal yearNumber As Long = 2026)
     ' record the diagnostic audit row and abort BEFORE modifying the visible GL.
     If inv > 0 Or um > TOLERANCE Or Abs(gd - gc) > TOLERANCE Then
         WriteScanAudit gd, gc, um, inv, detail
-        MsgBox "v8.3.3 SCAN HOLD: Reconciliation or mapping gate failed. GL not overwritten." & vbCrLf & _
-               "Debit: " & Format$(gd, "0.00") & vbCrLf & _
-               "Credit: " & Format$(gc, "0.00") & vbCrLf & _
-               "Difference: " & Format$(gd - gc, "0.00") & vbCrLf & _
-               "Unmapped: " & Format$(um, "0.00") & vbCrLf & _
-               "Invalid: " & inv & vbCrLf & _
-               "Review GL_AUDIT for details.", vbExclamation
+        If Application.DisplayAlerts Then
+            MsgBox "v8.3.3 SCAN HOLD: Reconciliation or mapping gate failed. GL not overwritten." & vbCrLf & _
+                   "Debit: " & Format$(gd, "0.00") & vbCrLf & _
+                   "Credit: " & Format$(gc, "0.00") & vbCrLf & _
+                   "Difference: " & Format$(gd - gc, "0.00") & vbCrLf & _
+                   "Unmapped: " & Format$(um, "0.00") & vbCrLf & _
+                   "Invalid: " & inv & vbCrLf & _
+                   "Review GL_AUDIT for details.", vbExclamation
+        End If
         Exit Sub
     End If
 
@@ -48,13 +50,15 @@ Public Sub ScanGL(Optional ByVal yearNumber As Long = 2026)
     WriteScannedCalc d
     WriteScanAudit gd, gc, um, inv, detail
 
-    MsgBox "v8.3.3 SCAN COMPLETE" & vbCrLf & _
-           "GL rows scanned: 46 accounts x 12 months = 552" & vbCrLf & _
-           "Debit: " & Format$(gd, "0.00") & vbCrLf & _
-           "Credit: " & Format$(gc, "0.00") & vbCrLf & _
-           "Difference: " & Format$(gd - gc, "0.00") & vbCrLf & _
-           "Unmapped: " & Format$(um, "0.00") & vbCrLf & _
-           "Invalid: " & inv, vbInformation
+    If Application.DisplayAlerts Then
+        MsgBox "v8.3.3 SCAN COMPLETE" & vbCrLf & _
+               "GL rows scanned: 46 accounts x 12 months = 552" & vbCrLf & _
+               "Debit: " & Format$(gd, "0.00") & vbCrLf & _
+               "Credit: " & Format$(gc, "0.00") & vbCrLf & _
+               "Difference: " & Format$(gd - gc, "0.00") & vbCrLf & _
+               "Unmapped: " & Format$(um, "0.00") & vbCrLf & _
+               "Invalid: " & inv, vbInformation
+    End If
 End Sub
 
 Private Sub AddPost(ByVal d As Object, ByVal acct As String, ByVal m As Long, ByVal db As Double, ByVal cr As Double)
