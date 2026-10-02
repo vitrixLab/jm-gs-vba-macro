@@ -509,10 +509,18 @@ Public Sub SyncPJToCDJ(sourceSheet As Worksheet, sourceRow As Long)
             For c = CDJ_EXPENSE_START To CDJ_EXPENSE_END
                 .Cells(targetRow, c).Value = ""
             Next c
-            If expenseCol >= CDJ_EXPENSE_START And expenseCol <= CDJ_EXPENSE_END Then
+            If expenseCol >= CDJ_EXPENSE_START And expenseCol < CDJ_EXPENSE_END Then
+                ' Fixed expense cols 14-18: numeric amount into matched column
                 .Cells(targetRow, expenseCol).Value = netAmount
                 .Cells(targetRow, CDJ_COL_DEBIT).Value = grossAmount
                 .Cells(targetRow, expenseCol).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+                .Cells(targetRow, CDJ_COL_DEBIT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            ElseIf expenseCol = CDJ_EXPENSE_END Then
+                ' Sundry (col 19 = S): COA label text in col S, amount in col R (18)
+                .Cells(targetRow, CDJ_EXPENSE_END).Value = description
+                .Cells(targetRow, CDJ_EXPENSE_END - 1).Value = netAmount
+                .Cells(targetRow, CDJ_COL_DEBIT).Value = grossAmount
+                .Cells(targetRow, CDJ_EXPENSE_END - 1).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
                 .Cells(targetRow, CDJ_COL_DEBIT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
             End If
             .Cells(targetRow, CDJ_COL_NOTE).Value = "Updated from PJ Row " & sourceRow & " | " & Now
@@ -537,10 +545,18 @@ Public Sub SyncPJToCDJ(sourceSheet As Worksheet, sourceRow As Long)
             .Cells(targetRow, CDJ_COL_VAT).Value = vatAmount
             .Cells(targetRow, CDJ_COL_WHTAX).Value = whtax
             .Cells(targetRow, CDJ_COL_REF).Value = ref
-            If expenseCol >= CDJ_EXPENSE_START And expenseCol <= CDJ_EXPENSE_END Then
+            If expenseCol >= CDJ_EXPENSE_START And expenseCol < CDJ_EXPENSE_END Then
+                ' Fixed expense cols 14-18: numeric amount into matched column
                 .Cells(targetRow, expenseCol).Value = netAmount
                 .Cells(targetRow, CDJ_COL_DEBIT).Value = grossAmount
                 .Cells(targetRow, expenseCol).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+                .Cells(targetRow, CDJ_COL_DEBIT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            ElseIf expenseCol = CDJ_EXPENSE_END Then
+                ' Sundry (col 19 = S): COA label text in col S, amount in col R (18)
+                .Cells(targetRow, CDJ_EXPENSE_END).Value = description
+                .Cells(targetRow, CDJ_EXPENSE_END - 1).Value = netAmount
+                .Cells(targetRow, CDJ_COL_DEBIT).Value = grossAmount
+                .Cells(targetRow, CDJ_EXPENSE_END - 1).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
                 .Cells(targetRow, CDJ_COL_DEBIT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
             End If
             .Cells(targetRow, CDJ_COL_NOTE).Value = "Inserted from PJ Row " & sourceRow & " | " & Now
@@ -857,10 +873,18 @@ Public Sub SyncPJNonVatToCDJ(sourceSheet As Worksheet, sourceRow As Long)
             For c = CDJ_EXPENSE_START To CDJ_EXPENSE_END
                 .Cells(targetRow, c).Value = ""
             Next c
-            If expenseCol >= CDJ_EXPENSE_START And expenseCol <= CDJ_EXPENSE_END Then
+            If expenseCol >= CDJ_EXPENSE_START And expenseCol < CDJ_EXPENSE_END Then
+                ' Fixed expense cols 14-18: numeric amount into matched column
                 .Cells(targetRow, expenseCol).Value = netAmount
                 .Cells(targetRow, CDJ_COL_DEBIT).Value = netAmount + whtax
                 .Cells(targetRow, expenseCol).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+                .Cells(targetRow, CDJ_COL_DEBIT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            ElseIf expenseCol = CDJ_EXPENSE_END Then
+                ' Sundry (col 19 = S): COA label text in col S, amount in col R (18)
+                .Cells(targetRow, CDJ_EXPENSE_END).Value = description
+                .Cells(targetRow, CDJ_EXPENSE_END - 1).Value = netAmount
+                .Cells(targetRow, CDJ_COL_DEBIT).Value = netAmount + whtax
+                .Cells(targetRow, CDJ_EXPENSE_END - 1).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
                 .Cells(targetRow, CDJ_COL_DEBIT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
             End If
             .Cells(targetRow, CDJ_COL_NOTE).Value = "Updated Non-Vat Row " & sourceRow & " | EWT: " & whtax & " | " & Now
@@ -886,10 +910,18 @@ Public Sub SyncPJNonVatToCDJ(sourceSheet As Worksheet, sourceRow As Long)
             .Cells(targetRow, CDJ_COL_WHTAX).Value = whtax
             .Cells(targetRow, CDJ_COL_REF_PNV).Value = ref
             .Cells(targetRow, CDJ_COL_DAY).Value = sourceSheet.Cells(sourceRow, 2).Value
-            If expenseCol >= CDJ_EXPENSE_START And expenseCol <= CDJ_EXPENSE_END Then
+            If expenseCol >= CDJ_EXPENSE_START And expenseCol < CDJ_EXPENSE_END Then
+                ' Fixed expense cols 14-18: numeric amount into matched column
                 .Cells(targetRow, expenseCol).Value = netAmount
                 .Cells(targetRow, CDJ_COL_DEBIT).Value = netAmount + whtax
                 .Cells(targetRow, expenseCol).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+                .Cells(targetRow, CDJ_COL_DEBIT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+            ElseIf expenseCol = CDJ_EXPENSE_END Then
+                ' Sundry (col 19 = S): COA label text in col S, amount in col R (18)
+                .Cells(targetRow, CDJ_EXPENSE_END).Value = description
+                .Cells(targetRow, CDJ_EXPENSE_END - 1).Value = netAmount
+                .Cells(targetRow, CDJ_COL_DEBIT).Value = netAmount + whtax
+                .Cells(targetRow, CDJ_EXPENSE_END - 1).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
                 .Cells(targetRow, CDJ_COL_DEBIT).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
             End If
             .Cells(targetRow, CDJ_COL_NOTE).Value = "Inserted Non-Vat Row " & sourceRow & " | EWT: " & whtax & " | " & Now
