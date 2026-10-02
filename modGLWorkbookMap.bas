@@ -73,9 +73,20 @@ Public Function V8_CDJMap(ByVal col As Long) As String
         Case 14: V8_CDJMap = "Clinic Material and Supplies"
         Case 15: V8_CDJMap = "Rent"
         Case 16: V8_CDJMap = "Gas, Oil, Parking, Toll Fees"
+        Case 17: V8_CDJMap = "Light and Water Expense"
         Case 18: V8_CDJMap = "Professional Fees"
         Case Else: V8_CDJMap = ""
     End Select
+End Function
+
+Public Function GLTitleExists(ByVal raw As String) As Boolean
+    GLTitleExists = V8_GLAccounts().Exists(V8_Norm(raw))
+End Function
+
+Public Function GLTitleOf(ByVal raw As String) As String
+    Dim d As Object: Set d = V8_GLAccounts()
+    Dim k As String: k = V8_Norm(raw)
+    If d.Exists(k) Then GLTitleOf = d(k)
 End Function
 
 Public Function V8_CRJMap(ByVal col As Long) As String

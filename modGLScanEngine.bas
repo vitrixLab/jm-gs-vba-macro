@@ -1,7 +1,7 @@
 Attribute VB_Name = "modGLScanEngine"
 Option Explicit
 
-' v8.3.3 SCANNING ENGINE
+' v8.3.3 SCANNING ENGINE (Hardened)
 ' Reads the posted journals row-by-row, resolves the actual COA, aggregates
 ' by physical GL account + month, and writes the visible GL directly.
 '
@@ -27,6 +27,21 @@ Public Sub ScanGL(Optional ByVal yearNumber As Long = 2026)
     ScanCDJ d, yearNumber, gd, gc, um, inv, detail
     ScanCRJ d, yearNumber, gd, gc, um, inv, detail
     ScanGJ d, yearNumber, gd, gc, um, inv, detail
+
+    ' Fail-closed validation gate:
+    ' If journals are out of balance, have unmapped accounts, or have invalid data,
+    ' record the diagnostic audit row and abort BEFORE modifying the visible GL.
+    If inv > 0 Or um > TOLERANCE Or Abs(gd - gc) > TOLERANCE Then
+        WriteScanAudit gd, gc, um, inv, detail
+        MsgBox "v8.3.3 SCAN HOLD: Reconciliation or mapping gate failed. GL not overwritten." & vbCrLf & _
+               "Debit: " & Format$(gd, "0.00") & vbCrLf & _
+               "Credit: " & Format$(gc, "0.00") & vbCrLf & _
+               "Difference: " & Format$(gd - gc, "0.00") & vbCrLf & _
+               "Unmapped: " & Format$(um, "0.00") & vbCrLf & _
+               "Invalid: " & inv & vbCrLf & _
+               "Review GL_AUDIT for details.", vbExclamation
+        Exit Sub
+    End If
 
     Set ws = ThisWorkbook.Worksheets(GL_SHEET)
     WriteScannedGL ws, d
@@ -67,7 +82,7 @@ Private Sub ScanCDJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByR
         m = V8_Month(ws.Cells(r, 3).Value2)
         If m > 0 Then cur = m
         If cur = 0 Then GoTo NextRow
-        title = Trim$(CStr(ws.Cells(r, 5).Value2))
+        title = SafeText(ws.Cells(r, 5).Value2)
         If Len(title) = 0 Or InStr(1, V8_Norm(title), "TOTAL", vbTextCompare) > 0 Then GoTo NextRow
 
         ' Cash is column F: negative = credit, positive = debit.
@@ -103,7 +118,7 @@ Private Sub ScanCDJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByR
 
         ' Sundry Account is the actual COA label. Derive its balancing amount
         ' from the row rather than trusting a stale copied amount in T/U.
-        raw = Trim$(CStr(ws.Cells(r, 19).Value2))
+        raw = SafeText(ws.Cells(r, 19).Value2)
         If Len(raw) > 0 And V8_Norm(raw) <> "TOTAL" And V8_Norm(raw) <> "SUNDRY ACCOUNT" Then
             a = V8_GJMap(raw)
             If Len(a) = 0 And GLTitleExists(raw) Then a = GLTitleOf(raw)
@@ -142,13 +157,17 @@ End Sub
 
 Private Sub ScanCRJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByRef gc As Double, ByRef um As Double, ByRef inv As Long, ByRef detail As String)
     Dim ws As Worksheet, r As Long, c As Long, m As Long, ok As Boolean, v As Double, a As String, dt As Date
+    Dim invNo As String
     Set ws = ThisWorkbook.Worksheets("CRJ")
 
     For r = 10 To ws.Cells(ws.Rows.Count, 7).End(xlUp).Row
-        If Len(Trim$(CStr(ws.Cells(r, 7).Value2))) = 0 Then GoTo NextRow
+        invNo = SafeText(ws.Cells(r, 7).Value2)
+        If Len(invNo) = 0 Then GoTo NextRow
+        If InStr(1, V8_Norm(ws.Cells(r, 6).Value2), "TOTAL", vbTextCompare) > 0 Then GoTo NextRow
+
         dt = 0
         If IsDate(ws.Cells(r, 15).Value2) Then dt = CDate(ws.Cells(r, 15).Value2)
-        If dt = 0 Then dt = EntryLogDate(CStr(ws.Cells(r, 15).Value2))
+        If dt = 0 Then dt = EntryLogDate(SafeText(ws.Cells(r, 15).Value2))
         If dt = 0 Then inv = inv + 1: GoTo NextRow
         If Year(dt) <> yr Then GoTo NextRow
         m = Month(dt)
@@ -183,7 +202,7 @@ Private Sub ScanGJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByRe
     For r = 11 To ws.Cells(ws.Rows.Count, 5).End(xlUp).Row
         m = V8_Month(ws.Cells(r, 2).Value2)
         If m > 0 Then cur = m
-        raw = Trim$(CStr(ws.Cells(r, 5).Value2))
+        raw = SafeText(ws.Cells(r, 5).Value2)
         If cur = 0 Or Len(raw) = 0 Or InStr(1, V8_Norm(raw), "TOTAL", vbTextCompare) > 0 Then GoTo NextRow
         If V8_Norm(raw) = "RECORDING DEPRECIATION FOR THE MONTH" Or _
            V8_Norm(raw) = "LIQUIDATION OF PCF FOR THE MONTH" Or _
@@ -214,7 +233,7 @@ Private Sub WriteScannedGL(ByVal ws As Worksheet, ByVal d As Object)
     Application.ScreenUpdating = False
     On Error GoTo Fail
     For b = 0 To GL_BLOCKS - 1
-        title = Trim$(CStr(ws.Cells(FIRST_GL_ROW + b * GL_STRIDE, 6).Value2))
+        title = SafeText(ws.Cells(FIRST_GL_ROW + b * GL_STRIDE, 6).Value2)
         If Len(title) = 0 Then Err.Raise vbObjectError + 833, "ScanGL", "Missing GL account title at block " & (b + 1)
         bal = 0#
         For m = 1 To MONTHS
@@ -242,7 +261,7 @@ Private Sub WriteScannedCalc(ByVal d As Object)
     ws.Range("A1:E1").Value = Array("Account Title", "Month", "Debit", "Credit", "Ending Balance")
     r = 2
     For b = 0 To GL_BLOCKS - 1
-        title = CStr(gl.Cells(FIRST_GL_ROW + b * GL_STRIDE, 6).Value2)
+        title = SafeText(gl.Cells(FIRST_GL_ROW + b * GL_STRIDE, 6).Value2)
         bal = 0#
         For m = 1 To MONTHS
             k = V8_Norm(title) & "|" & CStr(m)
@@ -270,6 +289,11 @@ Private Sub WriteScanAudit(ByVal gd As Double, ByVal gc As Double, ByVal um As D
     ws.Cells(r, 3).Value = "v8.3.3 SCAN | Debit=" & Format$(gd, "0.00") & " | Credit=" & Format$(gc, "0.00") & " | Difference=" & Format$(gd - gc, "0.00") & " | Unmapped=" & Format$(um, "0.00") & " | Invalid=" & inv
     ws.Cells(r, 4).Value = detail
 End Sub
+
+Private Function SafeText(ByVal v As Variant) As String
+    If IsError(v) Or IsEmpty(v) Then Exit Function
+    SafeText = Trim$(CStr(v))
+End Function
 
 Private Function MaxD(ByVal a As Double, ByVal b As Double) As Double
     If a > b Then MaxD = a Else MaxD = b
