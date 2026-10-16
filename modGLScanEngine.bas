@@ -179,7 +179,7 @@ Private Sub ScanCRJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByR
     For r = startRow To lastRow
         If V8_Norm(ws.Cells(r, 6).Value2) = "TOTAL" Then
             m = V8_Month(ws.Cells(r, 4).Value2)
-            partitionOK = (m > lastMonth And m >= 1 And m <= 12)
+            partitionOK = (m = lastMonth + 1 And m >= 1 And m <= 12)
 
             If Not partitionOK Then
                 detail = detail & "CRJ!D" & r & " invalid or out-of-order partition month; partition held" & vbCrLf
