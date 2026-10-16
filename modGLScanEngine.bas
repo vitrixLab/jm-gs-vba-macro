@@ -162,23 +162,34 @@ End Sub
 Private Sub ScanCRJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByRef gc As Double, ByRef um As Double, ByRef inv As Long, ByRef detail As String)
     ' CRJ month attribution is partition-based, not based on column O.
     ' Column O contains SJ import/log timestamps and is not a transaction date.
-    ' Each monthly partition ends with a TOTAL row: month in column D, TOTAL in F.
+    ' A live monthly boundary row carries the month label in column D and is blank in
+    ' columns F (customer) and G (invoice number). The legacy v8.3.3 summary block lower
+    ' in the sheet has F = "TOTAL" with month labels in D but is NOT a live boundary;
+    ' the blank F/G test excludes it. Contiguity is enforced below (first boundary must
+    ' be January; each subsequent boundary must be exactly the next month).
+    ' The yr parameter is retained for caller compatibility; partition order proves the year scope.
     Dim ws As Worksheet, r As Long, rr As Long, c As Long
     Dim m As Long, lastMonth As Long, startRow As Long, lastRow As Long
     Dim ok As Boolean, v As Double, a As String, invNo As String
-    Dim partitionOK As Boolean, n As Long
+    Dim partitionOK As Boolean
 
     Set ws = ThisWorkbook.Worksheets("CRJ")
+    ' Scan range must include boundary rows themselves: they carry data in column D
+    ' (month label) but are blank in F/G, so F/G alone would cut the range short
+    ' at the last invoice and skip the final monthly boundary.
     lastRow = ws.Cells(ws.Rows.Count, 6).End(xlUp).Row
     If ws.Cells(ws.Rows.Count, 7).End(xlUp).Row > lastRow Then _
         lastRow = ws.Cells(ws.Rows.Count, 7).End(xlUp).Row
+    If ws.Cells(ws.Rows.Count, 4).End(xlUp).Row > lastRow Then _
+        lastRow = ws.Cells(ws.Rows.Count, 4).End(xlUp).Row
 
     startRow = 10
     lastMonth = 0
 
     For r = startRow To lastRow
-        If V8_Norm(ws.Cells(r, 6).Value2) = "TOTAL" Then
-            m = V8_Month(ws.Cells(r, 4).Value2)
+        m = V8_Month(ws.Cells(r, 4).Value2)
+        If m > 0 And Len(SafeText(ws.Cells(r, 6).Value2)) = 0 And _
+           Len(SafeText(ws.Cells(r, 7).Value2)) = 0 Then
             partitionOK = (m = lastMonth + 1 And m >= 1 And m <= 12)
 
             If Not partitionOK Then
@@ -222,11 +233,11 @@ Private Sub ScanCRJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByR
         End If
     Next r
 
-    ' Never guess a month for rows that appear after the last recognized TOTAL.
+    ' Never guess a month for rows that appear after the last recognized monthly boundary.
     For rr = startRow To lastRow
         If Len(SafeText(ws.Cells(rr, 7).Value2)) > 0 Then
             inv = inv + 1
-            detail = detail & "CRJ!G" & rr & " invoice has no enclosing monthly TOTAL partition" & vbCrLf
+            detail = detail & "CRJ!G" & rr & " invoice has no enclosing monthly partition" & vbCrLf
         End If
     Next rr
 End Sub
@@ -335,11 +346,4 @@ End Function
 
 Private Function MaxD(ByVal a As Double, ByVal b As Double) As Double
     If a > b Then MaxD = a Else MaxD = b
-End Function
-
-Private Function EntryLogDate(ByVal s As String) As Date
-    Dim p As Long
-    p = InStrRev(s, " | ")
-    If p > 0 Then s = Mid$(s, p + 3)
-    If IsDate(s) Then EntryLogDate = CDate(s)
 End Function
