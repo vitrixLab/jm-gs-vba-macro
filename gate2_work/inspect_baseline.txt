@@ -1,0 +1,330 @@
+Opened read-only: D:\citrixlabph\globalsmile\Global-Smile_2026-v8.4.xlsm
+
+===== SHEETS =====
+  PJ                 codename=Sheet12 index=1
+  PJ Non-Vat         codename=Sheet11 index=2
+  CDJ                codename=Sheet7 index=3
+  SJ                 codename=Sheet3 index=4
+  CRJ                codename=Sheet4 index=5
+  GJ                 codename=Sheet5 index=6
+  GL                 codename=Sheet6 index=7
+  GL_V8_CALC         codename=Sheet16 index=8
+  SUPPLIERS DATA     codename=Sheet10 index=9
+  CRJ2               codename=Sheet13 index=10
+  PJ2                codename=Sheet1 index=11
+  PJ Non-Vat2        codename=Sheet9 index=12
+  CDJ old            codename=Sheet2 index=13
+  SJ2                codename=Sheet8 index=14
+  COA_MAP            codename=Sheet14 index=15
+  GL_AUDIT           codename=Sheet15 index=16
+  V8.3_FINAL_REVIEW  codename=Sheet17 index=17
+
+===== CDJ HEADERS rows 12-15 (cols 1..32) =====
+  col  3 C   | r12=None r13='Date' r14=2026.0
+  col  5 E   | r12=None r13='Particulars' r14=None
+  col  6 F   | r12=None r13='Cash In ' r14='Bank'
+  col  7 G   | r12=None r13='Input' r14='VAT'
+  col  8 H   | r12=None r13='Withholding Tax' r14='Expanded'
+  col  9 I   | r12=None r13='Petty Cash ' r14='Fund'
+  col 10 J   | r12=None r13='EE Government ' r14='Contributions'
+  col 11 K   | r12=None r13='EE Government' r14='Loans'
+  col 12 L   | r12=None r13='De Minimis' r14='Other Benefits'
+  col 13 M   | r12=None r13='Salaries and' r14='Wages'
+  col 14 N   | r12=None r13='Clinic Material ' r14='Supplies'
+  col 15 O   | r12=None r13='Rent' r14='Expense'
+  col 16 P   | r12=None r13='Gas, Oil, Fuel, Toll' r14='Parking'
+  col 17 Q   | r12=None r13='Communication, Light ' r14='and Water'
+  col 18 R   | r12=None r13='Professional ' r14='Fees'
+  col 19 S   | r12=None r13='Sundry' r14='Account'
+  col 20 T   | r12=None r13=None r14='Debit'
+  col 21 U   | r12=None r13=None r14='Credit'
+  col 26 Z   | r12=None r13=None r14='ENTRY LOGS'
+  col 27 AA  | r12=None r13=741.0 r14=755.0
+  col 28 AB  | r12=None r13=None r14='PNV'
+  col 29 AC  | r12=None r13=733.0 r14=747.0
+  col 30 AD  | r12=None r13='N+1' r14='next row counter'
+
+CDJ last row col E (particulars): 5821
+CDJ AA13 (col27 row13)=741.0  AA14 (col27 row14)=755.0
+CDJ Z13 (col26 row13)=None  Z14='ENTRY LOGS'
+CDJ Y14 (col25 row14)=None  AB14 (col28 row14)='PNV'
+CDJ X14 (col24 row14)=None
+
+===== CDJ column usage rows 15..5821 =====
+  col 19 S   non-empty= 299 samples=[(17, 'Representation'), (18, 'Miscellaneous'), (19, 'Representation'), (20, 'Representation'), (22, 'Clinicians Fee- Visiting')]
+  col 20 T   non-empty= 312 samples=[(17, 2499.9999999999995), (18, 910.7142857142857), (19, 2678.5714285714284), (20, 11135.562499999998), (22, 1562.494736842105)]
+  col 21 U   non-empty=  15 samples=[(408, 0.0), (612, 0.0), (674, 0.0), (5717, 0.0), (5727, 0.0)]
+  col 22 V   non-empty= 926 samples=[(15, -3800.0), (16, -4496.45), (17, -2800.0), (18, -1020.0), (19, -3000.0)]
+  col 23 W   non-empty= 926 samples=[(15, 3800.0), (16, 4496.45), (17, 2800.0), (18, 1020.0), (19, 3000.0)]
+  col 24 X   non-empty= 926 samples=[(15, 0.0), (16, 0.0), (17, 0.0), (18, 0.0), (19, 0.0)]
+  col 25 Y   non-empty=  29 samples=[(277, 'PJ-00399'), (312, 'PJ-00434'), (322, 'PJ-00444'), (371, 'PJ-00491'), (377, 'PJ-00497')]
+  col 26 Z   non-empty= 575 samples=[(15, 'Updated from PJ Row 8 | 08/10/2026 1:58:20 pm'), (16, 'Updated from PJ Row 9 | 08/10/2026 1:58:20 pm'), (17, 'Updated from PJ Row 10 | 08/10/2026 1:58:20 pm'), (18, 'Updated from PJ Row 11 | 08/10/2026 1:58:20 pm'), (19, 'Updated from PJ Row 12 | 08/10/2026 1:58:20 pm')]
+  col 27 AA  non-empty= 574 samples=[(15, 'PJ-00179'), (16, 'PJ-00180'), (17, 'PJ-00181'), (18, 'PJ-00182'), (19, 'PJ-00183')]
+  col 28 AB  non-empty=   1 samples=[(5677, 'PNV-00004')]
+  col 29 AC  non-empty=   0 samples=[]
+  col 30 AD  non-empty=  20 samples=[(5802, 0.0), (5803, 0.0), (5804, 0.0), (5805, 0.0), (5806, 0.0)]
+  col 31 AE  non-empty=   0 samples=[]
+
+===== CDJ column C markers (month / TOTAL) rows 1..5821 =====
+  C15 = 'JANUARY'
+  C111 = 'JANUARY TOTAL'
+  C113 = 'FEBRUARY'
+  C193 = 'FEB TOTAL'
+  C195 = 'MARCH'
+  C277 = 'JAN'
+  C322 = 'FEB'
+  C371 = 'FEB'
+  C408 = 'MARCH TOTAL'
+  C410 = 'APRIL'
+  C425 = 'APR'
+  C475 = 'APR'
+  C515 = 'MAY'
+  C516 = 'APRIL TOTAL'
+  C518 = 'MAY'
+  C526 = 'MAY'
+  C573 = 'MAY'
+  C612 = 'MAY TOTAL'
+  C614 = 'JUNE'
+  C618 = 'JUNE'
+  C674 = 'JUNE TOTAL'
+  C5717 = 'JANUARY'
+  C5719 = 'FEB'
+  C5727 = 'FEBRUARY'
+  C5729 = 'MAR'
+  C5737 = 'MAR'
+  C5745 = 'APR'
+  C5753 = 'MAY'
+  C5764 = 'JUN'
+  C5773 = 'JUL'
+  C5781 = 'AUG'
+  C5790 = 'SEP'
+  C5802 = 'OCT'
+  C5812 = 'NOV'
+  C5821 = 'DEC'
+
+===== CDJ TOTAL rows (col E contains TOTAL) =====
+  E5717 = 'TOTAL'  F=-7025.25 T=7025.25 U=0.0 V=None W=None X=None (X formula='')
+  E5727 = 'TOTAL'  F=0.0 T=0.0 U=0.0 V=None W=None X=None (X formula='')
+  E5737 = 'TOTAL'  F=0.0 T=0.0 U=0.0 V=None W=None X=None (X formula='')
+  E5745 = 'TOTAL'  F=0.0 T=0.0 U=0.0 V=None W=None X=None (X formula='')
+  E5753 = 'TOTAL'  F=0.0 T=0.0 U=0.0 V=None W=None X=None (X formula='')
+  E5764 = 'TOTAL'  F=0.0 T=0.0 U=0.0 V=None W=None X=None (X formula='')
+  E5773 = 'TOTAL'  F=0.0 T=0.0 U=0.0 V=None W=None X=None (X formula='')
+  E5781 = 'TOTAL'  F=0.0 T=0.0 U=0.0 V=None W=None X=None (X formula='')
+  E5790 = 'TOTAL'  F=0.0 T=0.0 U=0.0 V=None W=None X=None (X formula='')
+  E5802 = 'TOTAL'  F=0.0 T=0.0 U=0.0 V=None W=None X=None (X formula='')
+  E5812 = 'TOTAL'  F=0.0 T=0.0 U=0.0 V=None W=None X=None (X formula='')
+  E5821 = 'TOTAL'  F=0.0 T=0.0 U=0.0 V=None W=None X=None (X formula='')
+
+===== CDJ sample data rows =====
+  row 15: C='JANUARY' | D='03' | E='VPHARMA HEALTH AND WELNESS INC' | F=-3800.0 | G=407.14285714285734 | H=0.0 | N=3392.8571428571427 | V=-3800.0[=F15] | W=3800.0[=SUM(G15:T15)] | X=0.0[=V15+W15] | Z='Updated from PJ Row 8 | 08/10/2026 1:58:20 pm' | AA='PJ-00179'
+  row 16: D='03' | E='TRAVELLERS INTL HOTEL INC' | F=-4496.45 | G=481.7625000000003 | H=0.0 | P=4014.6874999999995 | V=-4496.45[=F16] | W=4496.45[=SUM(G16:T16)] | X=0.0[=V16+W16] | Z='Updated from PJ Row 9 | 08/10/2026 1:58:20 pm' | AA='PJ-00180'
+  row 17: D='03' | E='RUSTAN' | F=-2800.0 | G=300.00000000000045 | H=0.0 | S='Representation' | T=2499.9999999999995 | V=-2800.0[=F17] | W=2800.0[=SUM(G17:T17)] | X=0.0[=V17+W17] | Z='Updated from PJ Row 10 | 08/10/2026 1:58:20 pm' | AA='PJ-00181'
+  row 630: D='13' | E='WATSONS' | F=-3000.0 | G=321.42857142857156 | H=0.0 | N=2678.5714285714284 | T=3000.0 | V=-3000.0[=F630] | W=6000.0[=SUM(G630:T630)] | X=3000.0[=V630+W630] | Y='PJ-00729' | Z='Inserted from PJ Row 354 | 08/10/2026 2:19:11 pm' | AA='PJ-00698'
+  row 632: D='15' | E='YVES ROCHER' | F=-599.0 | G=64.17857142857144 | H=0.0 | R=534.8214285714286 | S='Miscellaneous' | T=599.0 | V=-599.0[=F632] | W=1198.0[=SUM(G632:T632)] | X=599.0[=V632+W632] | Y='PJ-00731' | Z='Inserted from PJ Row 355 | 08/10/2026 2:19:11 pm' | AA='PJ-00699'
+  row 633: D='15' | E='YVES ROCHER' | F=-1793.0 | G=192.10714285714312 | H=0.0 | R=1600.8928571428569 | S='Miscellaneous' | T=1793.0 | V=-1793.0[=F633] | W=3586.0[=SUM(G633:T633)] | X=1793.0[=V633+W633] | Y='PJ-00732' | Z='Inserted from PJ Row 356 | 08/10/2026 2:19:11 pm' | AA='PJ-00700'
+  row 634: D='15' | E='BACCHUS CATERING CORP' | F=-998.0 | G=106.92857142857156 | H=0.0 | R=891.0714285714284 | S='Representation' | T=998.0 | V=-998.0[=F634] | W=1996.0[=SUM(G634:T634)] | X=998.0[=V634+W634] | Y='PJ-00733' | Z='Inserted from PJ Row 357 | 08/10/2026 2:19:12 pm' | AA='PJ-00701'
+  row 636: D=16.0 | E='NONOS' | F=-2524.0 | G=270.42857142857156 | H=0.0 | S='Miscellaneous' | T=2253.5714285714284 | V=-2524.0[=F636] | W=2524.0[=SUM(G636:T636)] | X=0.0[=V636+W636] | Z='Inserted from PJ Row 358 | 08/10/2026 2:19:12 pm' | AA='PJ-00702'
+  row 638: D=17.0 | E='SBM Consulting Inc service fee ' | F=-20000.0[=-20000] | H=-2222.22 | R=22222.22 | V=-20000.0[=F638] | W=20000.0[=SUM(G638:T638)] | X=0.0[=V638+W638]
+  row 670: D=29.0 | E='YVES ROCHER' | F=-599.0 | G=64.17857142857144 | H=0.0 | S='Miscellaneous' | T=534.8214285714286 | V=-599.0[=F670] | W=599.0[=SUM(G670:T670)] | X=0.0[=V670+W670] | Z='Inserted from PJ Row 387 | 08/10/2026 2:19:13 pm' | AA='PJ-00731'
+  row 672: D=29.0 | E='BACCHUS CATERING CORP' | F=-998.0 | G=106.92857142857156 | H=0.0 | S='Representation' | T=891.0714285714284 | V=-998.0[=F672] | W=998.0[=SUM(G672:T672)] | X=0.0[=V672+W672] | Z='Inserted from PJ Row 389 | 08/10/2026 2:19:13 pm' | AA='PJ-00733'
+  row 673: D=30.0 | E='EMPLOYEE SALARY JUNE 16-30' | F=-27293.33 | V=-27293.33[=F673] | W=27293.329999999998[=SUM(G673:T673)] | X=0.0[=V673+W673]
+  row 674: C='JUNE TOTAL' | D=30.0 | F=-601955.8329736618[=SUM(F614:F673)] | G=36884.123890035225[=SUM(G614:G673)] | H=-9964.941052631579[=SUM(H614:H673)] | N=30938.39285714285[=SUM(N614:N673)] | O=0.0[=SUM(O614:O673)] | P=214601.09194076952[=SUM(P614:P673)] | Q=0.0[=SUM(Q614:Q673)] | R=25249.005714285715[=SUM(R614:R673)] | S=0.0[=SUM(S614:S673)] | U=0.0[=SUM(U614:U673)] | V=-601955.8329736618[=F674] | W=380850.3833496017[=SUM(G674:T674)] | X=-221105.44962406013[=V674+W674]
+  row 755: V=0.0[=F755] | W=0.0[=SUM(G755:T755)] | X=0.0[=V755+W755]
+  row 5677: Z='Inserted Non-Vat Row 9 | EWT: 0 | 9/29/2026 10:06:27 AM' | AB='PNV-00004'
+  row 5821: C='DEC' | E='TOTAL' | F=0.0 | G=0.0 | H=0.0 | N=0.0 | O=0.0 | P=0.0 | Q=0.0 | R=0.0 | S=0.0 | T=0.0 | U=0.0
+
+===== CDJ rows 674..700 col C/E/F =====
+  r674 C='JUNE TOTAL' E=None F=-601955.8329736618
+  r675 C=None E=None F=None
+  r676 C=None E=None F=None
+  r677 C=None E=None F=None
+  r678 C=None E=None F=None
+  r679 C=None E=None F=None
+  r680 C=None E=None F=None
+  r681 C=None E=None F=None
+  r682 C=None E=None F=None
+  r683 C=None E=None F=None
+  r684 C=None E=None F=None
+  r685 C=None E=None F=None
+  r686 C=None E=None F=None
+  r687 C=None E=None F=None
+  r688 C=None E=None F=None
+  r689 C=None E=None F=None
+  r690 C=None E=None F=None
+  r691 C=None E=None F=None
+  r692 C=None E=None F=None
+  r693 C=None E=None F=None
+  r694 C=None E=None F=None
+  r695 C=None E=None F=None
+  r696 C=None E=None F=None
+  r697 C=None E=None F=None
+  r698 C=None E=None F=None
+  r699 C=None E=None F=None
+  r700 C=None E=None F=None
+
+===== PJ (codename Sheet12) header rows 1..9 cols 1..20 =====
+  r1: B='PURCHASES JOURNAL '
+  r2: B='Name:' | D='Global City Smiles Dental and Medical Wellness Inc.' | Q="IT Developer's Referencing Section"
+  r3: B='Address:' | D='Unit 1501 15th Floor MDI Corporate Center 39th St. Cor 10th Ave. Fort Bonifacio Taguig City'
+  r4: B='VAT Reg .TIN:' | D='613-594-172-000'
+  r5: B='RDO:' | D='044'
+  r6: B='Date' | D="Suppliers' TIN" | E="Vendors' Name" | F='Address' | G='Description' | H='Reference' | I='Amount' | J='Amount' | K='Discount' | L='VAT Amount' | M='VAT Amount' | N='Net Purchases' | Q="IT Developer's Automated"
+  r7: B=2026.0 | H='Invoice' | L='Input  Tax' | M='Input  Tax' | Q='Reference Invoice'
+  r8: B='JAN' | C='03' | D='008-888-659' | E='VPHARMA HEALTH AND WELNESS INC' | F='ALABANG, MUNTINLUPA' | G='Clinic Materials and Supplies' | H='PJ-00352' | I=3392.8571428571427 | J=3392.8571428571427 | L=407.14285714285734 | M=407.14285714285734 | N=3800.0 | Q='PJINV-20261008-135911-00352'
+  r9: C='03' | D='246-099-058' | E='TRAVELLERS INTL HOTEL INC' | F='NEWPORT, PASAY' | G='Transportation and Travel' | H='PJ-00353' | I=4014.6874999999995 | J=4014.6874999999995 | L=481.7625000000003 | M=481.7625000000003 | N=4496.45 | Q='PJINV-20261008-135911-00353'
+  last row col E = 399
+  sample rows:
+    r8: B='JAN' | C='03' | D='008-888-659' | E='VPHARMA HEALTH AND WELNESS INC' | F='ALABANG, MUNTINLUPA' | G='Clinic Materials and Supplies' | H='PJ-00352' | I=3392.8571428571427 | J=3392.8571428571427 | L=407.14285714285734 | M=407.14285714285734 | N=3800.0 | Q='PJINV-20261008-135911-00352'
+    r9: C='03' | D='246-099-058' | E='TRAVELLERS INTL HOTEL INC' | F='NEWPORT, PASAY' | G='Transportation and Travel' | H='PJ-00353' | I=4014.6874999999995 | J=4014.6874999999995 | L=481.7625000000003 | M=481.7625000000003 | N=4496.45 | Q='PJINV-20261008-135911-00353'
+    r10: C='03' | D='008-120-744' | E='RUSTAN' | F='SAN LORENZO, MAKATI' | G='Representation' | H='PJ-00354' | I=2499.9999999999995 | J=2499.9999999999995 | L=300.00000000000045 | M=300.00000000000045 | N=2800.0 | Q='PJINV-20261008-135911-00354'
+    r11: C='04' | D='008-625-341' | E='THE MESSHALL' | F='MAGALLANES, MAKATI' | G='Miscellaneous' | H='PJ-00355' | I=910.7142857142857 | J=910.7142857142857 | L=109.28571428571433 | M=109.28571428571433 | N=1020.0 | Q='PJINV-20261008-135911-00355'
+    r12: C='04' | D='252-126-611' | E='FACIAL CARE CENTRE' | F='ALABANG MUNTINLUPA' | G='Representation' | H='PJ-00356' | I=2678.5714285714284 | J=2678.5714285714284 | L=321.42857142857156 | M=321.42857142857156 | N=3000.0 | Q='PJINV-20261008-135911-00356'
+    r13: C='04' | D='008-909-992' | E='SPEAR ONE RESTAURANT INC' | F='BGC TAGUIG' | G='Representation' | H='PJ-00357' | I=11135.562499999998 | J=11135.562499999998 | L=1336.2675000000017 | M=1336.2675000000017 | N=12471.83 | Q='PJINV-20261008-135911-00357'
+    r14: C='04' | D='000-388-771' | E='M9S PETROLEUM CORP' | F='MALATE MANILA' | G='Fuel and Oil' | H='PJ-00358' | I=1383.0357142857142 | J=1383.0357142857142 | L=165.96428571428578 | M=165.96428571428578 | N=1549.0 | Q='PJINV-20261008-135911-00358'
+    r15: C='05' | D='207-961-175' | E='SHAKEYS PIZZA' | F='GBUIGUINTO BULACAN' | G='Representation' | H='PJ-00359' | I=6507.214285714285 | J=6507.214285714285 | L=780.8657142857146 | M=780.8657142857146 | N=7288.08 | Q='PJINV-20261008-135911-00359'
+    r16: C='05' | D='207-961-175' | E='SHAKEYS PIZZA' | F='GBUIGUINTO BULACAN' | G='Representation' | H='PJ-00360' | I=4554.232142857142 | J=4554.232142857142 | L=546.5078571428576 | M=546.5078571428576 | N=5100.74 | Q='PJINV-20261008-135911-00360'
+    r17: C='05' | D='001-799-123' | E='UNIGLOBE TRAVELWARE INC' | F='ALABANG, MUNTINLUPA' | G='Transportation and Travel' | H='PJ-00361' | I=3580.3571428571427 | J=3580.3571428571427 | L=429.64285714285734 | M=429.64285714285734 | N=4010.0 | Q='PJINV-20261008-135911-00361'
+    r18: C='05' | D='148-855-506' | E='MINDWERKS' | F='ALABANG, MUNTINLUPA' | G='Supplies' | H='PJ-00362' | I=1227.6785714285713 | J=1227.6785714285713 | L=147.32142857142867 | M=147.32142857142867 | N=1375.0 | Q='PJINV-20261008-135911-00362'
+    r19: C='06' | D='007-851-409' | E='ROSSINI' | F='MAISON MARINA PASAY CITY' | G='Transportation and Travel' | H='PJ-00363' | I=1785.7142857142856 | J=1785.7142857142856 | L=214.28571428571445 | M=214.28571428571445 | N=2000.0 | Q='PJINV-20261008-135911-00363'
+    r20: C='06' | D='200-035-311' | E='ACE HARDWARE' | F='ALMANZA UNO, LAS PIÑAS' | G='Repairs and Maintenance' | H='PJ-00364' | I=1240.1785714285713 | J=1240.1785714285713 | L=148.82142857142867 | M=148.82142857142867 | N=1389.0 | Q='PJINV-20261008-135911-00364'
+
+===== PJ Non-Vat (codename Sheet11) header rows 1..9 cols 1..20 =====
+  r1: B='PURCHASES JOURNAL '
+  r2: B='Name:' | D='Global City Smiles Dental and Medical Wellness Inc.' | Q="IT Developer's Referencing Section"
+  r3: B='Address:' | D='Unit 1501 15th Floor MDI Corporate Center 39th St. Cor 10th Ave. Fort Bonifacio Taguig City'
+  r4: B='VAT Reg .TIN:' | D='613-594-172-000'
+  r5: B='RDO:' | D='044'
+  r6: B='Date' | D="Suppliers' TIN" | E="Vendors' Name" | F='Address' | G='Description' | H='Reference' | I='Amount' | J='Amount' | K='Discount' | L='EWT' | M='VAT Amount' | N='Net Purchases' | Q="IT Developer's Automated"
+  r7: B=2026.0 | H='Invoice' | L='Witholding' | M='Input  Tax' | Q='Reference Invoice'
+  r8: B='JAN' | D='233-251-708' | E='FEDERAL BRENT RETAIL INC' | F='076 PASAY' | G='Supplies' | H='PNV-00002' | I=1500.0 | J=1500.0 | L=0.0 | M=0.0 | N=1500.0 | Q='PNVINV-20260802-195122-00002'
+  r9: D='233-251-708' | E='FEDERAL BRENT RETAIL INC' | F='076 PASAY' | G='Supplies' | H='PNV-00004' | I=1500.0 | J=1500.0 | L=0.0 | M=0.0 | N=1500.0 | Q='PNVINV-20260929-100627-00004'
+  last row col E = 9
+  sample rows:
+    r8: B='JAN' | D='233-251-708' | E='FEDERAL BRENT RETAIL INC' | F='076 PASAY' | G='Supplies' | H='PNV-00002' | I=1500.0 | J=1500.0 | L=0.0 | M=0.0 | N=1500.0 | Q='PNVINV-20260802-195122-00002'
+    r9: D='233-251-708' | E='FEDERAL BRENT RETAIL INC' | F='076 PASAY' | G='Supplies' | H='PNV-00004' | I=1500.0 | J=1500.0 | L=0.0 | M=0.0 | N=1500.0 | Q='PNVINV-20260929-100627-00004'
+
+===== PJ Non-Vat2 (codename Sheet9) header rows 1..9 cols 1..20 =====
+  r1: B='PURCHASES JOURNAL '
+  r2: B='Name:' | D='Global City Smiles Dental and Medical Wellness Inc.' | Q="IT Developer's Referencing Section"
+  r3: B='Address:' | D='Unit 1501 15th Floor MDI Corporate Center 39th St. Cor 10th Ave. Fort Bonifacio Taguig City'
+  r4: B='VAT Reg .TIN:' | D='613-594-172-000'
+  r5: B='RDO:' | D='044'
+  r6: B='Date' | D="Suppliers' TIN" | E="Vendors' Name" | F='Address' | G='Description' | H='Reference' | I='Amount' | J='Amount' | K='Discount' | L='EWT' | M='VAT Amount' | N='Net Purchases' | Q="IT Developer's Automated"
+  r7: B=2026.0 | H='Invoice' | L='Witholding' | M='Input  Tax' | Q='Reference Invoice'
+  r8: B='JAN' | D='008-888-659' | E='VPHARMA HEALTH AND WELNESS INC ' | F='ALABANG MUNTINLUPA' | G='Clinic Materials and Supplies' | H='PJ-0001' | I=3392.857142857143 | J=3392.857142857143 | L=407.1428571428573 | M=407.1428571428573 | N=3800.0 | Q='PJINV-20260711-143802-0001'
+  r9: B='JAN' | D='246-099-058' | E='TRAVELLERS INTL HOTEL INC' | F='NEWPORT PASAY' | G='Transportation and Travel' | H='PJ-0002' | I=4014.6875 | J=4014.6875 | L=481.7625000000003 | M=481.7625000000003 | N=4496.45 | Q='PJINV-20260711-143802-0002'
+  last row col E = 188
+  sample rows:
+    r8: B='JAN' | D='008-888-659' | E='VPHARMA HEALTH AND WELNESS INC ' | F='ALABANG MUNTINLUPA' | G='Clinic Materials and Supplies' | H='PJ-0001' | I=3392.857142857143 | J=3392.857142857143 | L=407.1428571428573 | M=407.1428571428573 | N=3800.0 | Q='PJINV-20260711-143802-0001'
+    r9: B='JAN' | D='246-099-058' | E='TRAVELLERS INTL HOTEL INC' | F='NEWPORT PASAY' | G='Transportation and Travel' | H='PJ-0002' | I=4014.6875 | J=4014.6875 | L=481.7625000000003 | M=481.7625000000003 | N=4496.45 | Q='PJINV-20260711-143802-0002'
+    r10: B='JAN' | D='008-120-744' | E='RUSTAN ' | F='SAN LORENZO MAKATI' | G='Representation' | H='PJ-0003' | I=2500.0 | J=2500.0 | L=300.0000000000005 | M=300.0000000000005 | N=2800.0 | Q='PJINV-20260711-143802-0003'
+    r11: B='JAN' | D='008-625-341' | E='THE MESSHALL' | F='MAGALLANES MAKATI' | G='Miscellaneous' | H='PJ-0004' | I=910.7142857142857 | J=910.7142857142857 | L=109.2857142857143 | M=109.2857142857143 | N=1020.0 | Q='PJINV-20260711-143802-0004'
+    r12: B='JAN' | D='252-126-611' | E='EUROFUEL INC' | F='VILLAMOR PASAY' | G='Fuel and Oil' | H='PJ-0005' | I=2678.571428571428 | J=2678.571428571428 | L=321.4285714285716 | M=321.4285714285716 | N=3000.0 | Q='PJINV-20260711-143802-0005'
+    r13: B='JAN' | D='008-909-992' | E='SOUTHEASTASIA RETAIL INC' | F='BGC TAGUIG' | G='Supplies' | H='PJ-0006' | I=11135.5625 | J=11135.5625 | L=1336.267500000002 | M=1336.267500000002 | N=12471.83 | Q='PJINV-20260711-143802-0006'
+    r14: B='JAN' | D='000-388-771' | E='JOLLIBEE 39TH' | F='BGC TAGUIG' | G='Representation' | H='PJ-0007' | I=1383.035714285714 | J=1383.035714285714 | L=165.9642857142858 | M=165.9642857142858 | N=1549.0 | Q='PJINV-20260711-143802-0007'
+    r15: B='JAN' | D='207-961-175' | E='SAVEMORE' | F='ALABANG MUNTINLUPA' | G='Supplies' | H='PJ-0008' | I=6507.214285714285 | J=6507.214285714285 | L=780.8657142857146 | M=780.8657142857146 | N=7288.08 | Q='PJINV-20260711-143802-0008'
+    r16: B='JAN' | D='207-961-175' | E='SAVEMORE' | F='ALABANG MUNTINLUPA' | G='Supplies' | H='PJ-0009' | I=4554.232142857142 | J=4554.232142857142 | L=546.5078571428576 | M=546.5078571428576 | N=5100.74 | Q='PJINV-20260711-143802-0009'
+    r17: B='JAN' | D='001-799-123' | E='UNIGLOBE TRAVELWARE INC' | F='ALABANG MUNTINLUPA' | G='Transportation and Travel' | H='PJ-0010' | I=3580.357142857143 | J=3580.357142857143 | L=429.6428571428573 | M=429.6428571428573 | N=4010.0 | Q='PJINV-20260711-143802-0010'
+    r18: B='JAN' | D='148-855-506' | E='MINDWERKS' | F='ALABANG MUNTINLUPA' | G='Supplies' | H='PJ-0011' | I=1227.678571428571 | J=1227.678571428571 | L=147.3214285714287 | M=147.3214285714287 | N=1375.0 | Q='PJINV-20260711-143802-0011'
+    r19: B='JAN' | D='007-851-409' | E='PRIMERA CLASE GAS STATION' | F='ALABANG MUNTINLUPA' | G='Fuel and Oil' | H='PJ-0012' | I=1785.714285714286 | J=1785.714285714286 | L=214.2857142857144 | M=214.2857142857144 | N=2000.0 | Q='PJINV-20260711-143802-0012'
+    r20: B='JAN' | D='200-035-311' | E='ACE HARDWARE' | F='ALMANZA UNO LAS PINAS' | G='Repairs and Maintenance' | H='PJ-0013' | I=1240.178571428571 | J=1240.178571428571 | L=148.8214285714287 | M=148.8214285714287 | N=1389.0 | Q='PJINV-20260711-143802-0013'
+
+===== SUPPLIERS DATA (last TIN row 203) =====
+unique TIN keys: 151 ; duplicate keys: 34
+  DUP '252-126-611' -> [(9, 'EUROFUEL INC'), (112, 'FACIAL CARE CENTRE                                ')]
+  DUP '008-909-992' -> [(10, 'SOUTHEASTASIA RETAIL INC'), (76, 'LANDERS'), (129, 'SPEAR ONE RESTAURANT INC                          ')]
+  DUP '000-388-771' -> [(11, 'JOLLIBEE 39TH'), (17, 'JOLLIBEE BLUEBAY WALK'), (63, 'JOLLIBEE'), (118, 'M9S PETROLEUM CORP                                ')]
+  DUP '207-961-175' -> [(12, 'SAVEMORE'), (77, 'FESTIVAL MALL'), (127, 'SHAKEYS PIZZA                                     ')]
+  DUP '007-851-409' -> [(15, 'PRIMERA CLASE GAS STATION'), (124, 'ROSSINI                                           ')]
+  DUP '008-087-158' -> [(20, 'PNC GARBROS FOODS INC'), (172, 'QINGHUA FOODS CORP.                               ')]
+  DUP '214-706-591' -> [(22, 'WATSONS'), (93, 'WATSONS'), (185, 'YVES ROCHER                                       ')]
+  DUP '000-405-340' -> [(26, 'ROBINSONS'), (55, 'ROBINSONS')]
+  DUP '000-123-826' -> [(27, 'GRAND UNION SUPERMARKET INC'), (61, 'SOUTH SUPERMARKET')]
+  DUP '163-955-615' -> [(30, '725 TAGTEAM FUEL STATION'), (156, 'AAHA GAS RETAILING                                ')]
+  DUP '241-838-060' -> [(33, 'FACIAL CARE CENTRE'), (113, 'GANSO SHABUWAY                                    ')]
+  DUP '009-271-384' -> [(36, 'OTADER DENTAL AND MEDICAL'), (122, 'PC WORX                                           ')]
+placeholders: 9
+  (95, 'TIN NOT FOUND', 'Rosalina Ignacio')
+  (96, 'TIN NOT FOUND', 'Daisy Cornejo')
+  (97, 'TIN NOT FOUND', 'Janina Tayag')
+  (98, 'TIN NOT FOUND', 'Jasper Tago')
+  (99, 'TIN NOT FOUND', 'Ana Ramona Locsin')
+  (100, 'TIN NOT FOUND', 'Virgilio Malenab Jr')
+  (101, 'TIN NOT FOUND', 'SBM Consulting Inc')
+  (102, 'TIN NOT FOUND', 'Christian Anthony Ermita')
+  (103, 'TIN NOT FOUND', 'Vergilyn Montales')
+malformed: 2
+  (34, '009-149--884', 'LANDMARK SUPERMARKET')
+  (54, '226-784-068-000', 'MDI Group Holdings Inc')
+header row 2? C2=None D2=None
+header row 1: C1=None D1=None
+
+===== GL sheet =====
+F11='Account Title '
+GL account titles (46 blocks):
+  r13 'Cash in Bank'
+  r26 'Petty Cash Fund'
+  r39 'Account Receivables'
+  r52 'Advances to Employees'
+  r65 'Input VAT'
+  r78 'Excess CWT Over IT'
+  r91 'Leasehold Improvements'
+  r104 'Dental Equipment'
+  r117 'Due To Clinicians'
+  r130 'Due to Clinicians- Visiting'
+  r143 'VAT Payable'
+  r156 'EWT Payable'
+  r169 'Government Contributions (EE)'
+  r182 'Government Loans (EE)'
+  r195 'Income Tax Payable'
+  r208 'Paid-Up Capital'
+  r221 'Paid-Up Capital'
+  r234 'Sales'
+  r247 'Rent'
+  r260 "Clinician's Fee-Corporators"
+  r273 "Clinician's Fee-Visiting"
+  r286 'Clinic Material and Supplies'
+  r299 'Common Use Service Area'
+  r312 'Light and Water Expense'
+  r325 "Dep'n Expense-Leasehold Improvements"
+  r338 "Dep'n Expense-Dental Equipment"
+  r351 'Salaries and Wages'
+  r364 'De Minimis'
+  r377 'Government Contributions ER Share'
+  r390 'Professional Fees'
+  r403 'Repair and Maintenance'
+  r416 'Pantry Supplies'
+  r429 'Office Supplies'
+  r442 'Meals, Gifts & Entertainment Expense'
+  r455 'Communication '
+  r468 'Printing and Duplication'
+  r481 'Taxes and Licences'
+  r494 'Delivery'
+  r507 'Software Subscription'
+  r520 'Miscellaneous'
+  r533 'Transportation and Travel'
+  r546 'Advertisement'
+  r559 'Marketing Expense'
+  r572 'Gas, Oil, Parking, Toll Fees'
+  r585 'Other Penalties and Charges'
+  r598 'Insurance'
+
+===== GL_V8_CALC =====
+A1:E1 = ['Account Title', 'Month', 'Debit', 'Credit', 'Ending Balance']
+last row col A = 553
+  r2 = ['Cash in Bank', 1.0, 0.0, 7025.25, -7025.25]
+  r3 = ['Cash in Bank', 2.0, 0.0, 0.0, -7025.25]
+  r4 = ['Cash in Bank', 3.0, 0.0, 0.0, -7025.25]
+  r5 = ['Cash in Bank', 4.0, 0.0, 0.0, -7025.25]
+
+===== GL_AUDIT last 8 rows =====
+last row = 8
+  r1 = 'GL_AUDIT — engine appends one row per ValidateGLConsistency run' | None | None
+  r2 = None | None | None
+  r3 = 'Timestamp' | 'Status' | 'Summary'
+  r4 = '2026-09-28 19:09:43Z' | 'v8.0 BASELINE' | 'v8.0 | CDJ+CRJ+GJ | Debit=256,145.75 | Credit=256,145.75 | Unmapped=6,154.00 | HOLD'
+  r5 = '2026-09-28 19:09:43Z' | 'v8.1 MAPPED' | 'v8.1b | 5 labels mapped (6,154.00) | Unmapped=0.00 expected | run RefreshAllGL(2026)'
+  r6 = '2026-09-29' | 'v8.2 STATIC PRECHECK' | 'v8.2 | CDJ+CRJ+GJ | Debit=258671.00 | Credit=258671.00 | Difference=0.00 | Unmapped=0.00 | Invalid=0'
+  r7 = pywintypes.datetime(2026, 10, 2, 23, 44, 38, tzinfo=TimeZoneInfo('GMT Standard Time', True)) | 'PASS' | 'v8.3.3 SCAN | Debit=258671.00 | Credit=258671.00 | Difference=0.00 | Unmapped=0.00 | Invalid=0'
+  r8 = pywintypes.datetime(2026, 10, 2, 23, 44, 39, tzinfo=TimeZoneInfo('GMT Standard Time', True)) | 'PASS' | 'v8.3.3 SCAN | Debit=258671.00 | Credit=258671.00 | Difference=0.00 | Unmapped=0.00 | Invalid=0'

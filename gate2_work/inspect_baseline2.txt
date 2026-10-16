@@ -1,0 +1,350 @@
+===== CDJ protection =====
+ProtectContents=False ProtectDrawingObjects=False
+  X15 Locked=True Formula='=V15+W15' Value=0.0
+  X630 Locked=True Formula='=V630+W630' Value=3000.0
+  X755 Locked=True Formula='=V755+W755' Value=0.0
+  F15 Locked=True Formula='-3800' Value=-3800.0
+  Z15 Locked=True Formula='Updated from PJ Row 8 | 08/10/2026 1:58:20 pm' Value='Updated from PJ Row 8 | 08/10/2026 1:58:20 pm'
+  AA15 Locked=True Formula='PJ-00179' Value='PJ-00179'
+  C15 Locked=True Formula='JANUARY' Value='JANUARY'
+  T630 Locked=True Formula='3000' Value=3000.0
+
+===== CDJ V/W/X formula presence =====
+  V formula ranges: [(15, 214), (216, 408), (410, 432), (434, 551), (553, 944)]
+  W formula ranges: [(15, 214), (216, 408), (410, 432), (434, 551), (553, 944)]
+  X formula ranges: [(15, 214), (216, 408), (410, 432), (434, 551), (553, 747), (755, 944)]
+  X cells holding literal text/values (notes?): 7 [(748, 'Inserted from PJ Row 392 | 10/10/2026 4:13:12 pm'), (749, 'Inserted from PJ Row 393 | 10/10/2026 4:13:12 pm'), (750, 'Inserted from PJ Row 394 | 10/10/2026 4:13:12 pm'), (751, 'Inserted from PJ Row 402 | 12/10/2026 4:54:56 pm'), (752, 'Inserted from PJ Row 403 | 12/10/2026 4:54:56 pm'), (753, 'Inserted from PJ Row 404 | 12/10/2026 4:54:56 pm'), (754, 'Inserted from PJ Row 405 | 12/10/2026 4:54:56 pm')]
+
+===== CDJ rows 674..760 any content in C..AB =====
+  r674: C='JUNE TOTAL' | D=30 | F=-601955.8329736618[=SUM(F614:F673)] | G=36884.123890035225[=SUM(G614:G673)] | H=-9964.941052631579[=SUM(H614:H673)] | I=25000[=SUM(I614:I673)] | J=0[=SUM(J614:J673)] | K=-1430.4899999999998[=SUM(K614:K673)] | L=3680[=SUM(L614:L673)] | M=55893.2[=SUM(M614:M673)] | N=30938.39285714285[=SUM(N614:N673)] | O=0[=SUM(O614:O673)] | P=214601.09194076952[=SUM(P614:P673)] | Q=0[=SUM(Q614:Q673)] | R=25249.005714285715[=SUM(R614:R673)] | S=0[=SUM(S614:S673)] | U=0[=SUM(U614:U673)] | V=-601955.8329736618[=F674] | W=380850.3833496017[=SUM(G674:T674)] | X=-221105.44962406013[=V674+W674]
+  r675: V=0[=F675] | W=0[=SUM(G675:T675)] | X=0[=V675+W675]
+  r676: V=0[=F676] | W=0[=SUM(G676:T676)] | X=0[=V676+W676]
+  r677: V=0[=F677] | W=0[=SUM(G677:T677)] | X=0[=V677+W677]
+  r678: V=0[=F678] | W=0[=SUM(G678:T678)] | X=0[=V678+W678]
+  r679: V=0[=F679] | W=0[=SUM(G679:T679)] | X=0[=V679+W679]
+  r680: V=0[=F680] | W=0[=SUM(G680:T680)] | X=0[=V680+W680]
+  r681: V=0[=F681] | W=0[=SUM(G681:T681)] | X=0[=V681+W681]
+  r682: V=0[=F682] | W=0[=SUM(G682:T682)] | X=0[=V682+W682]
+  r683: V=0[=F683] | W=0[=SUM(G683:T683)] | X=0[=V683+W683]
+  r684: V=0[=F684] | W=0[=SUM(G684:T684)] | X=0[=V684+W684]
+  r685: V=0[=F685] | W=0[=SUM(G685:T685)] | X=0[=V685+W685]
+  r686: V=0[=F686] | W=0[=SUM(G686:T686)] | X=0[=V686+W686]
+  r687: V=0[=F687] | W=0[=SUM(G687:T687)] | X=0[=V687+W687]
+  r688: V=0[=F688] | W=0[=SUM(G688:T688)] | X=0[=V688+W688]
+  r689: V=0[=F689] | W=0[=SUM(G689:T689)] | X=0[=V689+W689]
+  r690: V=0[=F690] | W=0[=SUM(G690:T690)] | X=0[=V690+W690]
+  r691: V=0[=F691] | W=0[=SUM(G691:T691)] | X=0[=V691+W691]
+  r692: V=0[=F692] | W=0[=SUM(G692:T692)] | X=0[=V692+W692]
+  r693: V=0[=F693] | W=0[=SUM(G693:T693)] | X=0[=V693+W693]
+  r694: V=0[=F694] | W=0[=SUM(G694:T694)] | X=0[=V694+W694]
+  r695: V=0[=F695] | W=0[=SUM(G695:T695)] | X=0[=V695+W695]
+  r696: V=0[=F696] | W=0[=SUM(G696:T696)] | X=0[=V696+W696]
+  r697: V=0[=F697] | W=0[=SUM(G697:T697)] | X=0[=V697+W697]
+  r698: V=0[=F698] | W=0[=SUM(G698:T698)] | X=0[=V698+W698]
+  r699: V=0[=F699] | W=0[=SUM(G699:T699)] | X=0[=V699+W699]
+  r700: V=0[=F700] | W=0[=SUM(G700:T700)] | X=0[=V700+W700]
+  r701: V=0[=F701] | W=0[=SUM(G701:T701)] | X=0[=V701+W701]
+  r702: V=0[=F702] | W=0[=SUM(G702:T702)] | X=0[=V702+W702]
+  r703: V=0[=F703] | W=0[=SUM(G703:T703)] | X=0[=V703+W703]
+  r704: V=0[=F704] | W=0[=SUM(G704:T704)] | X=0[=V704+W704]
+  r705: V=0[=F705] | W=0[=SUM(G705:T705)] | X=0[=V705+W705]
+  r706: V=0[=F706] | W=0[=SUM(G706:T706)] | X=0[=V706+W706]
+  r707: V=0[=F707] | W=0[=SUM(G707:T707)] | X=0[=V707+W707]
+  r708: V=0[=F708] | W=0[=SUM(G708:T708)] | X=0[=V708+W708]
+  r709: V=0[=F709] | W=0[=SUM(G709:T709)] | X=0[=V709+W709]
+  r710: V=0[=F710] | W=0[=SUM(G710:T710)] | X=0[=V710+W710]
+  r711: V=0[=F711] | W=0[=SUM(G711:T711)] | X=0[=V711+W711]
+  r712: V=0[=F712] | W=0[=SUM(G712:T712)] | X=0[=V712+W712]
+  r713: V=0[=F713] | W=0[=SUM(G713:T713)] | X=0[=V713+W713]
+  r714: V=0[=F714] | W=0[=SUM(G714:T714)] | X=0[=V714+W714]
+  r715: V=0[=F715] | W=0[=SUM(G715:T715)] | X=0[=V715+W715]
+  r716: V=0[=F716] | W=0[=SUM(G716:T716)] | X=0[=V716+W716]
+  r717: V=0[=F717] | W=0[=SUM(G717:T717)] | X=0[=V717+W717]
+  r718: V=0[=F718] | W=0[=SUM(G718:T718)] | X=0[=V718+W718]
+  r719: V=0[=F719] | W=0[=SUM(G719:T719)] | X=0[=V719+W719]
+  r720: V=0[=F720] | W=0[=SUM(G720:T720)] | X=0[=V720+W720]
+  r721: V=0[=F721] | W=0[=SUM(G721:T721)] | X=0[=V721+W721]
+  r722: V=0[=F722] | W=0[=SUM(G722:T722)] | X=0[=V722+W722]
+  r723: V=0[=F723] | W=0[=SUM(G723:T723)] | X=0[=V723+W723]
+  r724: V=0[=F724] | W=0[=SUM(G724:T724)] | X=0[=V724+W724]
+  r725: V=0[=F725] | W=0[=SUM(G725:T725)] | X=0[=V725+W725]
+  r726: V=0[=F726] | W=0[=SUM(G726:T726)] | X=0[=V726+W726]
+  r727: V=0[=F727] | W=0[=SUM(G727:T727)] | X=0[=V727+W727]
+  r728: V=0[=F728] | W=0[=SUM(G728:T728)] | X=0[=V728+W728]
+  r729: V=0[=F729] | W=0[=SUM(G729:T729)] | X=0[=V729+W729]
+  r730: V=0[=F730] | W=0[=SUM(G730:T730)] | X=0[=V730+W730]
+  r731: V=0[=F731] | W=0[=SUM(G731:T731)] | X=0[=V731+W731]
+  r732: V=0[=F732] | W=0[=SUM(G732:T732)] | X=0[=V732+W732]
+  r733: V=0[=F733] | W=0[=SUM(G733:T733)] | X=0[=V733+W733]
+  r734: V=0[=F734] | W=0[=SUM(G734:T734)] | X=0[=V734+W734]
+  r735: V=0[=F735] | W=0[=SUM(G735:T735)] | X=0[=V735+W735]
+  r736: V=0[=F736] | W=0[=SUM(G736:T736)] | X=0[=V736+W736]
+  r737: V=0[=F737] | W=0[=SUM(G737:T737)] | X=0[=V737+W737]
+  r738: V=0[=F738] | W=0[=SUM(G738:T738)] | X=0[=V738+W738]
+  r739: V=0[=F739] | W=0[=SUM(G739:T739)] | X=0[=V739+W739]
+  r740: V=0[=F740] | W=0[=SUM(G740:T740)] | X=0[=V740+W740]
+  r741: V=0[=F741] | W=0[=SUM(G741:T741)] | X=0[=V741+W741]
+  r742: V=0[=F742] | W=0[=SUM(G742:T742)] | X=0[=V742+W742]
+  r743: V=0[=F743] | W=0[=SUM(G743:T743)] | X=0[=V743+W743]
+  r744: V=0[=F744] | W=0[=SUM(G744:T744)] | X=0[=V744+W744]
+  r745: V=0[=F745] | W=0[=SUM(G745:T745)] | X=0[=V745+W745]
+  r746: V=0[=F746] | W=0[=SUM(G746:T746)] | X=0[=V746+W746]
+  r747: V=0[=F747] | W=0[=SUM(G747:T747)] | X=0[=V747+W747]
+  r748: V=0[=F748] | W=0[=SUM(G748:T748)] | X='Inserted from PJ Row 392 | 10/10/2026 4:13:12 pm' | Y='PJ-00734'
+  r749: V=0[=F749] | W=0[=SUM(G749:T749)] | X='Inserted from PJ Row 393 | 10/10/2026 4:13:12 pm' | Y='PJ-00735'
+  r750: V=0[=F750] | W=0[=SUM(G750:T750)] | X='Inserted from PJ Row 394 | 10/10/2026 4:13:12 pm' | Y='PJ-00736'
+  r751: V=0[=F751] | W=0[=SUM(G751:T751)] | X='Inserted from PJ Row 402 | 12/10/2026 4:54:56 pm' | Y='PJ-00738'
+  r752: V=0[=F752] | W=0[=SUM(G752:T752)] | X='Inserted from PJ Row 403 | 12/10/2026 4:54:56 pm' | Y='PJ-00739'
+  r753: V=0[=F753] | W=0[=SUM(G753:T753)] | X='Inserted from PJ Row 404 | 12/10/2026 4:54:56 pm' | Y='PJ-00740'
+  r754: V=0[=F754] | W=0[=SUM(G754:T754)] | X='Inserted from PJ Row 405 | 12/10/2026 4:54:56 pm' | Y='PJ-00741'
+  r755: V=0[=F755] | W=0[=SUM(G755:T755)] | X=0[=V755+W755]
+  r756: V=0[=F756] | W=0[=SUM(G756:T756)] | X=0[=V756+W756]
+  r757: V=0[=F757] | W=0[=SUM(G757:T757)] | X=0[=V757+W757]
+  r758: V=0[=F758] | W=0[=SUM(G758:T758)] | X=0[=V758+W758]
+  r759: V=0[=F759] | W=0[=SUM(G759:T759)] | X=0[=V759+W759]
+  r760: V=0[=F760] | W=0[=SUM(G760:T760)] | X=0[=V760+W760]
+
+===== CDJ rows 5700..5821 content =====
+  r5717: C='JANUARY' | E='TOTAL' | F=-7025.25 | G=431.2767857142859 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=5678.571428571428 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=7025.25 | U=0
+  r5719: C='FEB'
+  r5727: C='FEBRUARY' | E='TOTAL' | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0 | U=0
+  r5729: C='MAR'
+  r5737: C='MAR' | E='TOTAL' | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0 | U=0
+  r5745: C='APR' | E='TOTAL' | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0 | U=0
+  r5753: C='MAY' | E='TOTAL' | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0 | U=0
+  r5764: C='JUN' | E='TOTAL' | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0 | U=0
+  r5773: C='JUL' | E='TOTAL' | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0 | U=0
+  r5781: C='AUG' | E='TOTAL' | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0 | U=0
+  r5790: C='SEP' | E='TOTAL' | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0 | U=0
+  r5802: C='OCT' | E='TOTAL' | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0 | U=0 | AD=0
+  r5803: AD=0
+  r5804: AD=0
+  r5805: AD=0
+  r5806: AD=0
+  r5807: AD=0
+  r5808: AD=0
+  r5809: AD=0
+  r5810: AD=0
+  r5811: AD=0
+  r5812: C='NOV' | E='TOTAL' | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0 | U=0 | AD=0
+  r5813: AD=0
+  r5814: AD=0
+  r5815: AD=0
+  r5816: AD=0
+  r5817: AD=0
+  r5818: AD=0
+  r5819: AD=0
+  r5820: AD=0
+  r5821: C='DEC' | E='TOTAL' | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0 | U=0 | AD=0
+
+===== CDJ rows with H (WHT) <> 0 in data rows =====
+  r22 H=-78.12473684210526 E='Ana Ramona Locsin Dec 16-31 PF' R=None T=1562.494736842105 F=-1484.37 X=0 (Xformula='=V22+W22')
+  r23 H=-410.26789473684215 E='Virgilio Malenab Jr Dec 16-31 PF' R=None T=8205.357894736842 F=-7795.09 X=0 (Xformula='=V23+W23')
+  r24 H=-2069.62578947368 E='Janina Tayag December PF' R=None T=41392.515789473684 F=-39322.89 X=0 (Xformula='=V24+W24')
+  r25 H=-1308.2142105263158 E='Rosalina Ignacio December PF' R=None T=26164.284210526315 F=-24856.07 X=0 (Xformula='=V25+W25')
+  r26 H=-3327.5436842105264 E='Daisy Cornejo December PF' R=None T=66550.87368421053 F=-63223.33 X=0 (Xformula='=V26+W26')
+  r29 H=17615.93 E='BIR 1601-EQ' R=None T=None F=-17615.93 X=0 (Xformula='=V29+W29')
+  r41 H=-2222.22 E='SBM Consulting Inc service fee' R=22222.22 T=None F=-20000 X=0 (Xformula='=V41+W41')
+  r57 H=-200.8926315789474 E='Virgilio Malenab Jr Jan 1-15 PF' R=None T=4017.85 F=-3816.96 X=-0.0026315789473301265 (Xformula='=V57+W57')
+  r58 H=-543.75 E='Ana Ramona Locsin Jan 1-15 PF' R=None T=10875 F=-10331.25 X=0 (Xformula='=V58+W58')
+  r111 H=7455.291052631584 E=None R=22222.22 T=None F=-968712.4349009347 X=-343798.65859022574 (Xformula='=V111+W111')
+  r121 H=18146.07 E='BIR 0619-E January' R=None T=None F=-18146.07 X=0 (Xformula='=V121+W121')
+  r125 H=-1248.75 E='Rosalina Ignacio January PF' R=None T=24975 F=-23726.25 X=0 (Xformula='=V125+W125')
+  r126 H=-1562.1426315789477 E='Daisy Cornejo January PF' R=None T=31242.85263157895 F=-29680.71 X=0 (Xformula='=V126+W126')
+  r127 H=-1272.0536842105266 E='Janina Tayag January PF' R=None T=25441.07368421053 F=-24169.02 X=0 (Xformula='=V127+W127')
+  r128 H=-1794.6426315789477 E='Christian Anthony Ermita January 19 PF' R=None T=35892.85263157895 F=-34098.21 X=0 (Xformula='=V128+W128')
+  r129 H=-562.0300000000001 E='Virgilio Malenab Jr Jan 1-31 PF' R=None T=11240.6 F=-10678.57 X=0 (Xformula='=V129+W129')
+  r130 H=-1828.1252631578948 E='Ana Ramona Locsin Jan 1-31 PF' R=None T=36562.505263157895 F=-34734.38 X=0 (Xformula='=V130+W130')
+  r142 H=-3444.444444444445 E='SBM Consulting Inc Retainers fee & special project' R=36944.44 T=None F=-33500 X=-0.004444444442924578 (Xformula='=V142+W142')
+  r170 H=-151.33947368421053 E='Virgilio Malenab Jr Feb 1-15 PF' R=None T=3026.7894736842104 F=-2875.45 X=0 (Xformula='=V170+W170')
+  r171 H=-462.5 E='Ana Ramona Locsin Feb 1-15 PF' R=None T=9250 F=-8787.5 X=0 (Xformula='=V171+W171')
+  r172 H=-1794.6426315789477 E='Dr. Christian Ermita Feb 2 PF' R=None T=35892.85263157895 F=-34098.21 X=0 (Xformula='=V172+W172')
+  r191 H=-2333.33 E='SBM Consulting Inc downpayment for  FS & ITR 2025' R=23333.33 T=None F=-21000 X=0 (Xformula='=V191+W191')
+  r193 H=1692.0692397660787 E=None R=60277.770000000004 T=None F=-626892.6133333335 X=-327233.38730785315 (Xformula='=V193+W193')
+  r207 H=16454 E='BIR 0619-E  February' R=None T=None F=-16454 X=0 (Xformula='=V207+W207')
+  r209 H=-2066.116315789474 E='Daisy Cornejo February PF' R=None T=41322.326315789476 F=-39256.21 X=0 (Xformula='=V209+W209')
+  r210 H=-905.0894736842107 E='Janina Tayag February PF' R=None T=18101.789473684214 F=-17196.7 X=0 (Xformula='=V210+W210')
+  r211 H=-713.8394736842106 E='Rosalina Ignacio February PF' R=None T=14276.789473684212 F=-13562.95 X=0 (Xformula='=V211+W211')
+  r212 H=-2503.6836842105263 E='Virgilio Malenab February 16-28 PF PLUS hmo' R=None T=50073.673684210524 F=-47569.99 X=0 (Xformula='=V212+W212')
+  r213 H=-156.25 E='Ana Ramona Locsin February16-28  PF' R=None T=3125 F=-2968.75 X=0 (Xformula='=V213+W213')
+  r214 H=-2222.222222222222 E='SBM Consulting Inc retainers fee' R=22222.222222222223 T=None F=-20000 X=0 (Xformula='=V214+W214')
+  total rows with H<>0 in 15..674: 77
+
+===== CDJ ref columns cross-check =====
+  Y refs=29  AA refs=562  AB refs=1
+  unique refs across Y/AA/AB: 570
+  refs present in >1 row: 32
+    PJ-00399 -> rows [277, 279]
+    PJ-00434 -> rows [312, 314]
+    PJ-00444 -> rows [322, 324]
+    PJ-00491 -> rows [371, 373]
+    PJ-00497 -> rows [377, 379]
+    PJ-00525 -> rows [408, 411]
+    PJ-00526 -> rows [410, 412]
+    PJ-00534 -> rows [425, 428]
+    PJ-00581 -> rows [475, 479]
+    PJ-00612 -> rows [510, 513]
+    PJ-00613 -> rows [511, 514]
+    PJ-00614 -> rows [515, 518]
+    PJ-00626 -> rows [526, 539]
+    PJ-00673 -> rows [573, 591]
+    PJ-00691 -> rows [592, 615]
+    PJ-00718 -> rows [618, 654]
+    PJ-00728 -> rows [629, 667]
+    PJ-00729 -> rows [630, 668]
+    PJ-00730 -> rows [631, 669]
+    PJ-00731 -> rows [632, 670]
+  Y-only refs (7): ['PJ-00734', 'PJ-00735', 'PJ-00736', 'PJ-00738', 'PJ-00739', 'PJ-00740', 'PJ-00741']
+  AA-only count: 540 ; sample: ['PJ-00005', 'PJ-00006', 'PJ-00007', 'PJ-00008', 'PJ-00009', 'PJ-00010', 'PJ-00011', 'PJ-00012', 'PJ-00179', 'PJ-00180']
+  in both Y and AA (22): ['PJ-00399', 'PJ-00434', 'PJ-00444', 'PJ-00491', 'PJ-00497', 'PJ-00525', 'PJ-00526', 'PJ-00534', 'PJ-00581', 'PJ-00612', 'PJ-00613', 'PJ-00614', 'PJ-00626', 'PJ-00673', 'PJ-00691', 'PJ-00718', 'PJ-00728', 'PJ-00729', 'PJ-00730', 'PJ-00731']
+
+  ghost rows (ref present, no E/F): 16 [(748, ['PJ-00734']), (749, ['PJ-00735']), (750, ['PJ-00736']), (751, ['PJ-00738']), (752, ['PJ-00739']), (753, ['PJ-00740']), (754, ['PJ-00741']), (5677, ['PNV-00004']), (5678, ['PJ-00005']), (5679, ['PJ-00006']), (5680, ['PJ-00007']), (5681, ['PJ-00008']), (5682, ['PJ-00009']), (5683, ['PJ-00010']), (5684, ['PJ-00011']), (5685, ['PJ-00012'])]
+  rows with cash but no ref: 96 ; sample: [(41, None, 'SBM Consulting Inc service fee', -20000.0), (110, None, 'EMPLOYEE SALARY JANUARY 16-30, 2026', -33839.27), (111, 'JANUARY TOTAL', None, -968712.4349009347), (116, None, 'Cash for pettycash ', -5000.0), (121, None, 'BIR 0619-E January', -18146.07), (125, None, 'Rosalina Ignacio January PF', -23726.25), (126, None, 'Daisy Cornejo January PF', -29680.71), (127, None, 'Janina Tayag January PF', -24169.02), (128, None, 'Christian Anthony Ermita January 19 PF', -34098.21), (129, None, 'Virgilio Malenab Jr Jan 1-31 PF', -10678.57), (130, None, 'Ana Ramona Locsin Jan 1-31 PF', -34734.38), (137, None, 'EMPLOYEE SALARY FEB 1-15, 2026', -31830.95), (142, None, 'SBM Consulting Inc Retainers fee & special project', -33500.0), (143, None, 'EMPLOYEE CONTRIBUTIONS AND LOANS ', -17489.95), (170, None, 'Virgilio Malenab Jr Feb 1-15 PF', -2875.45)]
+
+===== PJ month column B blanks =====
+  PJ rows 8..399 : month filled=19 blank=373
+    r9 B=None C='03' H='PJ-00353' E='TRAVELLERS INTL HOTEL INC'
+    r10 B=None C='03' H='PJ-00354' E='RUSTAN'
+    r11 B=None C='04' H='PJ-00355' E='THE MESSHALL'
+    r12 B=None C='04' H='PJ-00356' E='FACIAL CARE CENTRE'
+    r13 B=None C='04' H='PJ-00357' E='SPEAR ONE RESTAURANT INC'
+    r14 B=None C='04' H='PJ-00358' E='M9S PETROLEUM CORP'
+    r15 B=None C='05' H='PJ-00359' E='SHAKEYS PIZZA'
+    r16 B=None C='05' H='PJ-00360' E='SHAKEYS PIZZA'
+  data rows with blank month: 368
+  PJ r6/r7 cols 14..22: [('N', 'Net Purchases', None), ('O', None, None), ('P', None, None), ('Q', "IT Developer's Automated", 'Reference Invoice'), ('R', None, None), ('S', None, None), ('T', None, None), ('U', None, None), ('V', None, None)]
+
+===== PJ Non-Vat2 columns 1..25 header r6/r7 + sample r8 =====
+  B: r6='Date' r7=2026.0
+  D: r6="Suppliers' TIN" r7=None
+  E: r6="Vendors' Name" r7=None
+  F: r6='Address' r7=None
+  G: r6='Description' r7=None
+  H: r6='Reference' r7='Invoice'
+  I: r6='Amount' r7=None
+  J: r6='Amount' r7=None
+  K: r6='Discount' r7=None
+  L: r6='EWT' r7='Witholding'
+  M: r6='VAT Amount' r7='Input  Tax'
+  N: r6='Net Purchases' r7=None
+  Q: r6="IT Developer's Automated" r7='Reference Invoice'
+  r8: [('B', 'JAN'), ('D', '008-888-659'), ('E', 'VPHARMA HEALTH AND WELNESS INC '), ('F', 'ALABANG MUNTINLUPA'), ('G', 'Clinic Materials and Supplies'), ('H', 'PJ-0001'), ('I', 3392.857142857143), ('J', 3392.857142857143), ('L', 407.1428571428573), ('M', 407.1428571428573), ('N', 3800.0), ('Q', 'PJINV-20260711-143802-0001')]
+  r188: [('B', 'MAR'), ('D', '226-784-068'), ('E', 'MDI Group Holdings Inc'), ('F', 'BGC TAGUIG '), ('G', 'Association Dues'), ('H', 'PJ-0173'), ('I', 37435.9818181818), ('J', 37435.9818181818), ('L', 4492.317818181822), ('M', 4492.317818181822), ('N', 41928.29963636363), ('Q', 'PJINV-20260711-143802-0173')]
+  last row col E = 188
+  PNV2 protect=False
+
+===== GL block 16/17 rows 208..246 col F =====
+  F208='Paid-Up Capital'
+  F209='Paid-Up Capital'
+  F210='Paid-Up Capital'
+  F211='Paid-Up Capital'
+  F212='Paid-Up Capital'
+  F213='Paid-Up Capital'
+  F214='Paid-Up Capital'
+  F215='Paid-Up Capital'
+  F216='Paid-Up Capital'
+  F217='Paid-Up Capital'
+  F218='Paid-Up Capital'
+  F219='Paid-Up Capital'
+  F221='Paid-Up Capital'
+  F222='Retained Earnings (Deficit)'
+  F223='Retained Earnings (Deficit)'
+  F224='Retained Earnings (Deficit)'
+  F225='Retained Earnings (Deficit)'
+  F226='Retained Earnings (Deficit)'
+  F227='Retained Earnings (Deficit)'
+  F228='Retained Earnings (Deficit)'
+  F229='Retained Earnings (Deficit)'
+  F230='Retained Earnings (Deficit)'
+  F231='Retained Earnings (Deficit)'
+  F232='Retained Earnings (Deficit)'
+  F234='Sales'
+  F235='Sales'
+  F236='Sales'
+  F237='Sales'
+  F238='Sales'
+  F239='Sales'
+  F240='Sales'
+  F241='Sales'
+  F242='Sales'
+  F243='Sales'
+  F244='Sales'
+  F245='Sales'
+
+===== CDJ total rows detail (111,193,408,516,612,674) =====
+  r111 C='JANUARY TOTAL' E=None
+    F: =SUM(F15:F110) = -968712.4349009347
+    G: =SUM(G15:G110) = 69455.61052510016
+    H: =SUM(H15:H110) = 7455.291052631584
+    N: =SUM(N15:N110) = 78256.90178571426
+    O: =SUM(O15:O110) = 158734.51401869158
+    P: =SUM(P15:P110) = 213580.25892857136
+    Q: =SUM(Q15:Q110) = 2435.16
+    R: =SUM(R15:R110) = 22222.22
+    V: =F111 = -968712.4349009347
+    W: =SUM(G111:T111) = 624913.776310709
+    X: =V111+W111 = -343798.65859022574
+  r193 C='FEB TOTAL' E=None
+    F: =SUM(F113:F192) = -626892.6133333335
+    G: =SUM(G113:G192) = 28469.380000000026
+    H: =SUM(H113:H192) = 1692.0692397660787
+    N: =SUM(N113:N192) = 110949.08928571426
+    O: =SUM(O113:O192) = 0
+    P: =SUM(P113:P192) = 22519.6875
+    R: =SUM(R113:R192) = 60277.770000000004
+    V: =F193 = -626892.6133333335
+    W: =SUM(G193:T193) = 299659.22602548037
+    X: =V193+W193 = -327233.38730785315
+  r408 C='MARCH TOTAL' E=None
+    F: =SUM(F195:F407) = -1967595.0484083828
+    G: =SUM(G195:G407) = 178948.55312857157
+    H: =SUM(H195:H407) = -35875.02600613825
+    N: =SUM(N195:N407) = 279625.0589144111
+    O: =SUM(O195:O407) = 772577.9433474935
+    P: =SUM(P195:P407) = 162567.17857142858
+    Q: =SUM(Q195:Q407) = 0
+    R: =SUM(R195:R407) = 22222.222222222223
+    S: =SUM(S195:S407) = 0
+    U: =SUM(U195:U407) = 0
+    V: =F408 = -1967595.0484083828
+    W: =SUM(G408:T408) = 1450743.500177989
+    X: =V408+W408 = -516851.5482303938
+  r516 C='APRIL TOTAL' E=None
+    F: =SUM(F411:F514) = -608903.7699999999
+    G: =SUM(G411:G514) = 29870.00678571431
+    H: =SUM(H411:H514) = 19711.295146198827
+    N: =SUM(N411:N514) = 76459.42857142857
+    O: =SUM(O411:O514) = 0
+    P: =SUM(P411:P514) = 56647.01785714285
+    R: =SUM(R411:R514) = 22222.22
+    V: =F516 = -608903.7699999999
+    W: =SUM(G516:T516) = 246992.60836048456
+    X: =V516+W516 = -361911.1616395153
+  r612 C='MAY TOTAL' E=None
+    F: =SUM(F518:F611) = -889584.2359473236
+    G: =SUM(G518:G611) = 68041.12135149898
+    H: =SUM(H518:H611) = 1592.8806766917278
+    N: =SUM(N518:N611) = 42269.0625
+    O: =SUM(O518:O611) = 4307.142857142857
+    P: =SUM(P518:P611) = 440450.68388153915
+    Q: =SUM(Q518:Q611) = 0
+    R: =SUM(R518:R611) = 22222.22
+    S: =SUM(S518:S611) = 0
+    U: =SUM(U518:U611) = 0
+    V: =F612 = -889584.2359473236
+    W: =SUM(G612:T612) = 644421.9512668727
+    X: =V612+W612 = -245162.28468045092
+  r674 C='JUNE TOTAL' E=None
+    F: =SUM(F614:F673) = -601955.8329736618
+    G: =SUM(G614:G673) = 36884.123890035225
+    H: =SUM(H614:H673) = -9964.941052631579
+    N: =SUM(N614:N673) = 30938.39285714285
+    O: =SUM(O614:O673) = 0
+    P: =SUM(P614:P673) = 214601.09194076952
+    Q: =SUM(Q614:Q673) = 0
+    R: =SUM(R614:R673) = 25249.005714285715
+    S: =SUM(S614:S673) = 0
+    U: =SUM(U614:U673) = 0
+    V: =F674 = -601955.8329736618
+    W: =SUM(G674:T674) = 380850.3833496017
+    X: =V674+W674 = -221105.44962406013

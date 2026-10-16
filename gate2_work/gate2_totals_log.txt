@@ -1,0 +1,42 @@
+Opening D:\citrixlabph\globalsmile\Global-Smile_2026-v8.4-fix.xlsm
+--- TOTAL ROWS ---
+  r111  JANUARY   spans=[(15, 110), (277, 321)]
+  r193  FEB       spans=[(113, 192), (322, 407)]
+  r408  MARCH     spans=[(195, 276)]
+  r516  APRIL     spans=[(410, 514)]
+  r612  MAY       spans=[(518, 611)]
+  r674  JUNE      spans=[(614, 673)]
+--- JUL..DEC BLOCKS ---
+  JUL marker r675  data r676..695  TOTAL r696 
+  AUG marker r697  data r698..717  TOTAL r718 
+  SEP marker r719  data r720..739  TOTAL r740 
+  OCT marker r741  data r742..761  TOTAL r762 
+  NOV marker r763  data r764..783  TOTAL r784 
+  DEC marker r785  data r786..805  TOTAL r806 
+--- IN-MEMORY VALUES ---
+  r111  JANUARY   F=-847946.13 T=280673.22 X=-0.00286
+  r193  FEB       F=-1243399.99 T=442635.87 X=-0.001587
+  r408  MARCH     F=-354816.31 T=217785.31 X=0.0
+  r516  APRIL     F=-609022.77 T=361911.16 X=-0.006508
+  r612  MAY       F=-889584.24 T=245162.28 X=-0.001429
+  r674  JUNE      F=-601955.83 T=224132.24 X=0.005
+saved
+--- DISK ---
+  mtime before = 2026-10-14 10:31:57
+  mtime after  = 2026-10-14 10:53:43
+--- PERSISTED TOTAL ROWS (fresh instance) ---
+  r111  JANUARY   F=-847946.13 T=280673.22 X=-0.00286
+  r193  FEB       F=-1243399.99 T=442635.87 X=-0.001587
+  r408  MARCH     F=-354816.31 T=217785.31 X=0.0
+  r516  APRIL     F=-609022.77 T=361911.16 X=-0.006508
+  r612  MAY       F=-889584.24 T=245162.28 X=-0.001429
+  r674  JUNE      F=-601955.83 T=224132.24 X=0.005
+--- PERSISTED JUL..DEC (fresh instance) ---
+  JUL marker r675  (JUL) TOTAL r696  (JULY TOTAL) F111-style formula r696==SUM(F676:F695)
+  AUG marker r697  (AUG) TOTAL r718  (AUGUST TOTAL) F111-style formula r718==SUM(F698:F717)
+  SEP marker r719  (SEP) TOTAL r740  (SEPTEMBER TOTAL) F111-style formula r740==SUM(F720:F739)
+  OCT marker r741  (OCT) TOTAL r762  (OCTOBER TOTAL) F111-style formula r762==SUM(F742:F761)
+  NOV marker r763  (NOV) TOTAL r784  (NOVEMBER TOTAL) F111-style formula r784==SUM(F764:F783)
+  DEC marker r785  (DEC) TOTAL r806  (DECEMBER TOTAL) F111-style formula r806==SUM(F786:F805)
+--- RESULT ---
+  all formulas persisted correctly

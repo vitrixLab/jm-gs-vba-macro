@@ -1,0 +1,119 @@
+GATE 2 VERIFICATION SUITE
+candidate : D:\citrixlabph\globalsmile\Global-Smile_2026-v8.4-fix.xlsm
+mtime     : 2026-10-14 11:30:28
+
+=== T3 every CDJ data row balances ===
+  [PASS] T3 CDJ data rows balance (|X| <= 0.01)
+           rows checked=496  worst|X|=0.006508  offenders=0
+
+=== T4 TOTAL rows equal recomputed partition sums ===
+  [PASS] T4 TOTAL rows match marker partition and balance
+           6 TOTAL rows x 16 amount columns + X, all within 0.01
+
+=== T6 PJ reference integrity ===
+  [PASS] T6 PJ references: no old refs, no duplicates, all non-zero posted
+           PJ rows=382  CDJ refs=381  old-format=0  unposted=1 (zero-gross=1, unexplained=0)  duplicated=0
+             zero-gross, correctly unposted: ['PJ-00586']
+             unexplained unposted: []
+             dups: []
+
+=== T7 PJ Non-Vat coverage ===
+  [PARTIAL] T7 PJ Non-Vat rows posted to CDJ
+           posted=1  pending=1
+             PNV-00002 -> CDJ r15 (net=1500.0)
+             PENDING: PNV-00004 (row 9, net=1500.0): no month/date in PJ Non-Vat column B
+
+=== T11 PENDING items untouched ===
+  [PASS] T11 PENDING items reported, not modified
+           r515   C=MAY D=30.0 E=EMPLOYEE SALARY MAY 16-31, 2026 F=-30235.6 AA=None
+           r748   C=None E=None Y=PJ-00734 AA=None
+           r749   C=None E=None Y=PJ-00735 AA=None
+           r750   C=None E=None Y=PJ-00736 AA=None
+           r751   C=None E=None Y=PJ-00738 AA=None
+           r752   C=None E=None Y=PJ-00739 AA=None
+           r753   C=None E=None Y=PJ-00740 AA=None
+           r754   C=None E=None Y=PJ-00741 AA=None
+           r613   C=None E=None X=0.0
+           r5677  C=None E=None AB=None
+           GL!F221=Paid-Up Capital   (next row GL!F222=Retained Earnings (Deficit))
+
+=== T1 module compile / callable surface (macros enabled) ===
+  [PASS] T1 modules compile and expose the expected surface
+           GetFinancialYear       -> 2025
+           FindExpenseColumn      -> 14
+           ValidateGLConsistency  -> True
+           BuildV8CalcSheet       -> True
+           FindCDJFreeRow         -> 16
+           LoadCDJReferences      -> None
+           V8_GJMap               -> Clinician's Fee-Visiting
+
+=== T9 cascade regression (gate wrappers) ===
+  [PASS] T9 gate wrappers callable from modGLGate
+           ValidateGLConsistency  -> True
+           BuildV8CalcSheet       -> True
+
+=== T10 source workbook untouched ===
+  [PASS] T10 source SHA-256 unchanged
+           expected 9DF84B7B86482C9D8B7C7FCC6EF4842824E4BF8F47CDFEB848A1BC8D6D56B11C
+           actual   9DF84B7B86482C9D8B7C7FCC6EF4842824E4BF8F47CDFEB848A1BC8D6D56B11C
+
+=== T8 end-to-end synthetic posting (throwaway copy, macros enabled) ===
+  [PASS] T8 synthetic posting through the patched engine
+           PJ-99001 INSERT -> r16 day=12.0 cash=-1120.0 wht=0.0 N=1000.0 S=None T=None R=None X=0.0
+           PJ-99001 UPDATE -> r16 cash=-1620.0 S=None T=None X=0.0
+           PJ-99002 INSERT -> r16 day=15.0 cash=-2240.0 wht=0.0 N=None S='Representation' T=2000.0 R=None X=0.0
+           PJ-99002 UPDATE -> r16 cash=-2740.0 S='Representation' T=2500.0 X=0.0
+
+=== T2 / T5 scan gate (baseline vs patched) ===
+  baseline  status=HOLD
+            v8.3.3 SCAN | Debit=4423330.72 | Credit=6108350.66 | Difference=-1685019.94 | Unmapped=1888683.84 | Invalid=559
+            detail lines=200
+  candidate status=HOLD
+            v8.3.3 SCAN | Debit=4431497.52 | Credit=4972059.43 | Difference=-540561.91 | Unmapped=698740.35 | Invalid=559
+            detail lines=107
+  [HOLD] T2 RefreshGL scan gate: baseline vs patched
+           baseline : HOLD | v8.3.3 SCAN | Debit=4423330.72 | Credit=6108350.66 | Difference=-1685019.94 | Unmapped=1888683.84 | Invalid=559
+           candidate: HOLD | v8.3.3 SCAN | Debit=4431497.52 | Credit=4972059.43 | Difference=-540561.91 | Unmapped=698740.35 | Invalid=559
+             Debit          4423330.72 ->     4431497.52   (+8166.80)
+             Credit         6108350.66 ->     4972059.43   (-1136291.23)
+             Difference    -1685019.94 ->     -540561.91   (+1144458.03)
+             Unmapped       1888683.84 ->      698740.35   (-1189943.49)
+             Invalid            559.00 ->         559.00   (+0.00)
+           remaining unmapped sundry titles (7):
+              Incentives                               x1
+              Outside Services                         x2
+              Partners Clinicians Fee                  x4
+              Partners Clinicians Fee- Corporators     x1
+              Representation                           x93
+              SSS,HDMF AND PHIC ER SHARE               x5
+              Training and Seminar                     x1
+  [NOT RUN] T5 CDJ partition cash vs scanned GL
+           scan gate HOLDs, so ScanGL correctly refuses to overwrite the GL; there is no refreshed GL to compare against.
+           CDJ partition cash (for reference):
+              JAN     -847946.13
+              FEB    -1243399.99
+              MAR     -354816.31
+              APR     -609022.77
+              MAY     -919819.84
+              JUN     -601955.83
+              JUL           0.00
+              AUG           0.00
+              SEP           0.00
+              OCT           0.00
+              NOV           0.00
+              DEC           0.00
+
+=== RESULT SUMMARY ===
+  T3   PASS     CDJ data rows balance (|X| <= 0.01)
+  T4   PASS     TOTAL rows match marker partition and balance
+  T6   PASS     PJ references: no old refs, no duplicates, all non-zero posted
+  T7   PARTIAL  PJ Non-Vat rows posted to CDJ
+  T11  PASS     PENDING items reported, not modified
+  T1   PASS     modules compile and expose the expected surface
+  T9   PASS     gate wrappers callable from modGLGate
+  T10  PASS     source SHA-256 unchanged
+  T8   PASS     synthetic posting through the patched engine
+  T2   HOLD     RefreshGL scan gate: baseline vs patched
+  T5   NOT RUN  CDJ partition cash vs scanned GL
+
+  HOLD=1  NOT RUN=1  PARTIAL=1  PASS=8

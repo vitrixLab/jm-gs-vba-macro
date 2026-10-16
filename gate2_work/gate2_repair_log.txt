@@ -1,0 +1,20 @@
+Opening D:\citrixlabph\globalsmile\Global-Smile_2026-v8.4-fix.xlsm
+--- DEDUP ---
+old-format ref rows : 185
+CLEAR DATA          : 166
+CLEAR REF ONLY      : 19
+C markers preserved on cleared rows: [(15, 'JANUARY'), (113, 'FEBRUARY'), (195, 'MARCH')]
+cleared 166 duplicate rows (D,E,F..U,Y,Z,AA,AB)
+cleared stale refs on 19 manual rows
+cleared 22 column-Y references
+r629 T=4800.00 -> cleared (S empty, allocations already balance)
+r630 T=3000.00 -> cleared (S empty, allocations already balance)
+r632 T=599.00 R=534.82 -> T=534.82 R cleared
+r633 T=1793.00 R=1600.89 -> T=1600.89 R cleared
+r634 T=998.00 R=891.07 -> T=891.07 R cleared
+--- PJ NON-VAT ---
+  PJ Non-Vat r8: A=None B=JAN E=FEDERAL BRENT RETAIL INC G=Supplies H=PNV-00002 J=1500.0 N=1500.0
+  PJ Non-Vat r9: A=None B=None E=FEDERAL BRENT RETAIL INC G=Supplies H=PNV-00004 J=1500.0 N=1500.0
+  SyncPJNonVatToCDJ(PNV-00002) invoked
+  SyncPJNonVatToCDJ(PNV-00004) invoked
+saved

@@ -1,0 +1,194 @@
+{
+  "workbook": "Global-Smile_2026-v8.4.xlsm",
+  "workbook_sha256": "9df84b7b86482c9d8b7c7fcc6ef4842824e4bf8f47cdfeb848a1bc8d6d56b11c",
+  "workbook_sha256_after_extraction": "9df84b7b86482c9d8b7c7fcc6ef4842824e4bf8f47cdfeb848a1bc8d6d56b11c",
+  "workbook_unmodified": true,
+  "vbaProject_bin_sha256": "a2b651a05fdc2fa6027c3af9d3ed4d406404bdf17c419af974c256f253d765c4",
+  "vba_project_name": "VBAProject",
+  "module_count": 26,
+  "modules": [
+    {
+      "name": "ThisWorkbook.cls",
+      "stream": "VBA/ThisWorkbook",
+      "chars": 723,
+      "lines": 19,
+      "sha256": "15248e9c3b07890788469b4d869a62895f9e0847effa35e641ff9c0b95cb4c87"
+    },
+    {
+      "name": "Sheet1.cls",
+      "stream": "VBA/Sheet1",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "8e442a8e542ca01c7d87af7e9ad015863e0a19232a647712a6e31b3911beb372"
+    },
+    {
+      "name": "Sheet2.cls",
+      "stream": "VBA/Sheet2",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "8105e1362a2256083c87650bf3f402ea18553abb1bdab2f08f7649859dd02312"
+    },
+    {
+      "name": "Sheet3.cls",
+      "stream": "VBA/Sheet3",
+      "chars": 7664,
+      "lines": 184,
+      "sha256": "30d4e371d125dfad69c24ab4b1b7377d824392b7b2272783dce9abac9eeab5c0"
+    },
+    {
+      "name": "Sheet4.cls",
+      "stream": "VBA/Sheet4",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "12a0f7735c6438a01176ea862764077f158f4cf3ceec0025bc7bea6477a8f5e1"
+    },
+    {
+      "name": "Sheet5.cls",
+      "stream": "VBA/Sheet5",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "7343b50dd86c466939cb6943c57d3ddf2308ddff4c459c9b0c60f622081b838c"
+    },
+    {
+      "name": "Sheet6.cls",
+      "stream": "VBA/Sheet6",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "d08325720114782b612eeef5b26309fbc76488594e24246b3748b4803911094f"
+    },
+    {
+      "name": "modEngine.bas",
+      "stream": "VBA/modEngine",
+      "chars": 64521,
+      "lines": 1367,
+      "sha256": "63db91af82eaee6fd65b42e8b4adba1734b84b3ffee19bfdc92d116a896c2d9c"
+    },
+    {
+      "name": "Sheet7.cls",
+      "stream": "VBA/Sheet7",
+      "chars": 299,
+      "lines": 8,
+      "sha256": "e47ac1d2c9fcc82778126b3d5f6b99f5fa7a1db5813045373f7fca4231868066"
+    },
+    {
+      "name": "Sheet16.cls",
+      "stream": "VBA/Sheet16",
+      "chars": 300,
+      "lines": 8,
+      "sha256": "065c19a2b35d3115ba9425c5b2e28112596a3baa15a50c7cc510143283cc4d3f"
+    },
+    {
+      "name": "Sheet9.cls",
+      "stream": "VBA/Sheet9",
+      "chars": 9745,
+      "lines": 304,
+      "sha256": "c8497b1983c500db9df5c5a38ca79638d072f58a0ecdcf204668805a14767c3f"
+    },
+    {
+      "name": "Sheet10.cls",
+      "stream": "VBA/Sheet10",
+      "chars": 1423,
+      "lines": 43,
+      "sha256": "f4676ebe26af3db1833c3602f66e3a7a63c943191ae89d3a0768c4228fd1990e"
+    },
+    {
+      "name": "ImportSuppliersFromJSON.bas",
+      "stream": "VBA/ImportSuppliersFromJSON",
+      "chars": 30963,
+      "lines": 856,
+      "sha256": "1e77d27f766984a092c0b706a5249df418f4de627fe686516039b76bc6849224"
+    },
+    {
+      "name": "modGraphify.bas",
+      "stream": "VBA/modGraphify",
+      "chars": 8689,
+      "lines": 229,
+      "sha256": "b94997601931b50f532a6c34f19554f2717840f2ef1fc9131385160003605f04"
+    },
+    {
+      "name": "Sheet12.cls",
+      "stream": "VBA/Sheet12",
+      "chars": 12821,
+      "lines": 289,
+      "sha256": "d8d61334117686b180983f0e8cbfa552a530dd8e9f656698b3dbf3842f3cd03c"
+    },
+    {
+      "name": "Sheet11.cls",
+      "stream": "VBA/Sheet11",
+      "chars": 13122,
+      "lines": 293,
+      "sha256": "aacd4bb2955df8ba069cbe48a1a64927adfebd0bf1cee86f10777e7e2f15219b"
+    },
+    {
+      "name": "Sheet8.cls",
+      "stream": "VBA/Sheet8",
+      "chars": 3971,
+      "lines": 97,
+      "sha256": "20bfe7c1f224f262709d26209fb598b33819b0db66b3a38af7f36637a530ea5d"
+    },
+    {
+      "name": "Sheet13.cls",
+      "stream": "VBA/Sheet13",
+      "chars": 300,
+      "lines": 8,
+      "sha256": "f54a13f741e207b573009edd26ccb790a818da7112a6b93b176f70c98d3f1e70"
+    },
+    {
+      "name": "Sheet17.cls",
+      "stream": "VBA/Sheet17",
+      "chars": 300,
+      "lines": 8,
+      "sha256": "7700add68a14fe8d56bf1729fea79ec77ae2ce1c8355a3f9278a5d8cf69b4928"
+    },
+    {
+      "name": "Sheet14.cls",
+      "stream": "VBA/Sheet14",
+      "chars": 300,
+      "lines": 8,
+      "sha256": "fd18e9007e8b5bfc409a34906dddb0fc95838aa75b033efa65d871a7640b31fc"
+    },
+    {
+      "name": "Sheet15.cls",
+      "stream": "VBA/Sheet15",
+      "chars": 300,
+      "lines": 8,
+      "sha256": "3f5b6c08565ffd9addde53513a73a065e6b3e271b46d965b1c2646a4cc2cb214"
+    },
+    {
+      "name": "modGLWorkbookMap.bas",
+      "stream": "VBA/modGLWorkbookMap",
+      "chars": 4412,
+      "lines": 106,
+      "sha256": "bfae0edb3a0e1a0e884f69d45cef86ea1e9b9f213704db13ac131b7bfdd7d2b9"
+    },
+    {
+      "name": "modGLScanEngine.bas",
+      "stream": "VBA/modGLScanEngine",
+      "chars": 14204,
+      "lines": 311,
+      "sha256": "c59669dad24e996edf6ba7765845f37372c4ae4c94146d59359af973b732d1df"
+    },
+    {
+      "name": "modGLRefresh.bas",
+      "stream": "VBA/modGLRefresh",
+      "chars": 766,
+      "lines": 27,
+      "sha256": "cbbac77335d4cdf294c5186407b13ed9be422d5a8aed579dba12eaaa22e3cc7c"
+    },
+    {
+      "name": "modGLGate.bas",
+      "stream": "VBA/modGLGate",
+      "chars": 2289,
+      "lines": 54,
+      "sha256": "d99325bd28f4dd5696812f01e133fdf5b54c0f09bc4b0f7249843e879bcf48ab"
+    },
+    {
+      "name": "modPJSync.bas",
+      "stream": "VBA/modPJSync",
+      "chars": 9347,
+      "lines": 472,
+      "sha256": "82e5b5624771eae213da5a299a272f5fce273e789c514f36787881b158e8e688"
+    }
+  ],
+  "extraction_warnings": []
+}
