@@ -160,41 +160,75 @@ NextRow:
 End Sub
 
 Private Sub ScanCRJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByRef gc As Double, ByRef um As Double, ByRef inv As Long, ByRef detail As String)
-    Dim ws As Worksheet, r As Long, c As Long, m As Long, ok As Boolean, v As Double, a As String, dt As Date
-    Dim invNo As String
+    ' CRJ month attribution is partition-based, not based on column O.
+    ' Column O contains SJ import/log timestamps and is not a transaction date.
+    ' Each monthly partition ends with a TOTAL row: month in column D, TOTAL in F.
+    Dim ws As Worksheet, r As Long, rr As Long, c As Long
+    Dim m As Long, lastMonth As Long, startRow As Long, lastRow As Long
+    Dim ok As Boolean, v As Double, a As String, invNo As String
+    Dim partitionOK As Boolean, n As Long
+
     Set ws = ThisWorkbook.Worksheets("CRJ")
+    lastRow = ws.Cells(ws.Rows.Count, 6).End(xlUp).Row
+    If ws.Cells(ws.Rows.Count, 7).End(xlUp).Row > lastRow Then _
+        lastRow = ws.Cells(ws.Rows.Count, 7).End(xlUp).Row
 
-    For r = 10 To ws.Cells(ws.Rows.Count, 7).End(xlUp).Row
-        invNo = SafeText(ws.Cells(r, 7).Value2)
-        If Len(invNo) = 0 Then GoTo NextRow
-        If InStr(1, V8_Norm(ws.Cells(r, 6).Value2), "TOTAL", vbTextCompare) > 0 Then GoTo NextRow
+    startRow = 10
+    lastMonth = 0
 
-        dt = 0
-        If IsDate(ws.Cells(r, 15).Value2) Then dt = CDate(ws.Cells(r, 15).Value2)
-        If dt = 0 Then dt = EntryLogDate(SafeText(ws.Cells(r, 15).Value2))
-        If dt = 0 Then inv = inv + 1: GoTo NextRow
-        If Year(dt) <> yr Then GoTo NextRow
-        m = Month(dt)
+    For r = startRow To lastRow
+        If V8_Norm(ws.Cells(r, 6).Value2) = "TOTAL" Then
+            m = V8_Month(ws.Cells(r, 4).Value2)
+            partitionOK = (m = lastMonth + 1 And m >= 1 And m <= 12)
 
-        ok = True: v = V8_Number(ws.Cells(r, 8).Value2, ok)
-        If Not ok Then inv = inv + 1
-        If ok And Abs(v) > TOLERANCE Then AddPost d, "Cash in Bank", m, v, 0#: gd = gd + v
+            If Not partitionOK Then
+                detail = detail & "CRJ!D" & r & " invalid or out-of-order partition month; partition held" & vbCrLf
+                For rr = startRow To r - 1
+                    If Len(SafeText(ws.Cells(rr, 7).Value2)) > 0 Then inv = inv + 1
+                Next rr
+            Else
+                For rr = startRow To r - 1
+                    invNo = SafeText(ws.Cells(rr, 7).Value2)
+                    If Len(invNo) > 0 Then
+                        ok = True: v = V8_Number(ws.Cells(rr, 8).Value2, ok)
+                        If Not ok Then
+                            inv = inv + 1
+                        ElseIf Abs(v) > TOLERANCE Then
+                            AddPost d, "Cash in Bank", m, v, 0#
+                            gd = gd + v
+                        End If
 
-        For c = 9 To 12
-            ok = True: v = V8_Number(ws.Cells(r, c).Value2, ok)
-            If Not ok Then inv = inv + 1
-            If ok And Abs(v) > TOLERANCE Then
-                a = V8_CRJMap(c)
-                If Len(a) = 0 Then
-                    um = um + Abs(v)
-                    detail = detail & "CRJ!" & ws.Cells(r, c).Address(False, False) & " unmapped credit" & vbCrLf
-                Else
-                    AddPost d, a, m, 0#, v: gc = gc + v
-                End If
+                        For c = 9 To 12
+                            ok = True: v = V8_Number(ws.Cells(rr, c).Value2, ok)
+                            If Not ok Then
+                                inv = inv + 1
+                            ElseIf Abs(v) > TOLERANCE Then
+                                a = V8_CRJMap(c)
+                                If Len(a) = 0 Then
+                                    um = um + Abs(v)
+                                    detail = detail & "CRJ!" & ws.Cells(rr, c).Address(False, False) & " unmapped credit" & vbCrLf
+                                Else
+                                    AddPost d, a, m, 0#, v
+                                    gc = gc + v
+                                End If
+                            End If
+                        Next c
+                    End If
+                Next rr
             End If
-        Next c
-NextRow:
+
+            lastMonth = m
+            startRow = r + 1
+        End If
     Next r
+
+    ' Never guess a month for rows that appear after the last recognized TOTAL.
+    For rr = startRow To lastRow
+        If Len(SafeText(ws.Cells(rr, 7).Value2)) > 0 Then
+            inv = inv + 1
+            detail = detail & "CRJ!G" & rr & " invoice has no enclosing monthly TOTAL partition" & vbCrLf
+        End If
+    Next rr
 End Sub
 
 Private Sub ScanGJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByRef gc As Double, ByRef um As Double, ByRef inv As Long, ByRef detail As String)
