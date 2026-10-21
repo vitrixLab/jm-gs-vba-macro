@@ -166,7 +166,7 @@ Private Sub ScanCRJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByR
     Dim ws As Worksheet, r As Long, rr As Long, c As Long
     Dim m As Long, lastMonth As Long, startRow As Long, lastRow As Long
     Dim ok As Boolean, v As Double, a As String, invNo As String
-    Dim partitionOK As Boolean, n As Long
+    Dim partitionOK As Boolean, partitionErrors As Long
 
     Set ws = ThisWorkbook.Worksheets("CRJ")
     lastRow = ws.Cells(ws.Rows.Count, 6).End(xlUp).Row
@@ -182,6 +182,7 @@ Private Sub ScanCRJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByR
             partitionOK = (m = lastMonth + 1 And m >= 1 And m <= 12)
 
             If Not partitionOK Then
+                partitionErrors = partitionErrors + 1
                 detail = detail & "CRJ!D" & r & " invalid or out-of-order partition month; partition held" & vbCrLf
                 For rr = startRow To r - 1
                     If Len(SafeText(ws.Cells(rr, 7).Value2)) > 0 Then inv = inv + 1
@@ -221,6 +222,17 @@ Private Sub ScanCRJ(ByVal d As Object, ByVal yr As Long, ByRef gd As Double, ByR
             startRow = r + 1
         End If
     Next r
+
+    ' Require a complete January-December year. A missing terminal partition
+    ' must block GL write-back even when the missing partition has no invoice rows.
+    If lastMonth <> 12 Then
+        partitionErrors = partitionErrors + 1
+        detail = detail & "CRJ partition sequence incomplete: December TOTAL partition not recognized" & vbCrLf
+    End If
+
+    ' Promote structural partition failures into the scanner's existing fail-closed
+    ' invalid counter so ScanGL cannot write the GL based on diagnostics alone.
+    inv = inv + partitionErrors
 
     ' Never guess a month for rows that appear after the last recognized TOTAL.
     For rr = startRow To lastRow
